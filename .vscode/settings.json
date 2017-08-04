@@ -1,0 +1,10 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "workbench.welcome.enabled": false,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": true,
+    "workbench.editor.openPositioning": "last",
+    "workbench.editor.enablePreview": false,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true
+}

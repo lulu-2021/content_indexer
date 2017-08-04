@@ -1,6 +1,6 @@
-defmodule TfIdf do
+defmodule ContentIndexer do
   @moduledoc """
-  Documentation for TfIdf.
+  Documentation for ContentIndexer.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule TfIdf do
 
   ## Examples
 
-      iex> TfIdf.hello
+      iex> ContentIndexer.hello
       :world
 
   """

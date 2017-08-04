@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :tf_idf, key: :value
+#     config :content_indexer, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:tf_idf, :key)
+#     Application.get_env(:content_indexer, :key)
 #
 # Or configure a 3rd-party app:
 #

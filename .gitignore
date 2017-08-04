@@ -1,0 +1,42 @@
+# App artifacts
+/_build
+/db
+/deps
+/*.ez
+
+# exclude the releases from source control
+/rel/client_hive
+
+# Generate on crash by the VM
+erl_crash.dump
+
+# Static artifacts
+/assets/node_modules
+/assets/bower_components
+/bower_components
+
+# Since we are building assets from web/static,
+# we ignore priv/static. You may want to comment
+# this depending on your deployment strategy.
+/priv/static/
+
+# The config/prod.secret.exs file by default contains sensitive
+# data and you should not commit it into version control.
+/config/dev.secret.exs
+/config/test.secret.exs
+/config/prod.secret.exs
+/config/mailgun_secrets.exs
+/config/aws_secrets.exs
+/config/stripe_secrets.exs
+
+# exclude the vagrant files
+.vagrant/
+
+# exclude the coverage reporting
+/cover
+
+.deliver/releases/
+
+# ignore arc uploads during tests
+/uploads
+.deliver/releases/

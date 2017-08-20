@@ -154,11 +154,11 @@ defmodule ContentIndexer.Services.Calculator do
 
   # Corpus of tokens is a list of tuples with the index being the second item in the tuple
   defp n_containing_calc(word, corpus_of_tokens, collection_size) do
-    list_checker_server_pid = ContentIndexer.Services.ListCheckerServer.start(collection_size, self)
+    ContentIndexer.Services.ListCheckerServer.initialise_collection(collection_size, self)
     indexed_stream = Stream.with_index(corpus_of_tokens)
     indexed_stream |> Enum.each(fn(streamed_item) ->
       {tokens, index} = streamed_item
-      ContentIndexer.Services.ListCheckerServer.start_worker(list_checker_server_pid, index, word, tokens)
+      ContentIndexer.Services.ListCheckerWorker.list("#{index},#{word},#{tokens}")
     end)
 
     total = receive do

@@ -12,12 +12,27 @@ defmodule ContentIndexer.Mixfile do
   end
 
   # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
     # Specify extra applications you'll use from Erlang/Elixir
-    [extra_applications: [:logger, :tfidf]]
+    #[extra_applications: [:logger, :tfidf]]
+    # proper supervised application
+    [
+      mod: {ContentIndexer, []},
+      applications: application_list(Mix.env),
+      env: [app_env: Mix.env]
+    ]
   end
+
+  # the application list functions are so that we can start hound in test ONLY!
+  def application_list do
+    [
+       :logger, :tfidf
+    ]
+  end
+
+  # when we add HOUND this will come in handy!!
+  #def application_list(:test), do: [:hound | application_list]
+  def application_list(_),     do: application_list()
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_),     do: ["lib"]

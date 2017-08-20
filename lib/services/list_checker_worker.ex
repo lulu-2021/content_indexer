@@ -1,5 +1,6 @@
 defmodule ContentIndexer.Services.ListCheckerWorker do
   @moduledoc """
+    genserver based approach to the ListCheckerWorker
     ** Summary **
       ListCheckerWorker is the OTP actor that handles the actual ContentIndexerService.list_contains to check
       whether a given word is contained in a list of tokens
@@ -8,57 +9,51 @@ defmodule ContentIndexer.Services.ListCheckerWorker do
 
    ** Basic Useage **
 
-     The listener method is called by the server for each list of tokens and returns a result based on whether
-      a given word was found in the list or not
-
-   iex> ListCheckerWorker.start
+    A method is called by the server for each list of tokens and returns a result based on whether
+    a given word was found in the list or not
   """
+  use GenServer
 
- alias ContentIndexer.Services.Calculator
+  alias ContentIndexer.Services.Calculator
+  alias ContentIndexer.Services.ListCheckerServer
 
- @debug_iterations 0
+  #-------------------------------------------------------------------#
+  # Genserver methods to handle it's message passing
+  #-------------------------------------------------------------------#
 
- @doc """
-    calls the listener method which loops waiting for an incoming request to check a token list
-
-   iex> ListCheckerWorker.start
-  """
-  def start do
-    spawn(__MODULE__, :listener,[])
+  def start_link do
+    GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
   end
 
- @doc """
-    listener - is called by the start method and returns once the list has been traversed, if a
-    message comes requesting a token list contains check
+  def init(:ok) do
+    {:ok, init_worker}
+  end
 
-   iex> ListCheckerWorker.listener
-    {:count, "1,1"}
-  """
-  def listener do
-    receive do
-      {:list, message, server_pid} ->
-        {tokens, index, word} = decode(message)
-        if String.to_integer(index) < @debug_iterations, do: debug_listener_incoming(tokens, index, word)
-        if Calculator.list_contains(tokens, word) do
-          send(server_pid, {:count, "#{index},1"})
-        else
-          send(server_pid, {:count, "#{index},0"})
-        end
-
-     {:test, message} ->
-        IO.puts "Test list_checker_worker: #{message}"
+  def handle_call({:list, message}, _from, state) do
+    {tokens, index, word} = decode(message)
+    if Calculator.list_contains(tokens, word) do
+      ListCheckerServer.count("#{index},1")
+    else
+      ListCheckerServer.count("#{index},0")
     end
+    {:reply, {:ok, state}, state}
   end
 
- defp decode(message) do
+  #-------------------------------------------------------------------#
+  # ListCheckerWorker functions
+  #-------------------------------------------------------------------#
+
+  def init_worker do
+    IO.puts "\nInitialising ListCheckerWorker\n"
+  end
+
+  def list(message) do
+    GenServer.call(__MODULE__, {:list, message})
+  end
+
+  defp decode(message) do
     [ index | tail ] = String.split(message, ",")
     [ word | tokens ] = tail
     {tokens, index, word}
-  end
-
- defp debug_listener_incoming(tokens, index, word) do
-    IO.puts "\n\nChecker - tokens:"
-    IO.puts inspect(tokens)
-    IO.puts "Index: #{index}, Word: #{word}\n\n"
   end
 end

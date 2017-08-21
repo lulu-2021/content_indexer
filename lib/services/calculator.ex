@@ -31,6 +31,31 @@ defmodule ContentIndexer.Services.Calculator do
 
   alias ContentIndexer.Services.Calculator
 
+  def start_link do
+    GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
+  end
+
+  def init(:ok) do
+    {:ok, init_calculator}
+  end
+
+  def init_calculator do
+    IO.puts "\nInitialising Calculator\n"
+  end
+
+  def handle_call({:state}, _from, state) do
+    {:reply, {:ok, state}, state}
+  end
+
+  def total(count) do
+    GenServer.call(__MODULE__, {:total, count})
+  end
+
+  def handle_call({:total, count}, _from, state) do
+
+    {:reply, {:ok, state}, state}
+  end
+
   @doc """
     calculates the content_indexer
 
@@ -49,7 +74,6 @@ defmodule ContentIndexer.Services.Calculator do
   def calculate_tokens_againts_corpus(content, corpus, debug_print \\ false) do
     if debug_print, do: debug_incoming_data(content, corpus, "LIB")
     token_list = Tfidf.calculate_all(content, corpus, &String.split(&1, ","))
-
     {:ok, token_list}
   end
 
@@ -158,7 +182,7 @@ defmodule ContentIndexer.Services.Calculator do
     indexed_stream = Stream.with_index(corpus_of_tokens)
     indexed_stream |> Enum.each(fn(streamed_item) ->
       {tokens, index} = streamed_item
-      ContentIndexer.Services.ListCheckerWorker.list("#{index},#{word},#{tokens}")
+      ContentIndexer.Services.ListCheckerWorker.list(index, word, tokens)
     end)
 
     total = receive do

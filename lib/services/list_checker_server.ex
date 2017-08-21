@@ -42,9 +42,8 @@ defmodule ContentIndexer.Services.ListCheckerServer do
     {:reply, {:ok, state}, state}
   end
 
-  def handle_call({:count, message}, _from, state) do
+  def handle_call({:count, index, count}, _from, state) do
     {total, list_counter, list_size, parent_pid} = state
-    {index, count} = decode(message)
     if list_counter == list_size do
       send(parent_pid, {:total, total + count})
     else
@@ -69,15 +68,7 @@ defmodule ContentIndexer.Services.ListCheckerServer do
     GenServer.call(__MODULE__, {:initialise_collection, list_size, parent_pid})
   end
 
-  def count(message) do
-    GenServer.call(__MODULE__, {:count, message})
-  end
-
-  defp decode(message) do
-    [ index | count ] = String.split(message, ",")
-    first = List.first(count)
-    counter = first |> String.to_integer
-    list_index = String.to_integer(index)
-    {list_index, counter}
+  def count(index, count) do
+    GenServer.call(__MODULE__, {:count, index, count})
   end
 end

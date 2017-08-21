@@ -1,7 +1,7 @@
 defmodule ContentIndexer.Services.CalculatorTest do
   use ContentIndexer.Support.LibCase
 
-  alias ContentIndexer.Services.{Calculator, Validator}
+  alias ContentIndexer.Services.{Calculator}
 
   @test_tokens_doc_1 [
     "docx", "file", "name", "duplic", "applic", "icon", "displai", "user", "cross",
@@ -30,10 +30,10 @@ defmodule ContentIndexer.Services.CalculatorTest do
     #IO.inspect token_content_indexers
     #IO.puts "\n END stream test\n\n"
 
-    assert token_content_indexers[:docx] == 0.013862943611198907
-    assert token_content_indexers[:file] == 0.013862943611198907
-    assert token_content_indexers[:applic] == 0.027725887222397813
-    assert token_content_indexers[:user] == 0.055451774444795626
+    assert token_content_indexers[:docx] == 0.0
+    assert token_content_indexers[:file] == 0.0
+    assert token_content_indexers[:applic] == -0.016218604324326577
+    assert token_content_indexers[:user] == -0.032437208648653154
   end
 
 
@@ -45,20 +45,15 @@ defmodule ContentIndexer.Services.CalculatorTest do
     # IO.inspect token_content_indexers
     # IO.puts "\nDONE\n"
 
-    assert token_content_indexers[:docx] == 0.013862943611198907
-    assert token_content_indexers[:file] == 0.013862943611198907
-    assert token_content_indexers[:applic] == 0.027725887222397813
-    assert token_content_indexers[:user] == 0.055451774444795626
+    assert token_content_indexers[:docx] == 0.0
+    assert token_content_indexers[:file] == 0.0
+    assert token_content_indexers[:applic] == -0.016218604324326577
+    assert token_content_indexers[:user] == -0.032437208648653154
   end
 
-  @tag :skip_in_ci_build
   test "calculates the content_indexer of all tokens in a corpus_of_tokens - using the TFIDF/Lib method to verify" do
-    corpus_of_tokens = [test_token_list_1, test_token_list_2]
-    {:ok, token_content_indexers} = Calculator.calculate_tokens_againts_corpus(test_token_list_1, corpus_of_tokens)
-
-    # IO.puts "\n\nLIB TF-IDF\n\n"
-    # IO.inspect token_content_indexers
-    # IO.puts "\nDONE\n"
+    corpus_of_tokens = [test_token_list_1(), test_token_list_2()]
+    {:ok, token_content_indexers} = Calculator.calculate_tokens_againts_corpus(test_token_list_1(), corpus_of_tokens)
 
     assert token_value_from_list(token_content_indexers, "docx") == ["docx", 0.0]
     assert token_value_from_list(token_content_indexers, "file") == ["file", 0.0]

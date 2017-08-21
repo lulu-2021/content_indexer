@@ -29,12 +29,11 @@ defmodule ContentIndexer.Services.ListCheckerWorker do
     {:ok, init_worker}
   end
 
-  def handle_call({:list, message}, _from, state) do
-    {tokens, index, word} = decode(message)
+  def handle_call({:list, index, word, tokens}, _from, state) do
     if Calculator.list_contains(tokens, word) do
-      ListCheckerServer.count("#{index},1")
+      ListCheckerServer.count(index, 1)
     else
-      ListCheckerServer.count("#{index},0")
+      ListCheckerServer.count(index, 0)
     end
     {:reply, {:ok, state}, state}
   end
@@ -47,13 +46,7 @@ defmodule ContentIndexer.Services.ListCheckerWorker do
     IO.puts "\nInitialising ListCheckerWorker\n"
   end
 
-  def list(message) do
-    GenServer.call(__MODULE__, {:list, message})
-  end
-
-  defp decode(message) do
-    [ index | tail ] = String.split(message, ",")
-    [ word | tokens ] = tail
-    {tokens, index, word}
+  def list(index, word, tokens) do
+    GenServer.call(__MODULE__, {:list, index, word, tokens})
   end
 end

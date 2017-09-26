@@ -1,4 +1,10 @@
 defmodule ContentIndexer.Services.Indexer do
+  @moduledoc """
+    ** Summary **
+      Indexer is a Genserver that holds the index state - basically a list of index structs that have the filename, tokens and weights
+      Each time an index struct is added to the server/index the weightings are re-calculated. Since they are stored in memory the index searching is fast
+  """
+
   use GenServer
   alias ContentIndexer.Services.{Calculator, Index}
 
@@ -44,7 +50,7 @@ defmodule ContentIndexer.Services.Indexer do
 
   # - internal genserver call handler methods
 
-  def handle_call({:reset_index}, _from, state) do
+  def handle_call({:reset_index}, _from, _state) do
     {:reply, {:ok, []}, []}
   end
 

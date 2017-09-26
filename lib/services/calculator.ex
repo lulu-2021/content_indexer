@@ -84,7 +84,6 @@ defmodule ContentIndexer.Services.Calculator do
   """
   def calculate_token_count_document(tokens) do
     token_stream = Stream.map(tokens, fn(token) ->
-      #{String.to_atom(token), word_count(token, tokens)}
       {token, word_count(token, tokens)}
     end)
     uniq_tokens = token_stream |> Stream.uniq |> Enum.to_list
@@ -100,7 +99,6 @@ defmodule ContentIndexer.Services.Calculator do
   """
   def calculate_tf_document(tokens) do
     token_stream = Stream.map(tokens, fn(token) ->
-      #{String.to_atom(token), tf(token, tokens)}
       {token, tf(token, tokens)}
     end)
     uniq_tokens = token_stream |> Stream.uniq |> Enum.to_list
@@ -125,7 +123,6 @@ defmodule ContentIndexer.Services.Calculator do
     token_content_indexer_counts = tokenized_tokens
     |> Enum.uniq
     |> Enum.map(fn(token) ->
-      #{String.to_atom(token), (tf(token, tokenized_tokens) * idf_streamed(token, 1, [tokens]))}
       {token, (tf(token, tokenized_tokens) * idf_streamed(token, 1, [tokens]))}
     end)
     {:ok, token_content_indexer_counts}
@@ -163,7 +160,6 @@ defmodule ContentIndexer.Services.Calculator do
     token_content_indexer_counts = tokens
     |> Enum.uniq
     |> Enum.map(fn(token) ->
-      #{String.to_atom(token), (tf(token, tokens) * idf(token, corpus_of_tokens))}
       {token, (tf(token, tokens) * idf(token, corpus_of_tokens))}
     end)
 
@@ -175,7 +171,6 @@ defmodule ContentIndexer.Services.Calculator do
     token_content_indexer_counts = tokens
     |> Enum.uniq
     |> Enum.map(fn(token) ->
-      #{String.to_atom(to_string(token)), (tf(token, tokens) * idf_streamed(token, corpus_size, corpus_of_tokens))}
       {to_string(token), (tf(token, tokens) * idf_streamed(token, corpus_size, corpus_of_tokens))}
     end)
     {:ok, token_content_indexer_counts}

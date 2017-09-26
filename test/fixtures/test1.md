@@ -1,3 +1,10 @@
+---
+layout: post
+title: test file one
+date: 2016-09-01
+tags: simple test
+intro: bla again
+---
 
 ## Test1
 

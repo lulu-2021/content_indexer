@@ -34,6 +34,7 @@ defmodule ContentIndexer.Services.Similarity do
 
   def get_filenames(similarity_map) do
     similarity_map
+    |> sort_similarity_map()
     |> Enum.filter(fn(r) ->
       val = elem(r, 1)
       val != 0.0
@@ -41,6 +42,11 @@ defmodule ContentIndexer.Services.Similarity do
     |> Enum.map(fn(r) ->
       elem(r, 0)
     end)
+  end
+
+  defp sort_similarity_map(similarity_map) do
+    similarity_map
+    |> Enum.sort(&(elem(&1, 1) <= elem(&2, 1)))
   end
 
   # return a list of documents as well as their cosime similarity to the term

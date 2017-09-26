@@ -17,7 +17,7 @@ defmodule ContentIndexer.Services.Deprecated.ListCheckerServer do
    iex> ListCheckerServer.start(list_size, parent_pid)
   """
 
- alias ContentIndexer.Services.ListCheckerWorker
+ #alias ContentIndexer.Services.ListCheckerWorker
 
  @debug_iterations 0
 
@@ -71,7 +71,7 @@ defmodule ContentIndexer.Services.Deprecated.ListCheckerServer do
     IO.puts "\n\nIndex: #{index}, List Counter: #{list_counter},\n CountWords: #{count}, total:#{total}\n\n"
   end
 
- defp debug_worker_start(list_index, word, tokens) do
-    IO.puts "\n\nstarting worker index: #{list_index}, word: #{word}, tokens: #{tokens}"
-  end
+ #defp debug_worker_start(list_index, word, tokens) do
+ #   IO.puts "\n\nstarting worker index: #{list_index}, word: #{word}, tokens: #{tokens}"
+ #end
 end

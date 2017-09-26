@@ -30,10 +30,10 @@ defmodule ContentIndexer.Services.CalculatorTest do
     #IO.inspect token_content_indexers
     #IO.puts "\n END stream test\n\n"
 
-    assert token_content_indexers[:docx] == 0.0
-    assert token_content_indexers[:file] == 0.0
-    assert token_content_indexers[:applic] == -0.016218604324326577
-    assert token_content_indexers[:user] == -0.032437208648653154
+    assert frequency_value(token_content_indexers, "docx") == 0.0
+    assert frequency_value(token_content_indexers, "file") == 0.0
+    assert frequency_value(token_content_indexers, "applic") == -0.016218604324326577
+    assert frequency_value(token_content_indexers, "user") == -0.032437208648653154
   end
 
 
@@ -45,10 +45,10 @@ defmodule ContentIndexer.Services.CalculatorTest do
     # IO.inspect token_content_indexers
     # IO.puts "\nDONE\n"
 
-    assert token_content_indexers[:docx] == 0.0
-    assert token_content_indexers[:file] == 0.0
-    assert token_content_indexers[:applic] == -0.016218604324326577
-    assert token_content_indexers[:user] == -0.032437208648653154
+    assert frequency_value(token_content_indexers, "docx") == 0.0
+    assert frequency_value(token_content_indexers, "file") == 0.0
+    assert frequency_value(token_content_indexers, "applic") == -0.016218604324326577
+    assert frequency_value(token_content_indexers, "user") == -0.032437208648653154
   end
 
   test "calculates the content_indexer of all tokens in a corpus_of_tokens - using the TFIDF/Lib method to verify" do
@@ -57,28 +57,35 @@ defmodule ContentIndexer.Services.CalculatorTest do
 
     assert token_value_from_list(token_content_indexers, "docx") == ["docx", 0.0]
     assert token_value_from_list(token_content_indexers, "file") == ["file", 0.0]
-    assert token_value_from_list(token_content_indexers, "applic") == ["applic", -0.016549596249312834]
-    assert token_value_from_list(token_content_indexers, "user") == ["user", -0.03309919249862567]
+    assert token_value_from_list(token_content_indexers, "applic") == ["applic", -0.016218604324326577]
+    assert token_value_from_list(token_content_indexers, "user") == ["user", -0.032437208648653154]
   end
 
   test "calculates the term frequency for all terms in a document" do
     {:ok, token_frequencies} = Calculator.calculate_tf_document(@test_tokens_doc_1)
 
     # - this is a sampling of the term frequencies
-    assert token_frequencies[:docx] == 0.02
-    assert token_frequencies[:applic] == 0.04
-    assert token_frequencies[:file] == 0.02
-    assert token_frequencies[:user] == 0.08
+    assert frequency_value(token_frequencies, "docx") == 0.02
+    assert frequency_value(token_frequencies, "applic") == 0.04
+    assert frequency_value(token_frequencies, "file") == 0.02
+    assert frequency_value(token_frequencies, "user") == 0.08
+  end
+
+  defp frequency_value(frequencies, key) do
+    frequencies
+    |> Enum.filter(fn(f) -> elem(f, 0) == key end)
+    |> List.first
+    |> elem(1)
   end
 
   test "calculates the word counts for all terms in a document" do
     {:ok, token_frequencies} = Calculator.calculate_token_count_document(@test_tokens_doc_1)
 
     # - this is a sampling of the term frequencies
-    assert token_frequencies[:docx] == 1
-    assert token_frequencies[:applic] == 2
-    assert token_frequencies[:file] == 1
-    assert token_frequencies[:user] == 4
+    assert frequency_value(token_frequencies, "docx") == 1
+    assert frequency_value(token_frequencies, "applic") == 2
+    assert frequency_value(token_frequencies, "file") == 1
+    assert frequency_value(token_frequencies, "user") == 4
   end
 
   defp token_value_from_list(token_list, token_key) do
@@ -92,11 +99,11 @@ defmodule ContentIndexer.Services.CalculatorTest do
   end
 
   defp test_token_list_1 do
-    @test_tokens_doc_1 |> Enum.map(fn(token) -> "#{token}," end) |> Enum.drop(-1) |> to_string |> String.strip(?, )
+    @test_tokens_doc_1 |> Enum.map(fn(token) -> "#{token}," end) |> Enum.drop(-1) |> to_string
   end
 
   defp test_token_list_2 do
-    @test_tokens_doc_2 |> Enum.map(fn(token) -> "#{token}," end) |> Enum.drop(-1) |> to_string |> String.strip(?, )
+    @test_tokens_doc_2 |> Enum.map(fn(token) -> "#{token}," end) |> Enum.drop(-1) |> to_string
   end
 end
 

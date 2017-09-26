@@ -19,6 +19,7 @@ defmodule ContentIndexer.Services.SimilarityTest do
 
   test "returns an list ordered by cosine similarity" do
     {_, query} = Calculator.calculate_content_indexer_documents(@query_terms, [@query_terms], 1)
+
     { :ok, result } = Similarity.get_similarity(@document_list, query)
     assert result == @expected_result
   end

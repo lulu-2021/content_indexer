@@ -1,4 +1,6 @@
 defmodule ContentIndexer.Services.Calculator do
+  use GenServer
+
   @moduledoc """
     ** Summary **
       calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents
@@ -29,14 +31,12 @@ defmodule ContentIndexer.Services.Calculator do
 
   """
 
-  alias ContentIndexer.Services.Calculator
-
   def start_link do
     GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
   end
 
   def init(:ok) do
-    {:ok, init_calculator}
+    {:ok, init_calculator()}
   end
 
   def init_calculator do
@@ -47,13 +47,12 @@ defmodule ContentIndexer.Services.Calculator do
     {:reply, {:ok, state}, state}
   end
 
-  def total(count) do
-    GenServer.call(__MODULE__, {:total, count})
+  def handle_call({:total, _count}, _from, state) do
+    {:reply, {:ok, state}, state}
   end
 
-  def handle_call({:total, count}, _from, state) do
-
-    {:reply, {:ok, state}, state}
+  def total(count) do
+    GenServer.call(__MODULE__, {:total, count})
   end
 
   @doc """
@@ -71,8 +70,7 @@ defmodule ContentIndexer.Services.Calculator do
       ]
     }
   """
-  def calculate_tokens_againts_corpus(content, corpus, debug_print \\ false) do
-    if debug_print, do: debug_incoming_data(content, corpus, "LIB")
+  def calculate_tokens_againts_corpus(content, corpus) do
     token_list = Tfidf.calculate_all(content, corpus, &String.split(&1, ","))
     {:ok, token_list}
   end
@@ -86,7 +84,8 @@ defmodule ContentIndexer.Services.Calculator do
   """
   def calculate_token_count_document(tokens) do
     token_stream = Stream.map(tokens, fn(token) ->
-      {String.to_atom(token), word_count(token, tokens)}
+      #{String.to_atom(token), word_count(token, tokens)}
+      {token, word_count(token, tokens)}
     end)
     uniq_tokens = token_stream |> Stream.uniq |> Enum.to_list
     {:ok, uniq_tokens}
@@ -101,7 +100,8 @@ defmodule ContentIndexer.Services.Calculator do
   """
   def calculate_tf_document(tokens) do
     token_stream = Stream.map(tokens, fn(token) ->
-      {String.to_atom(token), tf(token, tokens)}
+      #{String.to_atom(token), tf(token, tokens)}
+      {token, tf(token, tokens)}
     end)
     uniq_tokens = token_stream |> Stream.uniq |> Enum.to_list
     {:ok, uniq_tokens}
@@ -115,8 +115,7 @@ defmodule ContentIndexer.Services.Calculator do
     )
     {:ok, [bread: 0.0, butter: 0.0, jam: 0.0]}
   """
-  def calculate_content_indexer_query(tokens, debug_print \\ false) do
-    if debug_print, do: debug_incoming_data(tokens, [tokens], "MY")
+  def calculate_content_indexer_query(tokens) do
     tokenized_tokens = case tokens do
       [ _ | _ ] ->
         tokens
@@ -126,7 +125,8 @@ defmodule ContentIndexer.Services.Calculator do
     token_content_indexer_counts = tokenized_tokens
     |> Enum.uniq
     |> Enum.map(fn(token) ->
-      {String.to_atom(token), (tf(token, tokenized_tokens) * idf_streamed(token, 1, [tokens]))}
+      #{String.to_atom(token), (tf(token, tokenized_tokens) * idf_streamed(token, 1, [tokens]))}
+      {token, (tf(token, tokenized_tokens) * idf_streamed(token, 1, [tokens]))}
     end)
     {:ok, token_content_indexer_counts}
   end
@@ -140,34 +140,43 @@ defmodule ContentIndexer.Services.Calculator do
     )
     {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}
   """
-  def calculate_content_indexer_documents(tokens, corpus_of_tokens, corpus_size \\ 0, debug_print \\ false) do
-    if corpus_size == 0, do: corpus_size = length(corpus_of_tokens) # this is so we can avoid calculating it again!
+  def calculate_content_indexer_documents(tokens, corpus_of_tokens) do
+    corpus_size = length(corpus_of_tokens) # this is so we can avoid calculating it again!
     case corpus_size do
       1 ->
-        calculate_content_indexer_documents_single(tokens, corpus_of_tokens, debug_print)
+        calculate_content_indexer_documents_single(tokens, corpus_of_tokens)
       _ ->
-        calculate_content_indexer_documents_multiple(tokens, corpus_of_tokens, corpus_size, debug_print)
+        calculate_content_indexer_documents_multiple(tokens, corpus_of_tokens, corpus_size)
     end
   end
 
-  defp calculate_content_indexer_documents_single(tokens, corpus_of_tokens, debug_print) do
-    if debug_print, do: debug_incoming_data(tokens, corpus_of_tokens, "MY")
+  def calculate_content_indexer_documents(tokens, corpus_of_tokens, corpus_size) do
+    case corpus_size do
+      1 ->
+        calculate_content_indexer_documents_single(tokens, corpus_of_tokens)
+      _ ->
+        calculate_content_indexer_documents_multiple(tokens, corpus_of_tokens, corpus_size)
+    end
+  end
+
+  defp calculate_content_indexer_documents_single(tokens, corpus_of_tokens) do
     token_content_indexer_counts = tokens
     |> Enum.uniq
     |> Enum.map(fn(token) ->
-      {String.to_atom(token), (tf(token, tokens) * idf(token, corpus_of_tokens))}
+      #{String.to_atom(token), (tf(token, tokens) * idf(token, corpus_of_tokens))}
+      {token, (tf(token, tokens) * idf(token, corpus_of_tokens))}
     end)
 
     {:ok, token_content_indexer_counts}
   end
 
   # The corpus_of_tokens has more than one document in it
-  defp calculate_content_indexer_documents_multiple(tokens, corpus_of_tokens, corpus_size, debug_print) do
-    if debug_print, do: debug_incoming_data(tokens, corpus_of_tokens, "MY")
+  defp calculate_content_indexer_documents_multiple(tokens, corpus_of_tokens, corpus_size) do
     token_content_indexer_counts = tokens
     |> Enum.uniq
     |> Enum.map(fn(token) ->
-      {String.to_atom(to_string(token)), (tf(token, tokens) * idf_streamed(token, corpus_size, corpus_of_tokens))}
+      #{String.to_atom(to_string(token)), (tf(token, tokens) * idf_streamed(token, corpus_size, corpus_of_tokens))}
+      {to_string(token), (tf(token, tokens) * idf_streamed(token, corpus_size, corpus_of_tokens))}
     end)
     {:ok, token_content_indexer_counts}
   end
@@ -178,7 +187,7 @@ defmodule ContentIndexer.Services.Calculator do
 
   # Corpus of tokens is a list of tuples with the index being the second item in the tuple
   defp n_containing_calc(word, corpus_of_tokens, collection_size) do
-    ContentIndexer.Services.ListCheckerServer.initialise_collection(collection_size, self)
+    ContentIndexer.Services.ListCheckerServer.initialise_collection(collection_size, self())
     indexed_stream = Stream.with_index(corpus_of_tokens)
     indexed_stream |> Enum.each(fn(streamed_item) ->
       {tokens, index} = streamed_item
@@ -210,10 +219,6 @@ defmodule ContentIndexer.Services.Calculator do
     end)
   end
 
-  defp content_indexer(word, tokens, corpus_of_tokens) do
-    tf(word, text) * idf(word, corpus_of_tokens)
-  end
-
   defp n_containing(word, corpus_of_tokens) do
     Enum.reduce(corpus_of_tokens, 0, fn(text, acc) ->
       if list_contains(text, word), do: acc + 1, else: acc
@@ -223,14 +228,6 @@ defmodule ContentIndexer.Services.Calculator do
   defp tokenize(text, split_char \\ ",") do
     split_str = String.split(text, split_char)
     split_str |> Enum.filter(fn x -> x != "" end) # remove empty elements
-  end
-
-  defp debug_incoming_data(content, corpus, function) do
-    IO.puts "\nSTART Debug #{function}:\n"
-    IO.puts inspect(content)
-    IO.puts "---------------------"
-    IO.puts inspect(corpus)
-    IO.puts "\nEND Debug #{function}:\n"
   end
 end
 

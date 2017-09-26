@@ -11,15 +11,15 @@ defmodule ContentIndexer.Services.FunctionalTest do
     tokens_file_3 = test_files["test3.md"] |> test_tokens()
 
     corpus_of_tokens = [tokens_file_1, tokens_file_2, tokens_file_3]
-    {:ok, token_content_indexers} = Calculator.calculate_tokens_againts_corpus(tokens_file_3, corpus_of_tokens)
+    {:ok, _token_content_indexers} = Calculator.calculate_tokens_againts_corpus(tokens_file_3, corpus_of_tokens)
 
-    IO.inspect token_content_indexers
+    #IO.inspect token_content_indexers
   end
 
   def read_fixture_content(fixture_folder) do
-    file_list = File.ls!(fixture_folder)
+    File.ls!(fixture_folder)
     |> Enum.reduce(%{}, fn(file, acc) ->
-      Dict.put(acc, file, read_file(file, fixture_folder))
+      Map.put(acc, file, read_file(file, fixture_folder))
     end)
   end
 
@@ -38,6 +38,5 @@ defmodule ContentIndexer.Services.FunctionalTest do
     |> Enum.map(fn(token) -> "#{token}," end)
     |> Enum.drop(-1)
     |> to_string
-    |> String.strip(?, )
   end
 end

@@ -26,7 +26,7 @@ defmodule ContentIndexer.Services.ListCheckerWorker do
   end
 
   def init(:ok) do
-    {:ok, init_worker}
+    {:ok, init_worker()}
   end
 
   def handle_call({:list, index, word, tokens}, _from, state) do

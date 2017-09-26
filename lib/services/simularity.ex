@@ -16,9 +16,8 @@ defmodule ContentIndexer.Services.Similarity do
    weights
   """
 
-  alias ContentIndexer.Services.Similarity
   # It will return an list of terms ordered by their cosine similarity
-  def get_similarity(document_list, query_terms, debug_print \\ false) do
+  def get_similarity(document_list, query_terms) do
     val = document_list
     |> Enum.map( fn(doc) ->
       { elem(doc, 0), compare_doc(elem(doc, 1), query_terms) }
@@ -30,8 +29,7 @@ defmodule ContentIndexer.Services.Similarity do
   # return a list of documents as well as their cosime similarity to the term
   defp compare_doc(document, query) do
     d1_weights = get_relevant_weights(document, query)
-    query_vals = Dict.values query
-
+    query_vals = Keyword.values query
     dot_prod = dot_product(Enum.zip(d1_weights, query_vals))
 
     d1_magnitude = magnitude(d1_weights)
@@ -63,11 +61,21 @@ defmodule ContentIndexer.Services.Similarity do
     # weight is zero if the key is not in the document
     query
     |> Enum.map(fn(k) ->
-      key = Atom.to_string(elem(k, 0))
-      { key, document[key] || 0.0 }
+      key = elem(k, 0)
+      weight = document
+      |> Enum.filter(fn(f) -> elem(f, 0) == key end)
+      |> List.first
+
+      case weight do
+        nil ->
+          {key, 0.0 }
+        _ ->
+          {key, elem(weight, 1) }
+      end
+
     end)
     |> Enum.into(%{})
-    |> Dict.values
+    |> Map.values
   end
 
   defp order_docs(x) do

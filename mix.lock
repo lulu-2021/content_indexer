@@ -1,1 +1,5 @@
-%{"tfidf": {:hex, :tfidf, "0.1.2", "eb58bde8408a5bd2714266ec0c3fa7d9334eb935bdf9d307838e7946a4e2c1fb", [:mix], [], "hexpm"}}
+%{"decimal": {:hex, :decimal, "1.4.0", "fac965ce71a46aab53d3a6ce45662806bdd708a4a95a65cde8a12eb0124a1333", [], [], "hexpm"},
+  "ecto": {:hex, :ecto, "2.2.4", "defde3c8eca385bd86466d2e1491d19e77f9b79ad996dc8e89e4e107f3942f40", [], [{:db_connection, "~> 1.1", [hex: :db_connection, repo: "hexpm", optional: true]}, {:decimal, "~> 1.2", [hex: :decimal, repo: "hexpm", optional: false]}, {:mariaex, "~> 0.8.0", [hex: :mariaex, repo: "hexpm", optional: true]}, {:poison, "~> 2.2 or ~> 3.0", [hex: :poison, repo: "hexpm", optional: true]}, {:poolboy, "~> 1.5", [hex: :poolboy, repo: "hexpm", optional: false]}, {:postgrex, "~> 0.13.0", [hex: :postgrex, repo: "hexpm", optional: true]}, {:sbroker, "~> 1.0", [hex: :sbroker, repo: "hexpm", optional: true]}], "hexpm"},
+  "poolboy": {:hex, :poolboy, "1.5.1", "6b46163901cfd0a1b43d692657ed9d7e599853b3b21b95ae5ae0a777cf9b6ca8", [], [], "hexpm"},
+  "stemmer": {:hex, :stemmer, "1.0.2", "b695c5fc40b25194206cbcabb081b982e6369c84dcdb9574f563b6ced3cdc92c", [], [], "hexpm"},
+  "tfidf": {:hex, :tfidf, "0.1.2", "eb58bde8408a5bd2714266ec0c3fa7d9334eb935bdf9d307838e7946a4e2c1fb", [:mix], [], "hexpm"}}

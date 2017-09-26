@@ -14,6 +14,7 @@ defmodule ContentIndexer do
       worker(ContentIndexer.Services.Calculator, []),
       worker(ContentIndexer.Services.ListCheckerServer, []),
       worker(ContentIndexer.Services.ListCheckerWorker, []),
+      worker(ContentIndexer.Services.Indexer, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

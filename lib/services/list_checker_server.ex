@@ -19,8 +19,6 @@ defmodule ContentIndexer.Services.ListCheckerServer do
   """
   use GenServer
 
-  alias ContentIndexer.Services.ListCheckerWorker
-
   #-------------------------------------------------------------------#
   # Genserver methods to handle it's message passing
   #-------------------------------------------------------------------#
@@ -30,10 +28,10 @@ defmodule ContentIndexer.Services.ListCheckerServer do
   end
 
   def init(:ok) do
-    {:ok, init_server}
+    {:ok, init_server()}
   end
 
-  def handle_call({:initialise_collection, collection_size, parent_pid}, _from, state) do
+  def handle_call({:initialise_collection, collection_size, parent_pid}, _from, _cstate) do
     state = {0, 1, collection_size, parent_pid}
     {:reply, {:ok, state}, state}
   end
@@ -42,12 +40,13 @@ defmodule ContentIndexer.Services.ListCheckerServer do
     {:reply, {:ok, state}, state}
   end
 
-  def handle_call({:count, index, count}, _from, state) do
+  def handle_call({:count, _index, count}, _from, state) do
     {total, list_counter, list_size, parent_pid} = state
-    if list_counter == list_size do
+    state = if list_counter == list_size do
       send(parent_pid, {:total, total + count})
+      state
     else
-      state = {total + count, list_counter + 1, list_size, parent_pid}
+      {total + count, list_counter + 1, list_size, parent_pid}
     end
     {:reply, {:ok, state}, state}
   end

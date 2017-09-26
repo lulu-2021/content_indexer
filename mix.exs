@@ -4,7 +4,7 @@ defmodule ContentIndexer.Mixfile do
   def project do
     [app: :content_indexer,
      version: "0.1.0",
-     elixir: "~> 1.4",
+     elixir: "~> 1.5",
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -26,7 +26,7 @@ defmodule ContentIndexer.Mixfile do
   # the application list functions are so that we can start hound in test ONLY!
   def application_list do
     [
-       :logger, :tfidf
+       :logger, :tfidf, :stemmer, :ecto
     ]
   end
 
@@ -48,7 +48,9 @@ defmodule ContentIndexer.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:tfidf, "~> 0.1.2"}
+      {:tfidf, "~> 0.1.2"},
+      {:stemmer, "~> 1.0"},
+      {:ecto, "~> 2.2"}
     ]
   end
 end

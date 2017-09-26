@@ -6,6 +6,12 @@ defmodule ContentIndexer.Services.FileUtilsTest do
     :ok
   end
 
+  test "read a list of query tokens and compile them to be searchable" do
+    test_query_tokens = ["this", "is", "a", "test", "query"]
+    tokenised_query = FileUtils.compile_query(test_query_tokens)
+    assert tokenised_query == ["test", "queri"]
+  end
+
   test "read the markdown files in the fixtures folder" do
     test_fixture_folder = "test/fixtures"
     processed_tokens = FileUtils.crawl(test_fixture_folder)

@@ -9,7 +9,7 @@ defmodule ContentIndexer.Services.FileUtils do
     File.ls!(data_folder)
     |> Enum.map(fn(file) ->
       # IO.puts "Crawling local file: #{file}"
-      content = compile(file, data_folder)
+      compile(file, data_folder)
     end)
   end
 
@@ -18,14 +18,14 @@ defmodule ContentIndexer.Services.FileUtils do
     |> Enum.map(fn(file) ->
       Task.async(fn ->
         # IO.puts "Crawling local file: #{file}"
-        content = compile(file, data_folder)
+        compile(file, data_folder)
       end)
     end)
     |> Enum.map(&Task.await/1)
   end
 
-  def compile_query(query_tokens) do
-    query_tokens
+  def compile_query(query) do
+    query_tokens = query
     |> remove_stop_words()
     |> remove_blanks()
     Enum.to_list(query_tokens)
@@ -46,7 +46,7 @@ defmodule ContentIndexer.Services.FileUtils do
   end
 
   defp split_content_from_header(data) do
-    [frontmatter, text_content] = String.split(data, ~r/\n-{3,}\n/, parts: 2)
+    [_frontmatter, text_content] = String.split(data, ~r/\n-{3,}\n/, parts: 2)
     text_content
   end
 

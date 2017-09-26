@@ -20,7 +20,7 @@ defmodule ContentIndexer.Services.SimilarityTest do
   test "returns an list ordered by cosine similarity" do
     {_, query} = Calculator.calculate_content_indexer_documents(@query_terms, [@query_terms], 1)
 
-    { :ok, result } = Similarity.get_similarity(@document_list, query)
+    result = Similarity.get_similarity(@document_list, query)
     assert result == @expected_result
   end
 
@@ -29,7 +29,7 @@ defmodule ContentIndexer.Services.SimilarityTest do
   @expected_result %{ "10" => 0.7071067811865476, "3" => 0.5, "5" => 0.5 }
   test "more query terms than document terms" do
     {_, query} = Calculator.calculate_content_indexer_documents(@query_terms, [@query_terms], 1)
-    { :ok, result } = Similarity.get_similarity(@document_list, query)
+    result = Similarity.get_similarity(@document_list, query)
     assert result == @expected_result
   end
 
@@ -43,7 +43,7 @@ defmodule ContentIndexer.Services.SimilarityTest do
   test "more document terms than query terms" do
 
     {_, query} = Calculator.calculate_content_indexer_documents(@query_terms, [@query_terms], 1)
-    { :ok, result } = Similarity.get_similarity(@document_list, query)
+    result = Similarity.get_similarity(@document_list, query)
     assert result == @expected_result
   end
 end

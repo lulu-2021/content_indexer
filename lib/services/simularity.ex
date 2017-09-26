@@ -16,6 +16,12 @@ defmodule ContentIndexer.Services.Similarity do
    weights
   """
 
+  def compare(document_list, query_terms) do
+    document_list
+    |> get_similarity(query_terms)
+    |> get_filenames()
+  end
+
   # It will return an list of terms ordered by their cosine similarity
   def get_similarity(document_list, query_terms) do
     val = document_list
@@ -23,7 +29,18 @@ defmodule ContentIndexer.Services.Similarity do
       { elem(doc, 0), compare_doc(elem(doc, 1), query_terms) }
     end )
     |> order_docs
-    {:ok, Enum.into(val, %{})}
+    Enum.into(val, %{})
+  end
+
+  def get_filenames(similarity_map) do
+    similarity_map
+    |> Enum.filter(fn(r) ->
+      val = elem(r, 1)
+      val != 0.0
+    end)
+    |> Enum.map(fn(r) ->
+      elem(r, 0)
+    end)
   end
 
   # return a list of documents as well as their cosime similarity to the term

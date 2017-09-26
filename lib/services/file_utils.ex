@@ -35,10 +35,10 @@ defmodule ContentIndexer.Services.FileUtils do
   defp compile(file, folder) do
     file_content = Path.join([folder, file])
     |> File.read!
-    |> split_content_from_header
-    |> remove_non_chars()
 
     parsed_tokens = file_content
+    |> split_content_from_header
+    |> remove_non_chars()
     |> remove_stop_words()
     |> remove_blanks()
     Enum.to_list(parsed_tokens)

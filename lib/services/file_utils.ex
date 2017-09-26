@@ -8,9 +8,8 @@ defmodule ContentIndexer.Services.FileUtils do
   def crawl(data_folder) do
     File.ls!(data_folder)
     |> Enum.map(fn(file) ->
-      IO.puts "Crawling local file: #{file}"
+      # IO.puts "Crawling local file: #{file}"
       content = compile(file, data_folder)
-      IO.inspect content
     end)
   end
 
@@ -18,9 +17,8 @@ defmodule ContentIndexer.Services.FileUtils do
     File.ls!(data_folder)
     |> Enum.map(fn(file) ->
       Task.async(fn ->
-        IO.puts "Crawling local file: #{file}"
+        # IO.puts "Crawling local file: #{file}"
         content = compile(file, data_folder)
-        IO.inspect content
       end)
     end)
     |> Enum.map(&Task.await/1)

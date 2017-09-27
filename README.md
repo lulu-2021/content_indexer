@@ -30,7 +30,5 @@ are passed as functions you can write your own versions of these and pass them i
 
 Currently I am using this to process markdown files for my blog - but this can be useful for any other such text based content.
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/content_indexer](https://hexdocs.pm/content_indexer).
+The hex documentation is here [https://hexdocs.pm/content_indexer](https://hexdocs.pm/content_indexer).
 

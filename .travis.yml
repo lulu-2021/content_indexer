@@ -1,0 +1,14 @@
+language: elixir
+elixir:
+  - 1.5
+otp_release:
+  - 20.0
+
+before_install:
+  - git clone https://github.com/elixir-lang/elixir
+  - cd elixir && make && cd ..
+before_script:
+  - export PATH=`pwd`/elixir/bin:$PATH
+
+script:
+  - "MIX_ENV=test mix do deps.get, compile, credo --strict, test"

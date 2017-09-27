@@ -8,8 +8,20 @@ defmodule ContentIndexer.Mixfile do
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     description: package(),
      deps: deps()]
   end
+
+  def package do
+    [
+      name: :content_indexer,
+      files: ["lib", "mix.exs"],
+      maintainers: ["Steve Forkin"],
+      licenses: ["MIT"],
+      links: %{}
+    ]
+  end
+
 
   # Configuration for the OTP application
   def application do

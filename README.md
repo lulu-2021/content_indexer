@@ -35,3 +35,17 @@ Currently I am using this to process markdown files for my blog - but this can b
 
 The hex documentation is here [https://hexdocs.pm/content_indexer](https://hexdocs.pm/content_indexer).
 
+## Running tests
+
+Clone the repo and fetch its dependencies:
+
+```
+$ git clone https://github.com/netflakes/content_indexer.git
+$ cd ecto
+$ mix deps.get
+$ mix test
+```
+
+### License
+
+The source code is licensed under the [MIT license](https://opensource.org/licenses/MIT)

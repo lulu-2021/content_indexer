@@ -1,6 +1,7 @@
 defmodule ContentIndexer.Services.SimilarityFileIndexerTest do
   use ContentIndexer.Support.LibCase
-  alias ContentIndexer.Services.{Indexer, PreProcess, SearchUtils, Similarity}
+  alias ContentIndexer.Indexer
+  alias ContentIndexer.Services.{PreProcess, SearchUtils, Similarity}
 
   setup do
     SearchUtils.build_index("test/fixtures", &PreProcess.pre_process_content/2)

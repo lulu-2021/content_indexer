@@ -1,4 +1,4 @@
-defmodule ContentIndexer.Services.Indexer do
+defmodule ContentIndexer.Indexer do
   @moduledoc """
     ** Summary **
       Indexer is a Genserver that holds the index state - basically a list of index structs that have the filename, tokens and weights
@@ -6,7 +6,7 @@ defmodule ContentIndexer.Services.Indexer do
   """
 
   use GenServer
-  alias ContentIndexer.Services.{Calculator, Index}
+  alias ContentIndexer.{Index, Services.Calculator}
 
   def start_link do
     GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])

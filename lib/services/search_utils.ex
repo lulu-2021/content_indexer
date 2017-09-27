@@ -4,7 +4,7 @@ defmodule ContentIndexer.Services.SearchUtils do
     by the file_pre_process_func function that we are using from the ContentIndexer.Services.PreProcess module - however
     this can easily be swapped out by passing your own pre-process
   """
-  alias ContentIndexer.Services.{Calculator, Indexer}
+  alias ContentIndexer.{Indexer, Services.Calculator}
 
   def crawl(data_folder, file_pre_process_func) do
     files = File.ls!(data_folder)

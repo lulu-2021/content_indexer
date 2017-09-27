@@ -1,6 +1,7 @@
 defmodule ContentIndexer.Services.SimilarityIndexerTest do
   use ContentIndexer.Support.LibCase
-  alias ContentIndexer.Services.{Calculator, Indexer, Similarity}
+  alias ContentIndexer.Indexer
+  alias ContentIndexer.Services.{Calculator, Similarity}
 
   setup do
     build_index()

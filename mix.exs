@@ -8,7 +8,8 @@ defmodule ContentIndexer.Mixfile do
      elixirc_paths: elixirc_paths(Mix.env),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     description: package(),
+     description: "Genserver based content indexer",
+     package: package(),
      deps: deps()]
   end
 
@@ -21,7 +22,6 @@ defmodule ContentIndexer.Mixfile do
       links: %{"Github" => "https://github.com/netflakes/content_indexer"},
     ]
   end
-
 
   # Configuration for the OTP application
   def application do

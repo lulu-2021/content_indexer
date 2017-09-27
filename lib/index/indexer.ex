@@ -16,6 +16,9 @@ defmodule ContentIndexer.Indexer do
     {:ok, init_indexer()}
   end
 
+  @doc """
+    Initialises the Index with an empty list
+  """
   def init_indexer do
     IO.puts "\nInitialising Indexer\n"
     [] # initialise with an empty list
@@ -23,27 +26,93 @@ defmodule ContentIndexer.Indexer do
 
   # - client functions
 
+  @doc """
+    Retrieves a list of all the tokens in the entire index
+
+    ## Example
+
+      iex> ContentIndexer.Indexer.corpus_of_tokens
+      {:ok,
+        [["orange", "fruit", "basket", "apples"],
+          ["bread", "butter", "jam", "mustard"]]}
+  """
   def corpus_of_tokens do
     GenServer.call(__MODULE__, {:corpus_of_tokens})
   end
 
+  @doc """
+    Re calculates all the term_weights on the entire index
+
+    ## Example
+
+      iex>ContentIndexer.Indexer.calculate()
+      {:ok,
+        [%ContentIndexer.Index{file_name: "test_file_3.md",
+          term_weights: [{"orange", 0.0}, {"fruit", 0.0}, {"basket", 0.0},
+            {"apples", 0.0}], tokens: ["orange", "fruit", "basket", "apples"],
+          uuid: "2c600089-b35d-4667-a146-4635bd282811"},
+          %ContentIndexer.Index{file_name: "test_file_2.md",
+          term_weights: [{"orange", 0.0}, {"fruit", 0.0}, {"basket", 0.0},
+            {"apples", 0.0}], tokens: ["orange", "fruit", "basket", "apples"],
+          uuid: "c62c65be-4ac6-46bc-9597-2d70c65fa1a0"},
+          %ContentIndexer.Index{file_name: "test_file.md",
+          term_weights: [{"bread", 0.1013662770270411}, {"butter", 0.1013662770270411},
+            {"jam", 0.1013662770270411}, {"mustard", 0.1013662770270411}],
+          tokens: ["bread", "butter", "jam", "mustard"],
+          uuid: "18693629-bfa9-4ffc-8fe8-ebc0c5c72c7b"}]}
+  """
   def calculate do
     GenServer.call(__MODULE__, {:calculate})
   end
 
+  @doc """
+    Adds a new file_name and associated list of tokens to the index
+
+    ## Example
+
+      iex> ContentIndexer.Indexer.add("test_file.md", ["bread", "butter", "jam", "mustard"])
+      {:ok,
+        [%ContentIndexer.Index{file_name: "test_file.md",
+          term_weights: [{"bread", -0.17328679513998632},
+            {"butter", -0.17328679513998632}, {"jam", -0.17328679513998632},
+            {"mustard", -0.17328679513998632}],
+          tokens: ["bread", "butter", "jam", "mustard"],
+          uuid: "18693629-bfa9-4ffc-8fe8-ebc0c5c72c7b"}]}
+  """
   def add(file_name, tokens) when is_list(tokens) do
     item = Index.new(file_name, tokens)
     GenServer.call(__MODULE__, {:add, item})
   end
 
+  @doc """
+    Returns a nested list of all the individual index items containing their file_name and associated tokens with weights
+
+    ## Example
+
+      iex> ContentIndexer.Indexer.documents()
+      {:ok,
+      [{"test_file_3.md",
+        [{"orange", 0.0}, {"fruit", 0.0}, {"basket", 0.0}, {"apples", 0.0}]},
+        {"test_file_2.md",
+        [{"orange", 0.0}, {"fruit", 0.0}, {"basket", 0.0}, {"apples", 0.0}]},
+        {"test_file.md",
+        [{"bread", 0.1013662770270411}, {"butter", 0.1013662770270411},
+          {"jam", 0.1013662770270411}, {"mustard", 0.1013662770270411}]}]}
+  """
   def documents do
     GenServer.call(__MODULE__, {:documents})
   end
 
+  @doc """
+    Retrieves the entire index
+  """
   def retrieve_index do
     GenServer.call(__MODULE__, {:state})
   end
 
+  @doc """
+    Resets the index with an empty list
+  """
   def reset_index do
     GenServer.call(__MODULE__, {:reset_index})
   end

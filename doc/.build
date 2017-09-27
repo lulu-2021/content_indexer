@@ -4,14 +4,14 @@ fonts/icomoon.eot
 fonts/icomoon.svg
 fonts/icomoon.ttf
 fonts/icomoon.woff
-dist/sidebar_items-7dfa9da961.js
+dist/sidebar_items-e49c52182f.js
 api-reference.html
 search.html
 404.html
 ContentIndexer.html
+ContentIndexer.Index.html
+ContentIndexer.Indexer.html
 ContentIndexer.Services.Calculator.html
-ContentIndexer.Services.Index.html
-ContentIndexer.Services.Indexer.html
 ContentIndexer.Services.ListCheckerServer.html
 ContentIndexer.Services.ListCheckerWorker.html
 ContentIndexer.Services.PreProcess.html

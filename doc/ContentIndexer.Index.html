@@ -5,13 +5,11 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.Index – content_indexer v0.1.0</title>
+    <title>ContentIndexer.Index – content_indexer v0.1.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.Services.Index.html" />
     
-    
-    <script src="dist/sidebar_items-7dfa9da961.js"></script>
+    <script src="dist/sidebar_items-e49c52182f.js"></script>
     
   </head>
   <body data-type="modules">
@@ -68,13 +66,14 @@
 
       <h1>
         <small class="visible-xs">content_indexer v0.1.0</small>
-        ContentIndexer.Services.Index
+        ContentIndexer.Index
         
       </h1>
 
       
         <section id="moduledoc">
-          <p>  struct to store the details of what data is held in the index</p>
+          <p>  struct to store the details of what data is held in the index
+  It provides a <a href="#new/2"><code class="inline">new/2</code></a> function for instantiating the struct that includes a generated UUID</p>
 
         </section>
       
@@ -99,6 +98,9 @@
   <div class="summary-signature">
     <a href="#new/2">new(file_name, tokens)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Instantiates a new Index struct</p>
+</div>
   
 </div>
 
@@ -135,7 +137,14 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  Instantiates a new Index struct</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- file_name: String that represents the file that has the content to be indexed
+- tokens: List of Strings that are the tokenised content</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Index.new(&quot;test_file.md&quot;, [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;])
+%ContentIndexer.Index{file_name: &quot;test_file.md&quot;, term_weights: %{}, tokens: [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;], uuid: &quot;e080d012-f89b-434c-964f-ddad9b8c2e20&quot;}</code></pre>
+
   </section>
 </div>
 

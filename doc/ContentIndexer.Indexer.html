@@ -5,13 +5,11 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.Indexer – content_indexer v0.1.0</title>
+    <title>ContentIndexer.Indexer – content_indexer v0.1.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.Services.Indexer.html" />
     
-    
-    <script src="dist/sidebar_items-7dfa9da961.js"></script>
+    <script src="dist/sidebar_items-e49c52182f.js"></script>
     
   </head>
   <body data-type="modules">
@@ -68,7 +66,7 @@
 
       <h1>
         <small class="visible-xs">content_indexer v0.1.0</small>
-        ContentIndexer.Services.Indexer
+        ContentIndexer.Indexer
         
       </h1>
 
@@ -102,11 +100,17 @@ Each time an index struct is added to the server/index the weightings are re-cal
     <a href="#add/2">add(file_name, tokens)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Adds a new file_name and associated list of tokens to the index</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#calculate/0">calculate()</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Re calculates all the term_weights on the entire index</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -114,11 +118,17 @@ Each time an index struct is added to the server/index the weightings are re-cal
     <a href="#corpus_of_tokens/0">corpus_of_tokens()</a>
   </div>
   
+    <div class="summary-synopsis"><p>Retrieves a list of all the tokens in the entire index</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#documents/0">documents()</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Returns a nested list of all the individual index items containing their file_name and associated tokens with weights</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -179,7 +189,17 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Adds a new file_name and associated list of tokens to the index</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Indexer.add(&quot;test_file.md&quot;, [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;])
+{:ok,
+  [%ContentIndexer.Index{file_name: &quot;test_file.md&quot;,
+    term_weights: [{&quot;bread&quot;, -0.17328679513998632},
+      {&quot;butter&quot;, -0.17328679513998632}, {&quot;jam&quot;, -0.17328679513998632},
+      {&quot;mustard&quot;, -0.17328679513998632}],
+    tokens: [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;],
+    uuid: &quot;18693629-bfa9-4ffc-8fe8-ebc0c5c72c7b&quot;}]}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="calculate/0">
@@ -196,7 +216,24 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Re calculates all the term_weights on the entire index</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt;ContentIndexer.Indexer.calculate()
+{:ok,
+  [%ContentIndexer.Index{file_name: &quot;test_file_3.md&quot;,
+    term_weights: [{&quot;orange&quot;, 0.0}, {&quot;fruit&quot;, 0.0}, {&quot;basket&quot;, 0.0},
+      {&quot;apples&quot;, 0.0}], tokens: [&quot;orange&quot;, &quot;fruit&quot;, &quot;basket&quot;, &quot;apples&quot;],
+    uuid: &quot;2c600089-b35d-4667-a146-4635bd282811&quot;},
+    %ContentIndexer.Index{file_name: &quot;test_file_2.md&quot;,
+    term_weights: [{&quot;orange&quot;, 0.0}, {&quot;fruit&quot;, 0.0}, {&quot;basket&quot;, 0.0},
+      {&quot;apples&quot;, 0.0}], tokens: [&quot;orange&quot;, &quot;fruit&quot;, &quot;basket&quot;, &quot;apples&quot;],
+    uuid: &quot;c62c65be-4ac6-46bc-9597-2d70c65fa1a0&quot;},
+    %ContentIndexer.Index{file_name: &quot;test_file.md&quot;,
+    term_weights: [{&quot;bread&quot;, 0.1013662770270411}, {&quot;butter&quot;, 0.1013662770270411},
+      {&quot;jam&quot;, 0.1013662770270411}, {&quot;mustard&quot;, 0.1013662770270411}],
+    tokens: [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;],
+    uuid: &quot;18693629-bfa9-4ffc-8fe8-ebc0c5c72c7b&quot;}]}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="corpus_of_tokens/0">
@@ -213,7 +250,13 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Retrieves a list of all the tokens in the entire index</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Indexer.corpus_of_tokens
+{:ok,
+  [[&quot;orange&quot;, &quot;fruit&quot;, &quot;basket&quot;, &quot;apples&quot;],
+    [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;]]}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="documents/0">
@@ -230,7 +273,18 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Returns a nested list of all the individual index items containing their file_name and associated tokens with weights</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Indexer.documents()
+{:ok,
+[{&quot;test_file_3.md&quot;,
+  [{&quot;orange&quot;, 0.0}, {&quot;fruit&quot;, 0.0}, {&quot;basket&quot;, 0.0}, {&quot;apples&quot;, 0.0}]},
+  {&quot;test_file_2.md&quot;,
+  [{&quot;orange&quot;, 0.0}, {&quot;fruit&quot;, 0.0}, {&quot;basket&quot;, 0.0}, {&quot;apples&quot;, 0.0}]},
+  {&quot;test_file.md&quot;,
+  [{&quot;bread&quot;, 0.1013662770270411}, {&quot;butter&quot;, 0.1013662770270411},
+    {&quot;jam&quot;, 0.1013662770270411}, {&quot;mustard&quot;, 0.1013662770270411}]}]}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="init_indexer/0">

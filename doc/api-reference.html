@@ -8,10 +8,8 @@
     <title>API Reference – content_indexer v0.1.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/content_indexer/api-reference.html" />
     
-    
-    <script src="dist/sidebar_items-7dfa9da961.js"></script>
+    <script src="dist/sidebar_items-e49c52182f.js"></script>
     
   </head>
   <body data-type="extras">
@@ -87,26 +85,27 @@
   
 </div>
 <div class="summary-row">
-  <div class="summary-signature"><a href="ContentIndexer.Services.Calculator.html">ContentIndexer.Services.Calculator</a></div>
+  <div class="summary-signature"><a href="ContentIndexer.Index.html">ContentIndexer.Index</a></div>
   
-    <div class="summary-synopsis"><p><strong> Summary </strong></p>
-<pre><code class="elixir">calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents</code></pre>
+    <div class="summary-synopsis"><p>struct to store the details of what data is held in the index
+  It provides a <a href="#new/2"><code class="inline">new/2</code></a> function for instantiating the struct that includes a generated UUID</p>
 </div>
   
 </div>
 <div class="summary-row">
-  <div class="summary-signature"><a href="ContentIndexer.Services.Index.html">ContentIndexer.Services.Index</a></div>
-  
-    <div class="summary-synopsis"><p>struct to store the details of what data is held in the index</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature"><a href="ContentIndexer.Services.Indexer.html">ContentIndexer.Services.Indexer</a></div>
+  <div class="summary-signature"><a href="ContentIndexer.Indexer.html">ContentIndexer.Indexer</a></div>
   
     <div class="summary-synopsis"><p><strong> Summary </strong></p>
 <pre><code class="elixir">Indexer is a Genserver that holds the index state - basically a list of index structs that have the filename, tokens and weights
 Each time an index struct is added to the server/index the weightings are re-calculated. Since they are stored in memory the index searching is fast</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.Calculator.html">ContentIndexer.Services.Calculator</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong></p>
+<pre><code class="elixir">calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents</code></pre>
 </div>
   
 </div>

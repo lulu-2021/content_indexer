@@ -34,7 +34,6 @@ defmodule ContentIndexer.Services.SimilarityFileIndexerTest do
     reset_index()
   end
 
-
   test "end to end test adding real markdown files to the indexer & searching 2 key words" do
     {:ok, documents} = Indexer.documents()
     query_terms = ["trivial", "instrument"] |> SearchUtils.compile_query(&PreProcess.pre_process_query/1)

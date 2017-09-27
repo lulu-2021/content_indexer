@@ -79,6 +79,16 @@ defmodule ContentIndexer.Services.SearchUtils do
     end)
   end
 
+  def build_index_async(data_folder, file_pre_process_func) do
+    data_folder
+    |> crawl(file_pre_process_func)
+    |> Enum.each(fn(t) ->
+      Task.async(fn ->
+        Indexer.add(elem(t, 0), elem(t, 1))
+      end)
+    end)
+  end
+
   def accum_list([]), do: []
   def accum_list([h | t]), do: accum_list([h | t], [])
   def accum_list([h | t], acc) when is_list(h), do: accum_list(t, accum_list(h, acc))

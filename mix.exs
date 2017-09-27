@@ -64,7 +64,7 @@ defmodule ContentIndexer.Mixfile do
       {:stemmer, "~> 1.0"},
       {:ecto, "~> 2.2"},
       #
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false}
     ]
   end

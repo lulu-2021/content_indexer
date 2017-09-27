@@ -18,7 +18,7 @@ defmodule ContentIndexer.Mixfile do
       files: ["lib", "mix.exs"],
       maintainers: ["Steve Forkin"],
       licenses: ["MIT"],
-      links: %{"Github" => "https://github.com/netflakes/content_indexer"}
+      links: %{"Github" => "https://github.com/netflakes/content_indexer"},
     ]
   end
 

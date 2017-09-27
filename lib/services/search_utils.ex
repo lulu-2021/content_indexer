@@ -86,7 +86,7 @@ defmodule ContentIndexer.Services.SearchUtils do
         Index.new(elem(t, 0), elem(t, 1))
     end)
     Task.async(fn -> IndexInitialiser.initialise_index(index) end)
-    |> Task.await
+    |> Task.await(100.000)
   end
 
   def accum_list([]), do: []

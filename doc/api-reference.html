@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.16.4">
+    <title>API Reference – content_indexer v0.1.0</title>
+    <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/content_indexer/api-reference.html" />
+    
+    
+    <script src="dist/sidebar_items-7dfa9da961.js"></script>
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+
+<div class="main">
+<button class="sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<section class="sidebar">
+
+  
+  <a href="api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        content_indexer
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+
+    
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>
+  <small class="visible-xs">content_indexer v0.1.0</small>
+  API Reference
+</h1>
+
+
+  <section class="details-list">
+    <h2 id="modules" class="section-heading">
+  <a href="#modules" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Modules
+</h2>
+
+    <div class="summary">
+      <div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.html">ContentIndexer</a></div>
+  
+    <div class="summary-synopsis"><p>Documentation for ContentIndexer</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.Calculator.html">ContentIndexer.Services.Calculator</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong></p>
+<pre><code class="elixir">calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.Index.html">ContentIndexer.Services.Index</a></div>
+  
+    <div class="summary-synopsis"><p>struct to store the details of what data is held in the index</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.Indexer.html">ContentIndexer.Services.Indexer</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong></p>
+<pre><code class="elixir">Indexer is a Genserver that holds the index state - basically a list of index structs that have the filename, tokens and weights
+Each time an index struct is added to the server/index the weightings are re-calculated. Since they are stored in memory the index searching is fast</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.ListCheckerServer.html">ContentIndexer.Services.ListCheckerServer</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong></p>
+<pre><code class="elixir">ListCheckerServer is the OTP server that uses Genserver to handle the
+interactions with the individual workers and the parent caller
+The ListCheckerWorkers each process a list of tokens
+and checks that list for a given token. Once it is done a message is
+returned to the ListCheckerServer.
+The server in turn sends a message to the callee - advising it once the whole
+list of token lists has been checked successfully!</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.ListCheckerWorker.html">ContentIndexer.Services.ListCheckerWorker</a></div>
+  
+    <div class="summary-synopsis"><p>genserver based approach to the ListCheckerWorker
+  <strong> Summary </strong></p>
+<pre><code class="elixir">ListCheckerWorker is the OTP actor that handles the actual ContentIndexerService.list_contains to check
+whether a given word is contained in a list of tokens</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.PreProcess.html">ContentIndexer.Services.PreProcess</a></div>
+  
+    <div class="summary-synopsis"><p>content and query pre-process functions that are passed to the SearchUtils.compile and SearchUtils.compile_query functions - here we are just some some extra stuf
+  with a markdown file - i.e. removing the header</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.SearchUtils.html">ContentIndexer.Services.SearchUtils</a></div>
+  
+    <div class="summary-synopsis"><p>utility functions to crawl a folder with files and extract content - the actual processing of the content is handled
+  by the file_pre_process_func function that we are using from the ContentIndexer.Services.PreProcess module - however
+  this can easily be swapped out by passing your own pre-process</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.Services.Similarity.html">ContentIndexer.Services.Similarity</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+ This module accepts a list of tuples which contain the document id and a hash of terms
+ and and their TF_IDF weights, it also accepts query terms in the form of a hash of terms and
+ weights, same format as in the tuple above</p>
+</div>
+  
+</div>
+
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.4),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-da04b39d0c.js"></script>
+  
+  </body>
+</html>
+

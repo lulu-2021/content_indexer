@@ -1,0 +1,442 @@
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.16.4">
+    <title>ContentIndexer.Services.Calculator – content_indexer v0.1.0</title>
+    <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.Services.Calculator.html" />
+    
+    
+    <script src="dist/sidebar_items-7dfa9da961.js"></script>
+    
+  </head>
+  <body data-type="modules">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+
+    <div class="main">
+<button class="sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<section class="sidebar">
+
+  
+  <a href="api-reference.html" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+        content_indexer
+      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.1.0
+      </h2>
+    </div>
+    
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+    
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+    
+
+    
+
+    
+
+    
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+      <h1>
+        <small class="visible-xs">content_indexer v0.1.0</small>
+        ContentIndexer.Services.Calculator
+        
+      </h1>
+
+      
+        <section id="moduledoc">
+          <p>  <strong> Summary </strong></p>
+<pre><code class="elixir">calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents
+
+https://en.wikipedia.org/wiki/Tf-idf
+
+** What is Tf-Idf **
+
+tf–idf, short for term frequency–inverse document frequency, is a numerical statistic that is
+intended to reflect how important a word is to a document in a collection or corpus. It is often
+used as a weighting factor in information retrieval and text mining.
+
+This library supports calculating large datasets in parallel using the Erlang OTP based server and actors
+
+Currently the supported file types are plain-text, PDF and DOCX (xml)
+
+** Basic Useage **
+
+Pass it a list of tokens and a corpus of tokens as a list of lists and it will return a list of tokens
+with corresponding content_indexer weights based on the corpus of tokens
+
+iex&gt; ContentIndexerService.calculate_content_indexer_documents(
+  [&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
+  [[&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],[&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],[&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]]
+)
+{:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}</code></pre>
+
+        </section>
+      
+
+      
+        <section id="summary" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#summary">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Summary
+          </h1>
+          
+
+          
+  <div class="summary-functions summary">
+    <h2>
+      <a href="#functions">Functions</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#calculate_content_indexer_documents/2">calculate_content_indexer_documents(tokens, corpus_of_tokens)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#calculate_content_indexer_documents/3">calculate_content_indexer_documents(tokens, corpus_of_tokens, corpus_size)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#calculate_content_indexer_query/1">calculate_content_indexer_query(tokens)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>calculates the content_indexer weights for each token in the query - weights the query against itself</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#calculate_tf_document/1">calculate_tf_document(tokens)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>calculates the term frequency for each token in the list of tokens representing the document
+  and returns a list of the tokens with their respective term frequencies</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#calculate_token_count_document/1">calculate_token_count_document(tokens)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>calculates the word count for each token in the list of tokens representing the document
+  and returns a list of the tokens with their respective word counts</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#calculate_tokens_againts_corpus/2">calculate_tokens_againts_corpus(content, corpus)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>calculates the content_indexer</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#init_calculator/0">init_calculator()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#list_contains/2">list_contains(list, item)</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start_link/0">start_link()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#total/1">total(count)</a>
+  </div>
+  
+</div>
+
+  </div>
+
+
+          
+
+        </section>
+      
+
+      
+
+      
+        <section id="functions" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#functions">
+              <span class="icon-link" aria-hidden="true"></span>
+              <span class="sr-only">Link to this section</span>
+            </a>
+            Functions
+          </h1>
+          <div class="detail" id="calculate_content_indexer_documents/2">
+  
+  
+  <div class="detail-header">
+    <a href="#calculate_content_indexer_documents/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">calculate_content_indexer_documents(tokens, corpus_of_tokens)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens</p>
+<p>  iex&gt; ContentIndexerService.calculate_content_indexer_documents(</p>
+<pre><code class="elixir">[&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
+[[&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],[&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],[&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]]</code></pre>
+<p>  )</p>
+
+  </section>
+</div>
+<div class="detail" id="calculate_content_indexer_documents/3">
+  
+  
+  <div class="detail-header">
+    <a href="#calculate_content_indexer_documents/3" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">calculate_content_indexer_documents(tokens, corpus_of_tokens, corpus_size)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="calculate_content_indexer_query/1">
+  
+  
+  <div class="detail-header">
+    <a href="#calculate_content_indexer_query/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">calculate_content_indexer_query(tokens)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  calculates the content_indexer weights for each token in the query - weights the query against itself</p>
+<p>  iex&gt; ContentIndexerService.calculate_content_indexer_query(</p>
+<pre><code class="elixir">[&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;]</code></pre>
+<p>  )</p>
+
+  </section>
+</div>
+<div class="detail" id="calculate_tf_document/1">
+  
+  
+  <div class="detail-header">
+    <a href="#calculate_tf_document/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">calculate_tf_document(tokens)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  calculates the term frequency for each token in the list of tokens representing the document
+  and returns a list of the tokens with their respective term frequencies</p>
+<p>  iex&gt; ContentIndexerService.calculate_tf_document([“bread”,”butter”,”jam”,”jam”,”bread”,”bread”])</p>
+
+  </section>
+</div>
+<div class="detail" id="calculate_token_count_document/1">
+  
+  
+  <div class="detail-header">
+    <a href="#calculate_token_count_document/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">calculate_token_count_document(tokens)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  calculates the word count for each token in the list of tokens representing the document
+  and returns a list of the tokens with their respective word counts</p>
+<p>  iex&gt; ContentIndexerService.calculate_token_count_document([“bread”,”butter”,”jam”,”jam”,”bread”,”bread”])</p>
+
+  </section>
+</div>
+<div class="detail" id="calculate_tokens_againts_corpus/2">
+  
+  
+  <div class="detail-header">
+    <a href="#calculate_tokens_againts_corpus/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">calculate_tokens_againts_corpus(content, corpus)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  calculates the content_indexer</p>
+<p>  iex&gt; ContentIndexerValidateService.calculate_tokens_againts_corpus(</p>
+<pre><code class="elixir">&quot;bread,butter,jam&quot;,
+[&quot;red,brown,jam&quot;,&quot;blue,green,butter&quot;,&quot;pink,green,bread,jam&quot;]</code></pre>
+<p>  )
+  {:ok,</p>
+<pre><code class="elixir">[
+  {&quot;bread&quot;, 0.13515503603605478},
+  {&quot;butter&quot;, 0.13515503603605478},
+  {&quot;jam&quot;, 0.0}
+]</code></pre>
+<p>  }</p>
+
+  </section>
+</div>
+<div class="detail" id="init_calculator/0">
+  
+  
+  <div class="detail-header">
+    <a href="#init_calculator/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">init_calculator()</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="list_contains/2">
+  
+  
+  <div class="detail-header">
+    <a href="#list_contains/2" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">list_contains(list, item)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="start_link/0">
+  
+  
+  <div class="detail-header">
+    <a href="#start_link/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">start_link()</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="total/1">
+  
+  
+  <div class="detail-header">
+    <a href="#total/1" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">total(count)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+
+        </section>
+      
+
+      
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.16.4),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle"><span class="sr-only">Switch theme</span></button>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-da04b39d0c.js"></script>
+  
+  </body>
+</html>
+

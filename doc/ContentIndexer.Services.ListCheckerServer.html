@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.ListCheckerServer – content_indexer v0.1.0</title>
+    <title>ContentIndexer.Services.ListCheckerServer – content_indexer v0.2.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
     
@@ -29,7 +29,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">content_indexer v0.1.0</small>
+        <small class="visible-xs">content_indexer v0.2.0</small>
         ContentIndexer.Services.ListCheckerServer
         
       </h1>
@@ -127,6 +127,9 @@ list of token lists has been checked successfully!</code></pre>
   <div class="summary-signature">
     <a href="#initialise_collection/2">initialise_collection(list_size, parent_pid)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Initalises a collection - basically a list of tokens that will be used to check whether a token is contained in it</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -220,7 +223,14 @@ list of token lists has been checked successfully!</code></pre>
     
   </div>
   <section class="docstring">
-    
+    <p>  Initalises a collection - basically a list of tokens that will be used to check whether a token is contained in it</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- list_size: Integer representing the size of the list
+- parent_pid: PID of the process calling this server so we can notify it back</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Services.ListCheckerServer.initialise_collection(5, self())
+      {:ok, {0, 1, 5, #PID&lt;0.176.0&gt;}}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="start_link/0">

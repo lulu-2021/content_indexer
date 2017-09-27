@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.SearchUtils – content_indexer v0.1.0</title>
+    <title>ContentIndexer.Services.SearchUtils – content_indexer v0.2.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
     
@@ -29,7 +29,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">content_indexer v0.1.0</small>
+        <small class="visible-xs">content_indexer v0.2.0</small>
         ContentIndexer.Services.SearchUtils
         
       </h1>
@@ -118,17 +118,28 @@
     <a href="#compile_query/2">compile_query(query, query_pre_process_func)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Compiles the query using the passed pre-process function
+  See the <a href="ContentIndexer.Services.PreProcess.html"><code class="inline">ContentIndexer.Services.PreProcess</code></a> module for what sort of pre-processing is done to the query tokens list</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#crawl/2">crawl(data_folder, file_pre_process_func)</a>
   </div>
   
+    <div class="summary-synopsis"><p>crawls a folder and process the content into tokens using the passed in function
+  See the <a href="ContentIndexer.Services.PreProcess.html"><code class="inline">ContentIndexer.Services.PreProcess</code></a> module for what sort of pre-processing is done when the content is crawled</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#crawl_async/2">crawl_async(data_folder, file_pre_process_func)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>see crawl function - this version does the same thing - just in the background using a Task</p>
+</div>
   
 </div>
 
@@ -216,7 +227,15 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  Compiles the query using the passed pre-process function
+  See the <a href="ContentIndexer.Services.PreProcess.html"><code class="inline">ContentIndexer.Services.PreProcess</code></a> module for what sort of pre-processing is done to the query tokens list</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- query: List of String query tokens
+- file_pre_process_func: Function with 1 parameter that is used to pre-process the token data</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Services.SearchUtils.compile_query([&quot;bread&quot;, &quot;and&quot;, &quot;butter&quot;], &amp;ContentIndexer.Services.PreProcess.pre_process_query/)
+      [{&quot;bread&quot;, -0.34657359027997264}, {&quot;butter&quot;, -0.34657359027997264}]</code></pre>
+
   </section>
 </div>
 <div class="detail" id="crawl/2">
@@ -233,7 +252,22 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  crawls a folder and process the content into tokens using the passed in function
+  See the <a href="ContentIndexer.Services.PreProcess.html"><code class="inline">ContentIndexer.Services.PreProcess</code></a> module for what sort of pre-processing is done when the content is crawled</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- data_folder: String - folder name
+- file_pre_process_func: Function with 2 parameters that is used to pre-process the token data</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Services.SearchUtils.crawl(&quot;test/fixtures&quot;, &amp;ContentIndexer.Services.PreProcess.pre_process_content/2)
+      [
+        {&quot;test1.md&quot;,
+          [&quot;test1&quot;, &quot;this&quot;, &quot;test&quot;, &quot;file&quot;, &quot;one&quot;, &quot;two&quot;, &quot;simpl&quot;, &quot;line&quot;, &quot;text&quot;...]},
+        {&quot;test2.md&quot;,
+          [&quot;test2&quot;, &quot;cook&quot;, &quot;great&quot;, &quot;hobbi&quot;, &quot;nor&quot;, &quot;again&quot;, &quot;anyon&quot;, &quot;who&quot;, &quot;love&quot;...]},
+        {&quot;test3.md&quot;,
+          [&quot;test3&quot;, &quot;how&quot;, &quot;about&quot;, &quot;learn&quot;, &quot;new&quot;, &quot;music&quot;, &quot;instrument&quot;, &quot;year&quot;...]}
+      ]</code></pre>
+
   </section>
 </div>
 <div class="detail" id="crawl_async/2">
@@ -250,7 +284,8 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  see crawl function - this version does the same thing - just in the background using a Task.</p>
+
   </section>
 </div>
 

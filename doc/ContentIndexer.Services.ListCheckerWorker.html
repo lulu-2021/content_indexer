@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.ListCheckerWorker – content_indexer v0.1.0</title>
+    <title>ContentIndexer.Services.ListCheckerWorker – content_indexer v0.2.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
     
@@ -29,7 +29,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">content_indexer v0.1.0</small>
+        <small class="visible-xs">content_indexer v0.2.0</small>
         ContentIndexer.Services.ListCheckerWorker
         
       </h1>
@@ -110,6 +110,10 @@ whether a given word is contained in a list of tokens</code></pre>
   <div class="summary-signature">
     <a href="#list/3">list(index, word, tokens)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Checks with a worker whether an item is contained in the list
+  The function response just indicates that the process was kicked</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -169,7 +173,16 @@ whether a given word is contained in a list of tokens</code></pre>
     
   </div>
   <section class="docstring">
-    
+    <p>  Checks with a worker whether an item is contained in the list
+  The function response just indicates that the process was kicked</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- index: Integer representing the index of the list
+- word: String - word to be found
+- tokens: List of tokens to be searched</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.Services.ListCheckerWorker.list(1, &quot;bread&quot;, [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;])
+      {:ok, :ok}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="start_link/0">

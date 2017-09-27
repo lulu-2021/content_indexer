@@ -5,7 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.Similarity – content_indexer v0.1.0</title>
+    <title>ContentIndexer.Services.Similarity – content_indexer v0.2.0</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
     
@@ -29,7 +29,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.1.0
+        v0.2.0
       </h2>
     </div>
     
@@ -65,7 +65,7 @@
 
 
       <h1>
-        <small class="visible-xs">content_indexer v0.1.0</small>
+        <small class="visible-xs">content_indexer v0.2.0</small>
         ContentIndexer.Services.Similarity
         
       </h1>
@@ -108,17 +108,26 @@
     <a href="#compare/2">compare(document_list, query_terms)</a>
   </div>
   
+    <div class="summary-synopsis"><p>Compares a nested list of documents representing individual index items against a set of query terms</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#get_filenames/1">get_filenames(similarity_map)</a>
   </div>
   
+    <div class="summary-synopsis"><p>retrives a list of filenames for the similarity_map - see the compare function</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#get_similarity/2">get_similarity(document_list, query_terms)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>See the compare function as this one does the same just omitting the filenames</p>
+</div>
   
 </div>
 
@@ -155,7 +164,33 @@
     
   </div>
   <section class="docstring">
-    
+    <p>Compares a nested list of documents representing individual index items against a set of query terms</p>
+<h2 id="compare/2-parameters" class="section-heading">
+  <a href="#compare/2-parameters" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Parameters
+</h2>
+
+<ul>
+<li>document_list: List of tuples containing the file_name &amp; a list of tokens and their respective weights in the index
+</li>
+<li>query: List of tuples containing the query term as String and it’s respective weight
+</li>
+</ul>
+<h2 id="compare/2-example" class="section-heading">
+  <a href="#compare/2-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Example
+</h2>
+
+<p>iex&gt; ContentIndexer.Services.Similarity.compare(</p>
+<pre><code class="elixir">  [
+    {&quot;test1.md&quot;, [{&quot;great&quot;, 0.0066469689853797444}, {&quot;how&quot;, 0.01994090695613923}]},
+    {&quot;test2.md&quot;, [{&quot;silent&quot;, 0.0066469689853797444}, {&quot;instrument&quot;, 0.01994090695613923}]}
+  ],
+  [
+    {&quot;great&quot;, -0.6931471805599453}
+  ])
+  [&quot;test1.md&quot;]</code></pre>
+
   </section>
 </div>
 <div class="detail" id="get_filenames/1">
@@ -172,7 +207,8 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  retrives a list of filenames for the similarity_map - see the compare function</p>
+
   </section>
 </div>
 <div class="detail" id="get_similarity/2">
@@ -189,7 +225,8 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  See the compare function as this one does the same just omitting the filenames</p>
+
   </section>
 </div>
 

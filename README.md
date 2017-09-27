@@ -16,7 +16,7 @@ It uses tf-idf matching & weighting for the actual index. The searching is done 
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+The library is [available in Hex](https://hex.pm/docs/publish). The package can be installed
 by adding `content_indexer` to your list of dependencies in `mix.exs`:
 
 ```elixir

@@ -4,7 +4,7 @@ defmodule ContentIndexer.Services.SearchUtils do
     by the file_pre_process_func function that we are using from the ContentIndexer.Services.PreProcess module - however
     this can easily be swapped out by passing your own pre-process
   """
-  alias ContentIndexer.{Indexer, Services.Calculator}
+  alias ContentIndexer.{Index, Indexer, IndexInitialiser, Services.Calculator}
 
   @doc """
     crawls a folder and process the content into tokens using the passed in function
@@ -79,14 +79,14 @@ defmodule ContentIndexer.Services.SearchUtils do
     end)
   end
 
-  def build_index_async(data_folder, file_pre_process_func) do
-    data_folder
+  def build_index_data(data_folder, file_pre_process_func) do
+    index = data_folder
     |> crawl(file_pre_process_func)
-    |> Enum.each(fn(t) ->
-      Task.async(fn ->
-        Indexer.add(elem(t, 0), elem(t, 1))
-      end)
+    |> Enum.map(fn(t) ->
+        Index.new(elem(t, 0), elem(t, 1))
     end)
+    Task.async(fn -> IndexInitialiser.initialise_index(index) end)
+    |> Task.await
   end
 
   def accum_list([]), do: []

@@ -6,7 +6,7 @@ defmodule ContentIndexer.Indexer do
   """
 
   use GenServer
-  alias ContentIndexer.{Index, Services.Calculator}
+  alias ContentIndexer.{Index, IndexInitialiser, Services.Calculator}
 
   def start_link do
     GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
@@ -25,6 +25,10 @@ defmodule ContentIndexer.Indexer do
   end
 
   # - client functions
+
+  def store_index(index_state) do
+    GenServer.call(__MODULE__, {:store, index_state})
+  end
 
   @doc """
     Retrieves a list of all the tokens in the entire index
@@ -124,6 +128,11 @@ defmodule ContentIndexer.Indexer do
 
   # - internal genserver call handler methods
 
+  def handle_call({:store, index_state}, _from, _state) do
+    state = index_state
+    {:reply, {:ok, state}, state}
+  end
+
   def handle_call({:reset_index}, _from, _state) do
     {:reply, {:ok, []}, []}
   end
@@ -135,17 +144,17 @@ defmodule ContentIndexer.Indexer do
   def handle_call({:add, index}, _from, state) do
     state = [index | state]
     # - after adding to the index we need to re-calculate the weightings
-    weighted_state = calculate_weights(state)
+    weighted_state = IndexInitialiser.initialise_index(state)
     {:reply, {:ok, weighted_state}, weighted_state}
   end
 
   def handle_call({:calculate}, _from, state) do
-    weighted_state = calculate_weights(state)
+    weighted_state = IndexInitialiser.initialise_index(state)
     {:reply, {:ok, weighted_state}, weighted_state}
   end
 
   def handle_call({:corpus_of_tokens}, _from, state) do
-    corpus_of_tokens = get_corpus_of_tokens(state)
+    corpus_of_tokens = IndexInitialiser.get_corpus_of_tokens(state)
     {:reply, {:ok, corpus_of_tokens}, state}
   end
 
@@ -160,22 +169,6 @@ defmodule ContentIndexer.Indexer do
     state
     |> Enum.map(fn(d) ->
       {d.file_name, d.term_weights}
-    end)
-  end
-
-  defp calculate_weights(state) do
-    corpus = get_corpus_of_tokens(state)
-    state
-    |> Enum.map(fn(i) ->
-      {:ok, calculated_weights} = Calculator.calculate_content_indexer_documents(i.tokens, corpus)
-      %Index{file_name: i.file_name, uuid: i.uuid, tokens: i.tokens, term_weights: calculated_weights}
-    end)
-  end
-
-  defp get_corpus_of_tokens(state) do
-    state
-    |> Enum.map(fn(t) ->
-      t.tokens
     end)
   end
 end

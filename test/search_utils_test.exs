@@ -1,9 +1,18 @@
 defmodule ContentIndexer.Services.SearchUtilsTest do
   use ContentIndexer.Support.LibCase
   alias ContentIndexer.Services.{PreProcess, SearchUtils}
+  alias ContentIndexer.Indexer
 
   setup do
     :ok
+  end
+
+  test "testing the build_index_data function" do
+    index_data = SearchUtils.build_index_data("test/fixtures", &PreProcess.pre_process_content/2)
+    Indexer.store_index(index_data)
+
+    {:ok, retrieved_index} = Indexer.retrieve_index
+    assert index_data == retrieved_index
   end
 
   test "read a list of query tokens and compile them to be searchable" do

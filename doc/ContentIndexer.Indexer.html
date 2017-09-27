@@ -136,17 +136,26 @@ Each time an index struct is added to the server/index the weightings are re-cal
     <a href="#init_indexer/0">init_indexer()</a>
   </div>
   
+    <div class="summary-synopsis"><p>Initialises the Index with an empty list</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#reset_index/0">reset_index()</a>
   </div>
   
+    <div class="summary-synopsis"><p>Resets the index with an empty list</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
     <a href="#retrieve_index/0">retrieve_index()</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Retrieves the entire index</p>
+</div>
   
 </div>
 <div class="summary-row">
@@ -190,6 +199,9 @@ Each time an index struct is added to the server/index the weightings are re-cal
   </div>
   <section class="docstring">
     <p>  Adds a new file_name and associated list of tokens to the index</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- file_name: String that represents the file that has the content to be indexed
+- tokens: List of Strings that are the tokenised content</code></pre>
 <p>  ## Example</p>
 <pre><code class="iex elixir">iex&gt; ContentIndexer.Indexer.add(&quot;test_file.md&quot;, [&quot;bread&quot;, &quot;butter&quot;, &quot;jam&quot;, &quot;mustard&quot;])
 {:ok,
@@ -301,7 +313,8 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Initialises the Index with an empty list</p>
+
   </section>
 </div>
 <div class="detail" id="reset_index/0">
@@ -318,7 +331,8 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Resets the index with an empty list</p>
+
   </section>
 </div>
 <div class="detail" id="retrieve_index/0">
@@ -335,7 +349,8 @@ Each time an index struct is added to the server/index the weightings are re-cal
     
   </div>
   <section class="docstring">
-    
+    <p>  Retrieves the entire index</p>
+
   </section>
 </div>
 <div class="detail" id="start_link/0">

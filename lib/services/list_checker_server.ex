@@ -20,6 +20,39 @@ defmodule ContentIndexer.Services.ListCheckerServer do
   use GenServer
 
   #-------------------------------------------------------------------#
+  # ListCheckerServer client functions
+  #-------------------------------------------------------------------#
+
+  def current_state do
+    GenServer.call(__MODULE__, {:state})
+  end
+
+  def init_server do
+    IO.puts "\nInitialising ListCheckerServer\n"
+  end
+
+  @doc """
+    Initalises a collection - basically a list of tokens that will be used to check whether a token is contained in it
+
+    ## Parameters
+
+      - list_size: Integer representing the size of the list
+      - parent_pid: PID of the process calling this server so we can notify it back
+
+    ## Example
+
+      iex> ContentIndexer.Services.ListCheckerServer.initialise_collection(5, self())
+            {:ok, {0, 1, 5, #PID<0.176.0>}}
+  """
+  def initialise_collection(list_size, parent_pid) do
+    GenServer.call(__MODULE__, {:initialise_collection, list_size, parent_pid})
+  end
+
+  def count(index, count) do
+    GenServer.call(__MODULE__, {:count, index, count})
+  end
+
+  #-------------------------------------------------------------------#
   # Genserver methods to handle it's message passing
   #-------------------------------------------------------------------#
 
@@ -49,25 +82,5 @@ defmodule ContentIndexer.Services.ListCheckerServer do
       {total + count, list_counter + 1, list_size, parent_pid}
     end
     {:reply, {:ok, state}, state}
-  end
-
-  #-------------------------------------------------------------------#
-  # ListCheckerServer functions
-  #-------------------------------------------------------------------#
-
-  def current_state do
-    GenServer.call(__MODULE__, {:state})
-  end
-
-  def init_server do
-    IO.puts "\nInitialising ListCheckerServer\n"
-  end
-
-  def initialise_collection(list_size, parent_pid) do
-    GenServer.call(__MODULE__, {:initialise_collection, list_size, parent_pid})
-  end
-
-  def count(index, count) do
-    GenServer.call(__MODULE__, {:count, index, count})
   end
 end

@@ -6,6 +6,27 @@ defmodule ContentIndexer.Services.SearchUtils do
   """
   alias ContentIndexer.{Indexer, Services.Calculator}
 
+  @doc """
+    crawls a folder and process the content into tokens using the passed in function
+    See the `ContentIndexer.Services.PreProcess` module for what sort of pre-processing is done when the content is crawled
+
+    ## Parameters
+
+      - data_folder: String - folder name
+      - file_pre_process_func: Function with 2 parameters that is used to pre-process the token data
+
+    ## Example
+
+      iex> ContentIndexer.Services.SearchUtils.crawl("test/fixtures", &ContentIndexer.Services.PreProcess.pre_process_content/2)
+            [
+              {"test1.md",
+                ["test1", "this", "test", "file", "one", "two", "simpl", "line", "text"...]},
+              {"test2.md",
+                ["test2", "cook", "great", "hobbi", "nor", "again", "anyon", "who", "love"...]},
+              {"test3.md",
+                ["test3", "how", "about", "learn", "new", "music", "instrument", "year"...]}
+            ]
+  """
   def crawl(data_folder, file_pre_process_func) do
     files = File.ls!(data_folder)
     files
@@ -14,6 +35,9 @@ defmodule ContentIndexer.Services.SearchUtils do
     end)
   end
 
+  @doc """
+    see crawl function - this version does the same thing - just in the background using a Task.
+  """
   def crawl_async(data_folder, file_pre_process_func) do
     files = File.ls!(data_folder)
     files
@@ -25,6 +49,20 @@ defmodule ContentIndexer.Services.SearchUtils do
     |> Enum.map(&Task.await/1)
   end
 
+  @doc """
+    Compiles the query using the passed pre-process function
+    See the `ContentIndexer.Services.PreProcess` module for what sort of pre-processing is done to the query tokens list
+
+    ## Parameters
+
+      - query: List of String query tokens
+      - file_pre_process_func: Function with 1 parameter that is used to pre-process the token data
+
+    ## Example
+
+      iex> ContentIndexer.Services.SearchUtils.compile_query(["bread", "and", "butter"], &ContentIndexer.Services.PreProcess.pre_process_query/)
+            [{"bread", -0.34657359027997264}, {"butter", -0.34657359027997264}]
+  """
   def compile_query(query, query_pre_process_func) do
     processed_query = query_pre_process_func.(query)
     stemmed_query = processed_query

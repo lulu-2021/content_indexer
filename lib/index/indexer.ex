@@ -68,6 +68,11 @@ defmodule ContentIndexer.Indexer do
   @doc """
     Adds a new file_name and associated list of tokens to the index
 
+    ## Parameters
+
+      - file_name: String that represents the file that has the content to be indexed
+      - tokens: List of Strings that are the tokenised content
+
     ## Example
 
       iex> ContentIndexer.Indexer.add("test_file.md", ["bread", "butter", "jam", "mustard"])

@@ -15,6 +15,18 @@ defmodule ContentIndexer.Services.PreProcess do
 
   @stop_words "a,an,and,are,as,at,be,but,by,for,from,if,in,into,is,it,has,had,have,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with"
 
+  @doc """
+    Processes a set of query tokens - removing all non characters, stop words and empty space
+
+    ## Parameters
+
+      - query: List of String based query tokens
+
+    ## Example
+
+      iex> ContentIndexer.Services.PreProcess.pre_process_query(["this", "is", "just", "meaningless"])
+            ["just", "meaningless"]
+  """
   def pre_process_query(query) do
     query_tokens = query
     |> remove_stop_words()
@@ -22,6 +34,19 @@ defmodule ContentIndexer.Services.PreProcess do
     Enum.to_list(query_tokens)
   end
 
+  @doc """
+    Processes the String based content of a file
+
+    ## Parameters
+
+      - content: String based file content
+      - file_name: String - the file name
+
+    ## Example
+
+      iex> ContentIndexer.Services.PreProcess.pre_process_content(["this is just some random file content", "test_file_one.txt")
+            ["just", "some", "random", "file", "content"]
+  """
   def pre_process_content(content, file_name) do
     token_content = case Path.extname(file_name) do
       ".md" -> split_content_from_header(content)

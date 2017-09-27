@@ -131,6 +131,9 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
     <a href="#calculate_content_indexer_documents/3">calculate_content_indexer_documents(tokens, corpus_of_tokens, corpus_size)</a>
   </div>
   
+    <div class="summary-synopsis"><p>calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -181,6 +184,9 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
     <a href="#list_contains/2">list_contains(list, item)</a>
   </div>
   
+    <div class="summary-synopsis"><p>simple function to check if an item is contained in the list</p>
+</div>
+  
 </div>
 <div class="summary-row">
   <div class="summary-signature">
@@ -229,10 +235,18 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
   </div>
   <section class="docstring">
     <p>  calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens</p>
-<p>  iex&gt; ContentIndexerService.calculate_content_indexer_documents(</p>
-<pre><code class="elixir">[&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
-[[&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],[&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],[&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]]</code></pre>
-<p>  )</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- tokens: List of tokens to be indexed
+- corpus_of_tokens: List of lists representing the corpus of all tokens</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_content_indexer_documents(
+        [&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
+        [
+          [&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],
+          [&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],
+          [&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]
+        ])
+      {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}</code></pre>
 
   </section>
 </div>
@@ -250,7 +264,21 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
     
   </div>
   <section class="docstring">
-    
+    <p>  calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- tokens: List of tokens to be indexed
+- corpus_of_tokens: List of lists representing the corpus of all tokens
+- corpus_size: Integer with the size of the corpus_of_tokens - just so we can avoid re-calculating it</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_content_indexer_documents(
+      [&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
+      [
+        [&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],
+        [&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],
+        [&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]
+      ])
+      {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="calculate_content_indexer_query/1">
@@ -268,9 +296,11 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
   </div>
   <section class="docstring">
     <p>  calculates the content_indexer weights for each token in the query - weights the query against itself</p>
-<p>  iex&gt; ContentIndexerService.calculate_content_indexer_query(</p>
-<pre><code class="elixir">[&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;]</code></pre>
-<p>  )</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- tokens: List of tokens to be indexed</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_content_indexer_query([&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;])
+      {:ok, [bread: 0.0, butter: 0.0, jam: 0.0]}</code></pre>
 
   </section>
 </div>
@@ -290,7 +320,11 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
   <section class="docstring">
     <p>  calculates the term frequency for each token in the list of tokens representing the document
   and returns a list of the tokens with their respective term frequencies</p>
-<p>  iex&gt; ContentIndexerService.calculate_tf_document([“bread”,”butter”,”jam”,”jam”,”bread”,”bread”])</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- tokens: List of tokens to be indexed</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_tf_document([&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;,&quot;jam&quot;,&quot;bread&quot;,&quot;bread&quot;])
+      {:ok, [bread: 0.5, butter: 0.16666666666666666, jam: 0.3333333333333333]}</code></pre>
 
   </section>
 </div>
@@ -310,7 +344,11 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
   <section class="docstring">
     <p>  calculates the word count for each token in the list of tokens representing the document
   and returns a list of the tokens with their respective word counts</p>
-<p>  iex&gt; ContentIndexerService.calculate_token_count_document([“bread”,”butter”,”jam”,”jam”,”bread”,”bread”])</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- tokens: List of tokens to be indexed</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_token_count_document([&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;,&quot;jam&quot;,&quot;bread&quot;,&quot;bread&quot;])
+      {:ok, [bread: 3, butter: 1, jam: 2]}</code></pre>
 
   </section>
 </div>
@@ -329,17 +367,18 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
   </div>
   <section class="docstring">
     <p>  calculates the content_indexer</p>
-<p>  iex&gt; ContentIndexerValidateService.calculate_tokens_againts_corpus(</p>
-<pre><code class="elixir">&quot;bread,butter,jam&quot;,
-[&quot;red,brown,jam&quot;,&quot;blue,green,butter&quot;,&quot;pink,green,bread,jam&quot;]</code></pre>
-<p>  )
-  {:ok,</p>
-<pre><code class="elixir">[
-  {&quot;bread&quot;, 0.13515503603605478},
-  {&quot;butter&quot;, 0.13515503603605478},
-  {&quot;jam&quot;, 0.0}
-]</code></pre>
-<p>  }</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- content: String of tokens to be indexed
+- corpus: List of String tokens representing the corpus</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerValidateService.calculate_tokens_againts_corpus(&quot;bread,butter,jam&quot;, [&quot;red,brown,jam&quot;,&quot;blue,green,butter&quot;,&quot;pink,green,bread,jam&quot;])
+      {:ok,
+        [
+          {&quot;bread&quot;, 0.13515503603605478},
+          {&quot;butter&quot;, 0.13515503603605478},
+          {&quot;jam&quot;, 0.0}
+        ]
+      }</code></pre>
 
   </section>
 </div>
@@ -374,7 +413,20 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
     
   </div>
   <section class="docstring">
-    
+    <p>  simple function to check if an item is contained in the list</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- list: List of any type
+- item: Any type of item stored in the list</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_content_indexer_documents(
+      [&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
+      [
+        [&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],
+        [&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],
+        [&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]
+      ])
+      {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}</code></pre>
+
   </section>
 </div>
 <div class="detail" id="start_link/0">

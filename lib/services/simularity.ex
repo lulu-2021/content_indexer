@@ -16,13 +16,35 @@ defmodule ContentIndexer.Services.Similarity do
    weights
   """
 
+  @doc """
+    Compares a nested list of documents representing individual index items against a set of query terms
+
+    ## Parameters
+
+      - document_list: List of tuples containing the file_name & a list of tokens and their respective weights in the index
+      - query: List of tuples containing the query term as String and it's respective weight
+
+    ## Example
+
+      iex> ContentIndexer.Services.Similarity.compare(
+            [
+              {"test1.md", [{"great", 0.0066469689853797444}, {"how", 0.01994090695613923}]},
+              {"test2.md", [{"silent", 0.0066469689853797444}, {"instrument", 0.01994090695613923}]}
+            ],
+            [
+              {"great", -0.6931471805599453}
+            ])
+            ["test1.md"]
+      """
   def compare(document_list, query_terms) do
     document_list
     |> get_similarity(query_terms)
     |> get_filenames()
   end
 
-  # It will return an list of terms ordered by their cosine similarity
+  @doc """
+    See the compare function as this one does the same just omitting the filenames
+  """
   def get_similarity(document_list, query_terms) do
     val = document_list
     |> Enum.map(fn(doc) ->
@@ -32,6 +54,9 @@ defmodule ContentIndexer.Services.Similarity do
     Enum.into(val, %{})
   end
 
+  @doc """
+    retrives a list of filenames for the similarity_map - see the compare function
+  """
   def get_filenames(similarity_map) do
     similarity_map
     |> sort_similarity_map()
@@ -43,6 +68,8 @@ defmodule ContentIndexer.Services.Similarity do
       elem(r, 0)
     end)
   end
+
+  # private functions
 
   defp sort_similarity_map(similarity_map) do
     similarity_map

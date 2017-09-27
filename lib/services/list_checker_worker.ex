@@ -18,6 +18,33 @@ defmodule ContentIndexer.Services.ListCheckerWorker do
   alias ContentIndexer.Services.ListCheckerServer
 
   #-------------------------------------------------------------------#
+  # ListCheckerWorker client functions
+  #-------------------------------------------------------------------#
+
+  def init_worker do
+    IO.puts "\nInitialising ListCheckerWorker\n"
+  end
+
+    @doc """
+    Checks with a worker whether an item is contained in the list
+    The function response just indicates that the process was kicked
+
+    ## Parameters
+
+      - index: Integer representing the index of the list
+      - word: String - word to be found
+      - tokens: List of tokens to be searched
+
+    ## Example
+
+      iex> ContentIndexer.Services.ListCheckerWorker.list(1, "bread", ["bread", "butter", "jam"])
+            {:ok, :ok}
+  """
+  def list(index, word, tokens) do
+    GenServer.call(__MODULE__, {:list, index, word, tokens})
+  end
+
+  #-------------------------------------------------------------------#
   # Genserver methods to handle it's message passing
   #-------------------------------------------------------------------#
 
@@ -36,17 +63,5 @@ defmodule ContentIndexer.Services.ListCheckerWorker do
       ListCheckerServer.count(index, 0)
     end
     {:reply, {:ok, state}, state}
-  end
-
-  #-------------------------------------------------------------------#
-  # ListCheckerWorker functions
-  #-------------------------------------------------------------------#
-
-  def init_worker do
-    IO.puts "\nInitialising ListCheckerWorker\n"
-  end
-
-  def list(index, word, tokens) do
-    GenServer.call(__MODULE__, {:list, index, word, tokens})
   end
 end

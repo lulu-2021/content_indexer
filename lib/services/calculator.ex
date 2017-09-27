@@ -44,14 +44,6 @@ defmodule ContentIndexer.Services.Calculator do
     IO.puts "\nInitialising Calculator\n"
   end
 
-  def handle_call({:state}, _from, state) do
-    {:reply, {:ok, state}, state}
-  end
-
-  def handle_call({:total, _count}, _from, state) do
-    {:reply, {:ok, state}, state}
-  end
-
   def total(count) do
     GenServer.call(__MODULE__, {:total, count})
   end
@@ -59,17 +51,21 @@ defmodule ContentIndexer.Services.Calculator do
   @doc """
     calculates the content_indexer
 
-    iex> ContentIndexerValidateService.calculate_tokens_againts_corpus(
-      "bread,butter,jam",
-      ["red,brown,jam","blue,green,butter","pink,green,bread,jam"]
-    )
-    {:ok,
-      [
-        {"bread", 0.13515503603605478},
-        {"butter", 0.13515503603605478},
-        {"jam", 0.0}
-      ]
-    }
+    ## Parameters
+
+      - content: String of tokens to be indexed
+      - corpus: List of String tokens representing the corpus
+
+    ## Example
+
+      iex> ContentIndexerValidateService.calculate_tokens_againts_corpus("bread,butter,jam", ["red,brown,jam","blue,green,butter","pink,green,bread,jam"])
+            {:ok,
+              [
+                {"bread", 0.13515503603605478},
+                {"butter", 0.13515503603605478},
+                {"jam", 0.0}
+              ]
+            }
   """
   def calculate_tokens_againts_corpus(content, corpus) do
     token_list = Tfidf.calculate_all(content, corpus, &String.split(&1, ","))
@@ -80,8 +76,14 @@ defmodule ContentIndexer.Services.Calculator do
     calculates the word count for each token in the list of tokens representing the document
     and returns a list of the tokens with their respective word counts
 
-    iex> ContentIndexerService.calculate_token_count_document(["bread","butter","jam","jam","bread","bread"])
-    {:ok, [bread: 3, butter: 1, jam: 2]}
+    ## Parameters
+
+      - tokens: List of tokens to be indexed
+
+    ## Example
+
+      iex> ContentIndexerService.calculate_token_count_document(["bread","butter","jam","jam","bread","bread"])
+            {:ok, [bread: 3, butter: 1, jam: 2]}
   """
   def calculate_token_count_document(tokens) do
     token_stream = Stream.map(tokens, fn(token) ->
@@ -95,8 +97,14 @@ defmodule ContentIndexer.Services.Calculator do
     calculates the term frequency for each token in the list of tokens representing the document
     and returns a list of the tokens with their respective term frequencies
 
-    iex> ContentIndexerService.calculate_tf_document(["bread","butter","jam","jam","bread","bread"])
-    {:ok, [bread: 0.5, butter: 0.16666666666666666, jam: 0.3333333333333333]}
+    ## Parameters
+
+      - tokens: List of tokens to be indexed
+
+    ## Example
+
+      iex> ContentIndexerService.calculate_tf_document(["bread","butter","jam","jam","bread","bread"])
+            {:ok, [bread: 0.5, butter: 0.16666666666666666, jam: 0.3333333333333333]}
   """
   def calculate_tf_document(tokens) do
     token_stream = Stream.map(tokens, fn(token) ->
@@ -109,10 +117,14 @@ defmodule ContentIndexer.Services.Calculator do
   @doc """
     calculates the content_indexer weights for each token in the query - weights the query against itself
 
-    iex> ContentIndexerService.calculate_content_indexer_query(
-      ["bread","butter","jam"]
-    )
-    {:ok, [bread: 0.0, butter: 0.0, jam: 0.0]}
+    ## Parameters
+
+      - tokens: List of tokens to be indexed
+
+    ## Example
+
+      iex> ContentIndexerService.calculate_content_indexer_query(["bread","butter","jam"])
+            {:ok, [bread: 0.0, butter: 0.0, jam: 0.0]}
   """
   def calculate_content_indexer_query(tokens) do
     tokenized_tokens = case tokens do
@@ -132,11 +144,21 @@ defmodule ContentIndexer.Services.Calculator do
   @doc """
     calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens
 
-    iex> ContentIndexerService.calculate_content_indexer_documents(
-      ["bread","butter","jam"],
-      [["red","brown","jam"],["blue","green","butter"],["pink","green","bread","jam"]]
-    )
-    {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}
+    ## Parameters
+
+      - tokens: List of tokens to be indexed
+      - corpus_of_tokens: List of lists representing the corpus of all tokens
+
+    ## Example
+
+      iex> ContentIndexerService.calculate_content_indexer_documents(
+              ["bread","butter","jam"],
+              [
+                ["red","brown","jam"],
+                ["blue","green","butter"],
+                ["pink","green","bread","jam"]
+              ])
+            {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}
   """
   def calculate_content_indexer_documents(tokens, corpus_of_tokens) do
     corpus_size = length(corpus_of_tokens) # this is so we can avoid calculating it again!
@@ -148,6 +170,26 @@ defmodule ContentIndexer.Services.Calculator do
     end
   end
 
+  @doc """
+    calculates the content_indexer weights for each token in the list of tokens against the corpus of tokens
+
+    ## Parameters
+
+      - tokens: List of tokens to be indexed
+      - corpus_of_tokens: List of lists representing the corpus of all tokens
+      - corpus_size: Integer with the size of the corpus_of_tokens - just so we can avoid re-calculating it
+
+    ## Example
+
+      iex> ContentIndexerService.calculate_content_indexer_documents(
+            ["bread","butter","jam"],
+            [
+              ["red","brown","jam"],
+              ["blue","green","butter"],
+              ["pink","green","bread","jam"]
+            ])
+            {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}
+  """
   def calculate_content_indexer_documents(tokens, corpus_of_tokens, corpus_size) do
     case corpus_size do
       1 ->
@@ -156,6 +198,39 @@ defmodule ContentIndexer.Services.Calculator do
         calculate_content_indexer_documents_multiple(tokens, corpus_of_tokens, corpus_size)
     end
   end
+
+  @doc """
+    simple function to check if an item is contained in the list
+
+    ## Parameters
+
+      - list: List of any type
+      - item: Any type of item stored in the list
+
+    ## Example
+
+      iex> ContentIndexerService.calculate_content_indexer_documents(
+            ["bread","butter","jam"],
+            [
+              ["red","brown","jam"],
+              ["blue","green","butter"],
+              ["pink","green","bread","jam"]
+            ])
+            {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}
+  """
+  def list_contains(list, item), do: Enum.find(list, &(item == &1)) != nil
+
+  # - internal genserver call handler methods
+
+  def handle_call({:state}, _from, state) do
+    {:reply, {:ok, state}, state}
+  end
+
+  def handle_call({:total, _count}, _from, state) do
+    {:reply, {:ok, state}, state}
+  end
+
+  # - private methods
 
   defp calculate_content_indexer_documents_single(tokens, corpus_of_tokens) do
     token_content_indexer_counts = tokens
@@ -195,10 +270,6 @@ defmodule ContentIndexer.Services.Calculator do
         count
     end
     total
-  end
-
-  def list_contains(list, item) do
-    Enum.find(list, fn(cur_item) -> item == cur_item end) != nil
   end
 
   defp idf(word, corpus_of_tokens) do

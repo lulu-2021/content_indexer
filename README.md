@@ -1,3 +1,6 @@
+
+[![Build Status](https://semaphoreci.com/api/v1/projects/b0ad4690-622f-4ddb-99b5-21b87047b5cb/1538633/badge.svg)](https://semaphoreci.com/sforkin/content_indexer)
+
 # ContentIndexer
 
 ContentIndexer is a small GenServer based indexing & searching service. Intially I created this for my blog that is based on markdown. When the total amount of data to be indexed is not huge this small service can handle it very quickly. It stores the index in a genserver and hence searching is very fast.

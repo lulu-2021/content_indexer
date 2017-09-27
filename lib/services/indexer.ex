@@ -23,11 +23,11 @@ defmodule ContentIndexer.Services.Indexer do
 
   # - client functions
 
-  def corpus_of_tokens() do
+  def corpus_of_tokens do
     GenServer.call(__MODULE__, {:corpus_of_tokens})
   end
 
-  def calculate() do
+  def calculate do
     GenServer.call(__MODULE__, {:calculate})
   end
 
@@ -59,7 +59,7 @@ defmodule ContentIndexer.Services.Indexer do
   end
 
   def handle_call({:add, index}, _from, state) do
-    state = [ index | state]
+    state = [index | state]
     # - after adding to the index we need to re-calculate the weightings
     weighted_state = calculate_weights(state)
     {:reply, {:ok, weighted_state}, weighted_state}
@@ -85,7 +85,7 @@ defmodule ContentIndexer.Services.Indexer do
   defp retrieve_as_documents(state) do
     state
     |> Enum.map(fn(d) ->
-      { d.file_name, d.term_weights }
+      {d.file_name, d.term_weights}
     end)
   end
 

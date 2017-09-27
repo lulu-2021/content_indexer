@@ -50,7 +50,9 @@ defmodule ContentIndexer.Mixfile do
     [
       {:tfidf, "~> 0.1.2"},
       {:stemmer, "~> 1.0"},
-      {:ecto, "~> 2.2"}
+      {:ecto, "~> 2.2"},
+      #
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false}
     ]
   end
 end

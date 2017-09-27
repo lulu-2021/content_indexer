@@ -1,6 +1,8 @@
 defmodule ContentIndexer.Services.Calculator do
   use GenServer
 
+  alias ContentIndexer.Services.{ListCheckerWorker, ListCheckerServer}
+
   @moduledoc """
     ** Summary **
       calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents
@@ -12,7 +14,6 @@ defmodule ContentIndexer.Services.Calculator do
       tf–idf, short for term frequency–inverse document frequency, is a numerical statistic that is
       intended to reflect how important a word is to a document in a collection or corpus. It is often
       used as a weighting factor in information retrieval and text mining.
-
 
       This library supports calculating large datasets in parallel using the Erlang OTP based server and actors
 
@@ -115,7 +116,7 @@ defmodule ContentIndexer.Services.Calculator do
   """
   def calculate_content_indexer_query(tokens) do
     tokenized_tokens = case tokens do
-      [ _ | _ ] ->
+      [_|_] ->
         tokens
       _ ->
         tokenize(tokens)
@@ -182,11 +183,11 @@ defmodule ContentIndexer.Services.Calculator do
 
   # Corpus of tokens is a list of tuples with the index being the second item in the tuple
   defp n_containing_calc(word, corpus_of_tokens, collection_size) do
-    ContentIndexer.Services.ListCheckerServer.initialise_collection(collection_size, self())
+    ListCheckerServer.initialise_collection(collection_size, self())
     indexed_stream = Stream.with_index(corpus_of_tokens)
     indexed_stream |> Enum.each(fn(streamed_item) ->
       {tokens, index} = streamed_item
-      ContentIndexer.Services.ListCheckerWorker.list(index, word, tokens)
+      ListCheckerWorker.list(index, word, tokens)
     end)
 
     total = receive do
@@ -225,4 +226,3 @@ defmodule ContentIndexer.Services.Calculator do
     split_str |> Enum.filter(fn x -> x != "" end) # remove empty elements
   end
 end
-

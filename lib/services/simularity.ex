@@ -25,9 +25,9 @@ defmodule ContentIndexer.Services.Similarity do
   # It will return an list of terms ordered by their cosine similarity
   def get_similarity(document_list, query_terms) do
     val = document_list
-    |> Enum.map( fn(doc) ->
-      { elem(doc, 0), compare_doc(elem(doc, 1), query_terms) }
-    end )
+    |> Enum.map(fn(doc) ->
+      {elem(doc, 0), compare_doc(elem(doc, 1), query_terms)}
+    end)
     |> order_docs
     Enum.into(val, %{})
   end
@@ -68,15 +68,15 @@ defmodule ContentIndexer.Services.Similarity do
   defp dot_product(value_array) do
     value_array
     |> Enum.reduce(0, fn(x, acc) ->
-      ( elem(x, 0) * elem(x, 1) ) + acc
-     end )
+      (elem(x, 0) * elem(x, 1)) + acc
+     end)
   end
 
   defp magnitude(values) do
     # No math library wtf using erlang instead
-    :math.sqrt( Enum.reduce(values, 0, fn(x, acc) ->
+    :math.sqrt(Enum.reduce(values, 0, fn(x, acc) ->
       (x * x) + acc
-    end) )
+    end))
   end
 
   defp get_relevant_weights(document, query) do
@@ -91,9 +91,9 @@ defmodule ContentIndexer.Services.Similarity do
 
       case weight do
         nil ->
-          {key, 0.0 }
+          {key, 0.0}
         _ ->
-          {key, elem(weight, 1) }
+          {key, elem(weight, 1)}
       end
 
     end)
@@ -106,10 +106,10 @@ defmodule ContentIndexer.Services.Similarity do
     if y < 2 do
       x
     else
-      halfway = round( Float.floor( y / 2 ) )
+      halfway = round(Float.floor(y / 2))
       front_half = Enum.slice(x, 0, halfway)
       back_half = Enum.slice(x, halfway, y)
-      merge(order_docs( front_half ), order_docs( back_half ) )
+      merge(order_docs(front_half), order_docs(back_half))
     end
   end
 
@@ -128,10 +128,9 @@ defmodule ContentIndexer.Services.Similarity do
     {_, w2} = h2
 
     if w1 > w2 do
-      [h1 | merge( t1, list2)]
+      [h1 | merge(t1, list2)]
     else
-      [h2 | merge( list1, t2)]
+      [h2 | merge(list1, t2)]
     end
   end
 end
-

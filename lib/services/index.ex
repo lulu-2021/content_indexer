@@ -1,4 +1,7 @@
 defmodule ContentIndexer.Services.Index do
+  @moduledoc """
+    struct to store the details of what data is held in the index
+  """
   alias Ecto.UUID
   alias ContentIndexer.Services.Index
 

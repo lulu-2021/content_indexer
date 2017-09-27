@@ -12,8 +12,6 @@ defmodule ContentIndexer.Services.FunctionalTest do
 
     corpus_of_tokens = [tokens_file_1, tokens_file_2, tokens_file_3]
     {:ok, _token_content_indexers} = Calculator.calculate_tokens_againts_corpus(tokens_file_3, corpus_of_tokens)
-
-    #IO.inspect token_content_indexers
   end
 
   def read_fixture_content(fixture_folder) do

@@ -1,4 +1,17 @@
 defmodule ContentIndexer.Services.PreProcess do
+  @moduledoc """
+    content and query pre-process functions that are passed to the SearchUtils.compile and SearchUtils.compile_query functions - here we are just some some extra stuf
+    with a markdown file - i.e. removing the header.
+
+    The import thing to note is that these two functions take in the content as a string and spit out a list of tokenized strings.
+
+    The steps we are taking:
+
+    (1) Remove all the stop words - they are noise and we should never search by them
+    (2) remove non-char data & white space
+
+    Using streams means most of the work will happen in a single step
+  """
 
   @stop_words "a,an,and,are,as,at,be,but,by,for,from,if,in,into,is,it,has,had,have,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with"
 
@@ -14,11 +27,10 @@ defmodule ContentIndexer.Services.PreProcess do
       ".md" -> split_content_from_header(content)
       _ -> content
     end
-    parsed_tokens = token_content
+    token_content
     |> remove_non_chars()
     |> remove_stop_words()
     |> remove_blanks()
-    stemmed_tokens = parsed_tokens
     |> Enum.to_list()
   end
 

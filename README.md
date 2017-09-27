@@ -21,7 +21,7 @@ by adding `content_indexer` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:content_indexer, "~> 0.1.0"}]
+  [{:content_indexer, "~> 0.2.0"}]
 end
 ```
 

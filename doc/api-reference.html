@@ -11,7 +11,7 @@
       <link rel="canonical" href="https://hexdocs.pm/content_indexer/api-reference.html" />
     
     
-    <script src="dist/sidebar_items-952c55e8f8.js"></script>
+    <script src="dist/sidebar_items-71129a92cd.js"></script>
     
   </head>
   <body data-type="extras">
@@ -165,6 +165,54 @@ whether a given word is contained in a list of tokens</code></pre>
  This module accepts a list of tuples which contain the document id and a hash of terms
  and and their TF_IDF weights, it also accepts query terms in the form of a hash of terms and
  weights, same format as in the tuple above</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.Calculate.html">ContentIndexer.TfIdf.Calculate</a></div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.Corpus.html">ContentIndexer.TfIdf.Corpus</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  Corpus is a Genserver that simply holds the total number of docs in the index</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocCounts.html">ContentIndexer.TfIdf.DocCounts</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  DocCounts is a GenServer that contains a map of documents with their respective
+  total number of terms in the document</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocTerms.html">ContentIndexer.TfIdf.DocTerms</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  DocTerms is a GenServer with a Map of tuples that has the document, and a count of
+  each of the terms in the document</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.TermCounts.html">ContentIndexer.TfIdf.TermCounts</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  TermCounts is a GenServer that contains the numbers of documents that have a term ‘t’
+  Basically a map of all unique terms and their respective counts i.e. 1 per for each
+  document that has this term</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.WeightsIndexer.html">ContentIndexer.TfIdf.WeightsIndexer</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  The WeightsIndex is the actual tf_idf list stored by document_name</p>
 </div>
   
 </div>

@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.Similarity – content_indexer v0.2.3</title>
+    <title>ContentIndexer.TfIdf.DocTerms – content_indexer v0.2.3</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.Services.Similarity.html" />
+      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.TfIdf.DocTerms.html" />
     
     
     <script src="dist/sidebar_items-71129a92cd.js"></script>
@@ -68,23 +68,16 @@
 
       <h1>
         <small class="visible-xs">content_indexer v0.2.3</small>
-        ContentIndexer.Services.Similarity
+        ContentIndexer.TfIdf.DocTerms
         
       </h1>
 
       
         <section id="moduledoc">
           <p><strong> Summary </strong>
- This module accepts a list of tuples which contain the document id and a hash of terms
- and and their TF_IDF weights, it also accepts query terms in the form of a hash of terms and
- weights, same format as in the tuple above.</p>
-<p> [
-   { 1, %{ “abc” =&gt; 0.001, “term1” =&gt; 0.123, “term2” =&gt; 0.934, “term3” =&gt; 0.945 } },
-   { 1, %{ “abc” =&gt; 0.001, “term1” =&gt; 0.123, “term2” =&gt; 0.934, “term3” =&gt; 0.945 } }…
- ]</p>
-<p> The module will compute the similarity of all the provided documents to the
- query terms. It will then return an ordered set of terms and their corresponding
- weights</p>
+  DocTerms is a GenServer with a Map of tuples that has the document, and a count of
+  each of the terms in the document</p>
+<p>  The key is a combination of the document_name &amp; term</p>
 
         </section>
       
@@ -107,28 +100,50 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#compare/2">compare(document_list, query_terms)</a>
+    <a href="#add_doc_term_count/3">add_doc_term_count(document_name, term, count)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Compares a nested list of documents representing individual index items against a set of query terms</p>
+    <div class="summary-synopsis"><p>If the document exists update the term and count, if it’s a new document
+  add it and it’s respective term &amp; term_count</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_filenames/1">get_filenames(similarity_map)</a>
+    <a href="#get_doc_term_count/2">get_doc_term_count(document_name, term)</a>
   </div>
   
-    <div class="summary-synopsis"><p>retrives a list of filenames for the similarity_map - see the compare function</p>
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#init_doc_terms/0">init_doc_terms()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Initialises the Doc Terms with an empty map</p>
 </div>
   
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_similarity/2">get_similarity(document_list, query_terms)</a>
+    <a href="#reset/0">reset()</a>
   </div>
   
-    <div class="summary-synopsis"><p>See the compare function as this one does the same just omitting the filenames</p>
+    <div class="summary-synopsis"><p>Resets the document counts</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#start_link/0">start_link()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#state/0">state()</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Retrieves the current set of doc_counts i.e. the state</p>
 </div>
   
 </div>
@@ -152,82 +167,119 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="compare/2">
+          <div class="detail" id="add_doc_term_count/3">
   
   
   <div class="detail-header">
-    <a href="#compare/2" class="detail-link" title="Link to this function">
+    <a href="#add_doc_term_count/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">compare(document_list, query_terms)</span>
+    <span class="signature">add_doc_term_count(document_name, term, count)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>Compares a nested list of documents representing individual index items against a set of query terms</p>
-<h2 id="compare/2-parameters" class="section-heading">
-  <a href="#compare/2-parameters" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Parameters
-</h2>
-
-<ul>
-<li>document_list: List of tuples containing the file_name &amp; a list of tokens and their respective weights in the index
-</li>
-<li>query: List of tuples containing the query term as String and it’s respective weight
-</li>
-</ul>
-<h2 id="compare/2-example" class="section-heading">
-  <a href="#compare/2-example" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
-  Example
-</h2>
-
-<p>iex&gt; ContentIndexer.Services.Similarity.compare(</p>
-<pre><code class="elixir">  [
-    {&quot;test1.md&quot;, [{&quot;great&quot;, 0.0066469689853797444}, {&quot;how&quot;, 0.01994090695613923}]},
-    {&quot;test2.md&quot;, [{&quot;silent&quot;, 0.0066469689853797444}, {&quot;instrument&quot;, 0.01994090695613923}]}
-  ],
-  [
-    {&quot;great&quot;, -0.6931471805599453}
-  ])
-  [&quot;test1.md&quot;]</code></pre>
+    <p>  If the document exists update the term and count, if it’s a new document
+  add it and it’s respective term &amp; term_count</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocTerms.add_doc_term_count(&quot;test_file_1.md&quot;, &quot;bread&quot;, 23)
+{:ok, {&quot;test_file_1.md&quot;, &quot;bread, 23}}</code></pre>
 
   </section>
 </div>
-<div class="detail" id="get_filenames/1">
+<div class="detail" id="get_doc_term_count/2">
   
   
   <div class="detail-header">
-    <a href="#get_filenames/1" class="detail-link" title="Link to this function">
+    <a href="#get_doc_term_count/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">get_filenames(similarity_map)</span>
+    <span class="signature">get_doc_term_count(document_name, term)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>  retrives a list of filenames for the similarity_map - see the compare function</p>
+    
+  </section>
+</div>
+<div class="detail" id="init_doc_terms/0">
+  
+  
+  <div class="detail-header">
+    <a href="#init_doc_terms/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">init_doc_terms()</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  Initialises the Doc Terms with an empty map</p>
 
   </section>
 </div>
-<div class="detail" id="get_similarity/2">
+<div class="detail" id="reset/0">
   
   
   <div class="detail-header">
-    <a href="#get_similarity/2" class="detail-link" title="Link to this function">
+    <a href="#reset/0" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">get_similarity(document_list, query_terms)</span>
+    <span class="signature">reset()</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>  See the compare function as this one does the same just omitting the filenames</p>
+    <p>  Resets the document counts</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.reset
+{:ok, 0}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="start_link/0">
+  
+  
+  <div class="detail-header">
+    <a href="#start_link/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">start_link()</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="state/0">
+  
+  
+  <div class="detail-header">
+    <a href="#state/0" class="detail-link" title="Link to this function">
+      <span class="icon-link" aria-hidden="true"></span>
+      <span class="sr-only">Link to this function</span>
+    </a>
+    <span class="signature">state()</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>  Retrieves the current set of doc_counts i.e. the state</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.state
+{:ok, 0}</code></pre>
 
   </section>
 </div>

@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.PreProcess – content_indexer v0.2.3</title>
+    <title>ContentIndexer.TfIdf.Calculate – content_indexer v0.2.3</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.Services.PreProcess.html" />
+      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.TfIdf.Calculate.html" />
     
     
     <script src="dist/sidebar_items-71129a92cd.js"></script>
@@ -68,21 +68,10 @@
 
       <h1>
         <small class="visible-xs">content_indexer v0.2.3</small>
-        ContentIndexer.Services.PreProcess
+        ContentIndexer.TfIdf.Calculate
         
       </h1>
 
-      
-        <section id="moduledoc">
-          <p>  content and query pre-process functions that are passed to the SearchUtils.compile and SearchUtils.compile_query functions - here we are just some some extra stuf
-  with a markdown file - i.e. removing the header.</p>
-<p>  The import thing to note is that these two functions take in the content as a string and spit out a list of tokenized strings.</p>
-<p>  The steps we are taking:</p>
-<p>  (1) Remove all the stop words - they are noise and we should never search by them
-  (2) remove non-char data &amp; white space</p>
-<p>  Using streams means most of the work will happen in a single step</p>
-
-        </section>
       
 
       
@@ -103,20 +92,8 @@
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#pre_process_content/2">pre_process_content(content, file_name)</a>
+    <a href="#tf_idf/2">tf_idf(document_name, tokens)</a>
   </div>
-  
-    <div class="summary-synopsis"><p>Processes the String based content of a file</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#pre_process_query/1">pre_process_query(query)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Processes a set of query tokens - removing all non characters, stop words and empty space</p>
-</div>
   
 </div>
 
@@ -139,51 +116,21 @@
             </a>
             Functions
           </h1>
-          <div class="detail" id="pre_process_content/2">
+          <div class="detail" id="tf_idf/2">
   
   
   <div class="detail-header">
-    <a href="#pre_process_content/2" class="detail-link" title="Link to this function">
+    <a href="#tf_idf/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">pre_process_content(content, file_name)</span>
+    <span class="signature">tf_idf(document_name, tokens)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>  Processes the String based content of a file</p>
-<p>  ## Parameters</p>
-<pre><code class="elixir">- content: String based file content
-- file_name: String - the file name</code></pre>
-<p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexer.Services.PreProcess.pre_process_content([&quot;this is just some random file content&quot;, &quot;test_file_one.txt&quot;)
-      [&quot;just&quot;, &quot;some&quot;, &quot;random&quot;, &quot;file&quot;, &quot;content&quot;]</code></pre>
-
-  </section>
-</div>
-<div class="detail" id="pre_process_query/1">
-  
-  
-  <div class="detail-header">
-    <a href="#pre_process_query/1" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">pre_process_query(query)</span>
     
-    
-    
-  </div>
-  <section class="docstring">
-    <p>  Processes a set of query tokens - removing all non characters, stop words and empty space</p>
-<p>  ## Parameters</p>
-<pre><code class="elixir">- query: List of String based query tokens</code></pre>
-<p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexer.Services.PreProcess.pre_process_query([&quot;this&quot;, &quot;is&quot;, &quot;just&quot;, &quot;meaningless&quot;])
-      [&quot;just&quot;, &quot;meaningless&quot;]</code></pre>
-
   </section>
 </div>
 

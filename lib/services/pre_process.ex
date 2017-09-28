@@ -13,7 +13,7 @@ defmodule ContentIndexer.Services.PreProcess do
     Using streams means most of the work will happen in a single step
   """
 
-  @stop_words "a,an,and,are,as,at,be,but,by,for,from,if,in,into,is,it,has,had,have,no,not,of,on,or,such,that,the,their,then,there,these,they,this,to,was,will,with"
+  @stop_words "a,an,and,are,as,at,be,been,but,by,for,from,i,if,in,into,is,it,has,had,have,no,not,of,on,or,over,such,that,the,their,then,there,therefore,these,those,they,this,to,was,will,with,where,whereas,wherefore,unto"
 
   @doc """
     Processes a set of query tokens - removing all non characters, stop words and empty space
@@ -29,9 +29,10 @@ defmodule ContentIndexer.Services.PreProcess do
   """
   def pre_process_query(query) do
     query_tokens = query
-    |> remove_stop_words()
     |> remove_blanks()
+    |> remove_stop_words()
     Enum.to_list(query_tokens)
+    |> Stemmer.stem()
   end
 
   @doc """
@@ -54,8 +55,8 @@ defmodule ContentIndexer.Services.PreProcess do
     end
     token_content
     |> remove_non_chars()
-    |> remove_stop_words()
     |> remove_blanks()
+    |> remove_stop_words()
     |> Enum.to_list()
   end
 
@@ -81,5 +82,6 @@ defmodule ContentIndexer.Services.PreProcess do
   defp remove_blanks(tokens) do
     tokens
     |> Stream.filter(fn(s) -> s != "" end)
+    |> Stream.map(fn(s) -> String.downcase(s) end)
   end
 end

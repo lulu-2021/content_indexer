@@ -10,7 +10,7 @@ defmodule ContentIndexer.Services.SimilarityFileIndexerTest do
 
   test "end to end test adding real markdown files to the indexer & searching : praising" do
     {:ok, documents} = Indexer.documents()
-    query_terms = ["praising"] |> SearchUtils.compile_query(&PreProcess.pre_process_query/1)
+    query_terms = ["mistaken"] |> SearchUtils.compile_query(&PreProcess.pre_process_query/1)
     results = Similarity.compare(documents, query_terms)
 
     assert results == ["test3.md"]

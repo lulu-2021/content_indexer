@@ -31,7 +31,7 @@ defmodule ContentIndexer.TfIdf.TermCounts do
     ## Example
 
       iex> ContentIndexer.TfIdf.TermCounts.reset
-      {:ok, 0}
+      {:ok, :reset}
   """
   def reset do
     GenServer.call(__MODULE__, {:reset})
@@ -61,6 +61,10 @@ defmodule ContentIndexer.TfIdf.TermCounts do
     GenServer.call(__MODULE__, {:increment_term, term})
   end
 
+  def term_count(term) do
+    GenServer.call(__MODULE__, {:term_count, term})
+  end
+
   #-------------------------------------------#
   # - internal genserver call handler methods #
   #-------------------------------------------#
@@ -75,9 +79,18 @@ defmodule ContentIndexer.TfIdf.TermCounts do
     {:reply, {:ok, state}, state}
   end
 
+  def handle_call({:term_count, term}, _from, state) do
+    term_count = get_term_count(term, state)
+    {:reply, {:ok, term_count}, state}
+  end
+
   def handle_call({:increment_term, term}, _from, state) do
     {term_count, terms} = increment_term_count(term, state)
     {:reply, {:ok, {term, term_count}}, terms}
+  end
+
+  defp get_term_count(term, terms) do
+    terms[term] || 0
   end
 
   defp increment_term_count(term, terms) do

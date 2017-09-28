@@ -3,20 +3,20 @@ defmodule ContentIndexer.TfIdf.DocTermsTest do
   alias ContentIndexer.TfIdf.DocTerms
 
   setup do
-    DocTerms.reset
+    DocTerms.reset()
     :ok
   end
 
   test "doc_terms is initially an empty list" do
-    {:ok, doc_terms} = DocTerms.state
+    {:ok, doc_terms} = DocTerms.state()
     assert doc_terms == %{}
   end
 
   test "reset state to an empty list" do
-    {:ok, message} = DocTerms.reset
+    {:ok, message} = DocTerms.reset()
     assert message == :reset
 
-    {:ok, doc_terms} = DocTerms.state
+    {:ok, doc_terms} = DocTerms.state()
     assert doc_terms == %{}
   end
 

@@ -19,6 +19,7 @@ defmodule ContentIndexer do
       worker(ContentIndexer.TfIdf.TermCounts, []),
       worker(ContentIndexer.TfIdf.DocCounts, []),
       worker(ContentIndexer.TfIdf.DocTerms, []),
+      worker(ContentIndexer.TfIdf.WeightsIndexer, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

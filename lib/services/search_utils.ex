@@ -5,6 +5,7 @@ defmodule ContentIndexer.Services.SearchUtils do
     this can easily be swapped out by passing your own pre-process
   """
   alias ContentIndexer.{Index, Indexer, IndexInitialiser, Services.Calculator}
+  alias ContentIndexer.TfIdf.{Calculate, WeightsIndexer}
 
   @doc """
     crawls a folder and process the content into tokens using the passed in function
@@ -87,6 +88,16 @@ defmodule ContentIndexer.Services.SearchUtils do
     end)
     Task.async(fn -> IndexInitialiser.initialise_index(index) end)
     |> Task.await(100000)
+  end
+
+  def build_weight_index(data_folder, file_pre_process_func) do
+    data_folder
+    |> crawl(file_pre_process_func)
+    |> Enum.each(fn(t) ->
+      document_name = elem(t, 0)
+      tokens = elem(t, 1)
+      Calculate.tf_idf(document_name, tokens)
+    end)
   end
 
   def accum_list([]), do: []

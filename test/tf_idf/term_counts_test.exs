@@ -3,20 +3,20 @@ defmodule ContentIndexer.TfIdf.TermCountsTest do
   alias ContentIndexer.TfIdf.TermCounts
 
   setup do
-    TermCounts.reset
+    TermCounts.reset()
     :ok
   end
 
   test "term_counts is initially an empty list" do
-    {:ok, term_counts} = TermCounts.state
+    {:ok, term_counts} = TermCounts.state()
     assert term_counts == %{}
   end
 
   test "reset state to an empty list" do
-    {:ok, message} = TermCounts.reset
+    {:ok, message} = TermCounts.reset()
     assert message == :reset
 
-    {:ok, term_counts} = TermCounts.state
+    {:ok, term_counts} = TermCounts.state()
     assert term_counts == %{}
   end
 

@@ -63,6 +63,10 @@ defmodule ContentIndexer.TfIdf.DocTerms do
     GenServer.call(__MODULE__, {:add_doc_term_count, document_name, term, count})
   end
 
+  def get_doc_term_count(document_name, term) do
+    GenServer.call(__MODULE__, {:get_doc_term_count, document_name, term})
+  end
+
   #-------------------------------------------#
   # - internal genserver call handler methods #
   #-------------------------------------------#
@@ -77,9 +81,18 @@ defmodule ContentIndexer.TfIdf.DocTerms do
     {:reply, {:ok, state}, state}
   end
 
+  def handle_call({:get_doc_term_count, document_name, term}, _from, state) do
+    count = get_document_term_count(document_name, term, state)
+    {:reply, {:ok, count}, state}
+  end
+
   def handle_call({:add_doc_term_count, document_name, term, count}, _from, state) do
     new_state = add_document_term_count(document_name, term, count, state)
     {:reply, {:ok, {document_name, term, count}}, new_state}
+  end
+
+  defp get_document_term_count(document_name, term, document_map) do
+    document_map["#{document_name}___#{term}"] || 0
   end
 
   defp add_document_term_count(document_name, term, count, document_map) do

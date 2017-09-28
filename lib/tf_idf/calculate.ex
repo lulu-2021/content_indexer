@@ -1,0 +1,61 @@
+defmodule ContentIndexer.TfIdf.Calculate do
+
+  alias ContentIndexer.TfIdf.{Corpus, DocCounts, DocTerms, TermCounts, WeightsIndexer}
+
+  def tf_idf(document_name, tokens) do
+    # (1) Count the total number of terms in the doc & Add this to DocCounts
+    total_number_of_terms_in_document = Enum.count(tokens)
+    DocCounts.add_document(document_name, total_number_of_terms_in_document)
+
+    # (2) Increment the total number of documents in the Corpus Count
+    Corpus.increment()
+
+    # (3 & 4 & 5) Number of times each term appears in the document
+    weights = process_document_terms(document_name, tokens)
+    # Finally add the weights to the indexer for comparing & searching
+    {:ok, :added} = WeightsIndexer.add(document_name, weights)
+  end
+
+  defp process_document_terms(document_name, tokens) do
+    weights = tokens
+    |> unique_term_count
+    |> Enum.map(fn(token) ->
+      term = elem(token, 0)
+      DocTerms.add_doc_term_count(document_name, term, elem(token, 1))
+      # (4) Increment number of documents with term
+      {:ok, {term, term_count}} = TermCounts.increment_term(term)
+
+      # (5) Calculate TF_IDF on each term
+      calculate_tf_idf(term, document_name)
+    end)
+  end
+
+  defp calculate_tf_idf(term, document_name) do
+    term_tf = tf(term, document_name)
+    term_idf = idf(term)
+    {term, term_tf * term_idf}
+  end
+
+  # given a list of string tokens - this will return a list of tuples
+  # with each tuple containing unique terms & counts in the tokens list
+  defp unique_term_count(tokens) when is_list(tokens) do
+    tokens
+    |> Enum.sort()
+    |> Enum.chunk_by(fn arg -> arg end)
+    |> Enum.map(fn(x) ->
+      {List.first(x), Enum.count(x)}
+    end)
+  end
+
+  defp idf(term) do
+    {:ok, total_docs_in_corpus} = Corpus.count()
+    {:ok, number_of_docs_with_term} = TermCounts.term_count(term)
+    :math.log(total_docs_in_corpus / (1 + number_of_docs_with_term))
+  end
+
+  defp tf(term, document_name) do
+    {:ok, doc_term_count} = DocTerms.get_doc_term_count(document_name, term)
+    {:ok, {_doc, total_terms_in_doc}} = DocCounts.document_term_count(document_name)
+    doc_term_count / total_terms_in_doc
+  end
+end

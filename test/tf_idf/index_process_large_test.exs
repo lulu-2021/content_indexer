@@ -8,13 +8,15 @@ defmodule ContentIndexer.TfIdf.IndexProcessLargeTest do
     :ok
   end
 
-  #@tag :skipinci
+  @tag :skipinci
   test "testing the index against a the term monergism" do
     {:ok, documents} = WeightsIndexer.state()
     query_terms = ["monergism"] |> SearchUtils.compile_query(&PreProcess.pre_process_query/1)
     results = Similarity.compare(documents, query_terms)
     assert results == [
+      "2017-09-12-monergism-or-synergism-copy.md",
       "2017-09-12-monergism-or-synergism.md",
+      "2017-09-14-misunderstanding-election-copy.md",
       "2017-09-14-misunderstanding-election.md"
     ]
   end

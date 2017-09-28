@@ -31,6 +31,7 @@ defmodule ContentIndexer.TfIdf.IndexProcessLargeTest do
     ]
   end
 
+  @tag :skipinci
   test "testing the index against the term grace" do
     {:ok, documents} = WeightsIndexer.state()
     query_terms = ["grace"] |> SearchUtils.compile_query(&PreProcess.pre_process_query/1)

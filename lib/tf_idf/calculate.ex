@@ -3,6 +3,13 @@ defmodule ContentIndexer.TfIdf.Calculate do
   alias ContentIndexer.TfIdf.{Corpus, DocCounts, DocTerms, TermCounts, WeightsIndexer}
 
   def tf_idf(document_name, tokens) do
+    # TODO:
+    #
+    # Parallelise (1) & (2) & once they are all completed
+    #
+    # Put (3-5) into a Task await/async - with a longish wait time!
+    #
+    #
     # (1) Count the total number of terms in the doc & Add this to DocCounts
     total_number_of_terms_in_document = Enum.count(tokens)
     DocCounts.add_document(document_name, total_number_of_terms_in_document)
@@ -11,12 +18,13 @@ defmodule ContentIndexer.TfIdf.Calculate do
     Corpus.increment()
 
     # (3 & 4 & 5) Number of times each term appears in the document
-    weights = process_document_terms(document_name, tokens)
+    {:ok, total_docs_in_corpus} = Corpus.count()
+    weights = process_document_terms(document_name, tokens, total_docs_in_corpus)
     # Finally add the weights to the indexer for comparing & searching
     {:ok, :added} = WeightsIndexer.add(document_name, weights)
   end
 
-  defp process_document_terms(document_name, tokens) do
+  defp process_document_terms(document_name, tokens, corpus_count) do
     weights = tokens
     |> unique_term_count
     |> Enum.map(fn(token) ->
@@ -26,13 +34,13 @@ defmodule ContentIndexer.TfIdf.Calculate do
       {:ok, {term, term_count}} = TermCounts.increment_term(term)
 
       # (5) Calculate TF_IDF on each term
-      calculate_tf_idf(term, document_name)
+      calculate_tf_idf(term, document_name, corpus_count)
     end)
   end
 
-  defp calculate_tf_idf(term, document_name) do
+  defp calculate_tf_idf(term, document_name, corpus_count) do
     term_tf = tf(term, document_name)
-    term_idf = idf(term)
+    term_idf = idf(term, corpus_count)
     {term, term_tf * term_idf}
   end
 
@@ -47,10 +55,9 @@ defmodule ContentIndexer.TfIdf.Calculate do
     end)
   end
 
-  defp idf(term) do
-    {:ok, total_docs_in_corpus} = Corpus.count()
+  defp idf(term, corpus_count) do
     {:ok, number_of_docs_with_term} = TermCounts.term_count(term)
-    :math.log(total_docs_in_corpus / (1 + number_of_docs_with_term))
+    :math.log(corpus_count / (1 + number_of_docs_with_term))
   end
 
   defp tf(term, document_name) do

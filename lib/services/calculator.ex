@@ -7,28 +7,9 @@ defmodule ContentIndexer.Services.Calculator do
     ** Summary **
       calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents
 
-      https://en.wikipedia.org/wiki/Tf-idf
+      DEPRECATED - use the `ContentIndexer.TfIdf.Calculate` module.
 
-      ** What is Tf-Idf **
-
-      tf–idf, short for term frequency–inverse document frequency, is a numerical statistic that is
-      intended to reflect how important a word is to a document in a collection or corpus. It is often
-      used as a weighting factor in information retrieval and text mining.
-
-      This library supports calculating large datasets in parallel using the Erlang OTP based server and actors
-
-      Currently the supported file types are plain-text, PDF and DOCX (xml)
-
-      ** Basic Useage **
-
-      Pass it a list of tokens and a corpus of tokens as a list of lists and it will return a list of tokens
-      with corresponding content_indexer weights based on the corpus of tokens
-
-      iex> ContentIndexerService.calculate_content_indexer_documents(
-        ["bread","butter","jam"],
-        [["red","brown","jam"],["blue","green","butter"],["pink","green","bread","jam"]]
-      )
-      {:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}
+      See also `ContentIndexer.TfIdf.IndexProcessTest`
 
   """
 
@@ -46,30 +27,6 @@ defmodule ContentIndexer.Services.Calculator do
 
   def total(count) do
     GenServer.call(__MODULE__, {:total, count})
-  end
-
-  @doc """
-    calculates the content_indexer
-
-    ## Parameters
-
-      - content: String of tokens to be indexed
-      - corpus: List of String tokens representing the corpus
-
-    ## Example
-
-      iex> ContentIndexerValidateService.calculate_tokens_againts_corpus("bread,butter,jam", ["red,brown,jam","blue,green,butter","pink,green,bread,jam"])
-            {:ok,
-              [
-                {"bread", 0.13515503603605478},
-                {"butter", 0.13515503603605478},
-                {"jam", 0.0}
-              ]
-            }
-  """
-  def calculate_tokens_againts_corpus(content, corpus) do
-    token_list = Tfidf.calculate_all(content, corpus, &String.split(&1, ","))
-    {:ok, token_list}
   end
 
   @doc """

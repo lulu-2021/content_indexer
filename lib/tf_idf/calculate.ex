@@ -1,6 +1,19 @@
 defmodule ContentIndexer.TfIdf.Calculate do
+
   @moduledoc """
-    Calculate the TF_IDF weights for a given document_name tokens
+      ## Summary
+
+      calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents
+
+      https://en.wikipedia.org/wiki/Tf-idf
+
+      ** What is Tf-Idf **
+
+      tf–idf, short for term frequency–inverse document frequency, is a numerical statistic that is
+      intended to reflect how important a word is to a document in a collection or corpus. It is often
+      used as a weighting factor in information retrieval and text mining.
+
+      See `ContentIndexer.TfIdf.IndexProcessTest` on to run this against a folder of documents
   """
 
   alias ContentIndexer.TfIdf.{Corpus, DocCounts, DocTerms, TermCounts, WeightsIndexer}

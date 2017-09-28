@@ -38,7 +38,7 @@ defmodule ContentIndexer.Mixfile do
   # the application list functions are so that we can start hound in test ONLY!
   def application_list do
     [
-       :logger, :stemmer, :ecto, :tfidf
+       :logger, :stemmer
     ]
   end
 
@@ -60,9 +60,7 @@ defmodule ContentIndexer.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:tfidf, "~> 0.1.2"},
       {:stemmer, "~> 1.0"},
-      {:ecto, "~> 2.2"},
       #
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false},

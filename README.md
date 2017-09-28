@@ -27,7 +27,7 @@ end
 
 ## Usage
 
-Please review this test `ContentIndexer.Services.SimilarityFileIndexerTest` for the easiest way to know how you can use this in your project.
+Please review this test `ContentIndexer.TfIdf.IndexProcessTest` for the easiest way to know how you can use this in your project.
 The module `ContentIndexer.Services.PreProcess` has several functions that are used to pre-process both the content and the queries - since these
 are passed as functions you can write your own versions of these and pass them into the content tokenisation and query building process.
 

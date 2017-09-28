@@ -51,16 +51,6 @@ defmodule ContentIndexer.Services.CalculatorTest do
     assert frequency_value(token_content_indexers, "user") == -0.032437208648653154
   end
 
-  test "calculates the content_indexer of all tokens in a corpus_of_tokens - using the TFIDF/Lib method to verify" do
-    corpus_of_tokens = [test_token_list_1(), test_token_list_2()]
-    {:ok, token_content_indexers} = Calculator.calculate_tokens_againts_corpus(test_token_list_1(), corpus_of_tokens)
-
-    assert token_value_from_list(token_content_indexers, "docx") == ["docx", 0.0]
-    assert token_value_from_list(token_content_indexers, "file") == ["file", 0.0]
-    assert token_value_from_list(token_content_indexers, "applic") == ["applic", -0.016218604324326577]
-    assert token_value_from_list(token_content_indexers, "user") == ["user", -0.032437208648653154]
-  end
-
   test "calculates the term frequency for all terms in a document" do
     {:ok, token_frequencies} = Calculator.calculate_tf_document(@test_tokens_doc_1)
 
@@ -86,24 +76,6 @@ defmodule ContentIndexer.Services.CalculatorTest do
     assert frequency_value(token_frequencies, "applic") == 2
     assert frequency_value(token_frequencies, "file") == 1
     assert frequency_value(token_frequencies, "user") == 4
-  end
-
-  defp token_value_from_list(token_list, token_key) do
-    token_list
-    |> Enum.map(fn(item) -> Tuple.to_list(item) end)
-    |> Enum.filter(fn(item) ->
-      [ key | _ ] = item
-      key == token_key
-    end)
-    |> List.flatten
-  end
-
-  defp test_token_list_1 do
-    @test_tokens_doc_1 |> Enum.map(fn(token) -> "#{token}," end) |> Enum.drop(-1) |> to_string
-  end
-
-  defp test_token_list_2 do
-    @test_tokens_doc_2 |> Enum.map(fn(token) -> "#{token}," end) |> Enum.drop(-1) |> to_string
   end
 end
 

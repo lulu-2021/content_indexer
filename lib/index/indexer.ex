@@ -6,7 +6,7 @@ defmodule ContentIndexer.Indexer do
   """
 
   use GenServer
-  alias ContentIndexer.{Index, IndexInitialiser, Services.Calculator}
+  alias ContentIndexer.{Index, IndexInitialiser}
 
   def start_link do
     GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])

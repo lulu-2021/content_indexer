@@ -100,7 +100,7 @@ defmodule ContentIndexer.TfIdf.TermCounts do
         terms = %{terms | term => term_count}
         {term_count, terms}
         _ ->
-        terms = Map.put(terms, term,1)
+        terms = Map.put(terms, term, 1)
         {1, terms}
     end
   end

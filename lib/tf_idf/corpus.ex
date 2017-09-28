@@ -2,7 +2,7 @@ defmodule ContentIndexer.TfIdf.Corpus do
   @moduledoc """
     ** Summary **
       Corpus is a Genserver that simply holds the total number of docs in the index
-    """
+  """
 
   use GenServer
 
@@ -34,7 +34,6 @@ defmodule ContentIndexer.TfIdf.Corpus do
   def reset do
     GenServer.call(__MODULE__, {:reset})
   end
-
 
   @doc """
     Count of all documents in the index

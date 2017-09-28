@@ -84,8 +84,9 @@ defmodule ContentIndexer.Services.SearchUtils do
     |> Enum.map(fn(t) ->
         Index.new(elem(t, 0), elem(t, 1))
     end)
-    Task.async(fn -> IndexInitialiser.initialise_index(index) end)
-    |> Task.await(100000)
+    task = Task.async(fn -> IndexInitialiser.initialise_index(index) end)
+    task
+    |> Task.await(100_000)
   end
 
   def build_weight_index(data_folder, file_pre_process_func) do

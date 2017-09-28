@@ -1,14 +1,31 @@
 defmodule ContentIndexer.TfIdf.Calculate do
+  @moduledoc """
+    Calculate the TF_IDF weights for a given document_name tokens
+  """
 
   alias ContentIndexer.TfIdf.{Corpus, DocCounts, DocTerms, TermCounts, WeightsIndexer}
 
+  @doc """
+    Retrieves the current set of weights i.e. the state
+
+    ## Parameters
+
+      - document_name: String - document name
+      - tokens: List of tokens each being a String
+
+    ## Example
+
+      iex> ContentIndexer.TfIdf.Calculate.tf_idf("test_file.md", ["bread","butter"])
+      {:ok, [
+          {"test_file_1.md", [{"butter", 0}, {"bread", -0.234}]},
+        ]
+      }
+  """
   def tf_idf(document_name, tokens) do
-    # TODO:
     #
     # Parallelise (1) & (2) & once they are all completed
     #
     # Put (3-5) into a Task await/async - with a longish wait time!
-    #
     #
     # (1) Count the total number of terms in the doc & Add this to DocCounts
     total_number_of_terms_in_document = Enum.count(tokens)

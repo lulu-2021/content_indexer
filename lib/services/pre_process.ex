@@ -31,7 +31,8 @@ defmodule ContentIndexer.Services.PreProcess do
     query_tokens = query
     |> remove_blanks()
     |> remove_stop_words()
-    Enum.to_list(query_tokens)
+    processed_query = Enum.to_list(query_tokens)
+    processed_query
     |> Stemmer.stem()
   end
 

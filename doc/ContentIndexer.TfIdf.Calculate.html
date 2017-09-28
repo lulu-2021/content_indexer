@@ -73,6 +73,11 @@
       </h1>
 
       
+        <section id="moduledoc">
+          <p>  Calculate the TF_IDF weights for a given document_name tokens</p>
+
+        </section>
+      
 
       
         <section id="summary" class="details-list">
@@ -94,6 +99,9 @@
   <div class="summary-signature">
     <a href="#tf_idf/2">tf_idf(document_name, tokens)</a>
   </div>
+  
+    <div class="summary-synopsis"><p>Retrieves the current set of weights i.e. the state</p>
+</div>
   
 </div>
 
@@ -130,7 +138,17 @@
     
   </div>
   <section class="docstring">
-    
+    <p>  Retrieves the current set of weights i.e. the state</p>
+<p>  ## Parameters</p>
+<pre><code class="elixir">- document_name: String - document name
+- tokens: List of tokens each being a String</code></pre>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.Calculate.tf_idf(&quot;test_file.md&quot;, [&quot;bread&quot;,&quot;butter&quot;])
+{:ok, [
+    {&quot;test_file_1.md&quot;, [{&quot;butter&quot;, 0}, {&quot;bread&quot;, -0.234}]},
+  ]
+}</code></pre>
+
   </section>
 </div>
 

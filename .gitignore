@@ -29,6 +29,9 @@ erl_crash.dump
 /config/aws_secrets.exs
 /config/stripe_secrets.exs
 
+# don't add the large volume of test data
+/test/fixtures_bench/*.md
+
 # exclude the vagrant files
 .vagrant/
 

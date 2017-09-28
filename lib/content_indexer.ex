@@ -13,7 +13,12 @@ defmodule ContentIndexer do
       worker(ContentIndexer.Services.Calculator, []),
       worker(ContentIndexer.Services.ListCheckerServer, []),
       worker(ContentIndexer.Services.ListCheckerWorker, []),
-      worker(ContentIndexer.Indexer, [])
+      worker(ContentIndexer.Indexer, []),
+      # TfIdf related Indexing Servers
+      worker(ContentIndexer.TfIdf.Corpus, []),
+      worker(ContentIndexer.TfIdf.TermCounts, []),
+      worker(ContentIndexer.TfIdf.DocCounts, []),
+      worker(ContentIndexer.TfIdf.DocTerms, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -47,12 +47,13 @@ defmodule ContentIndexer.TfIdf.Calculate do
   # given a list of string tokens - this will return a list of tuples
   # with each tuple containing unique terms & counts in the tokens list
   defp unique_term_count(tokens) when is_list(tokens) do
-    tokens
+    tokens_stream = tokens
     |> Enum.sort()
-    |> Enum.chunk_by(fn arg -> arg end)
-    |> Enum.map(fn(x) ->
+    |> Stream.chunk_by(fn arg -> arg end)
+    |> Stream.map(fn(x) ->
       {List.first(x), Enum.count(x)}
     end)
+    Enum.to_list(tokens_stream)
   end
 
   defp idf(term, corpus_count) do

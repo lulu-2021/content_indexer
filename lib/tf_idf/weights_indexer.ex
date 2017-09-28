@@ -88,6 +88,6 @@ defmodule ContentIndexer.TfIdf.WeightsIndexer do
   end
 
   defp add_doc_weights(document_name, term_weights, documents) do
-    documents = [{document_name, term_weights} | documents]
+    [{document_name, term_weights} | documents]
   end
 end

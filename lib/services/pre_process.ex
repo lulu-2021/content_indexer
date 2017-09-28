@@ -58,6 +58,7 @@ defmodule ContentIndexer.Services.PreProcess do
     |> remove_blanks()
     |> remove_stop_words()
     |> Enum.to_list()
+    |> Stemmer.stem()
   end
 
   defp split_content_from_header(data) do

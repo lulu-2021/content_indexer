@@ -25,13 +25,13 @@ defmodule ContentIndexer.TfIdf.Calculate do
   end
 
   defp process_document_terms(document_name, tokens, corpus_count) do
-    weights = tokens
+    tokens
     |> unique_term_count
     |> Enum.map(fn(token) ->
       term = elem(token, 0)
       DocTerms.add_doc_term_count(document_name, term, elem(token, 1))
       # (4) Increment number of documents with term
-      {:ok, {term, term_count}} = TermCounts.increment_term(term)
+      {:ok, {term, _term_count}} = TermCounts.increment_term(term)
 
       # (5) Calculate TF_IDF on each term
       calculate_tf_idf(term, document_name, corpus_count)

@@ -5,7 +5,7 @@ defmodule ContentIndexer.Services.SearchUtils do
     this can easily be swapped out by passing your own pre-process
   """
   alias ContentIndexer.{Index, Indexer, IndexInitialiser, Services.Calculator}
-  alias ContentIndexer.TfIdf.{Calculate, WeightsIndexer}
+  alias ContentIndexer.TfIdf.Calculate
 
   @doc """
     crawls a folder and process the content into tokens using the passed in function
@@ -66,9 +66,7 @@ defmodule ContentIndexer.Services.SearchUtils do
   """
   def compile_query(query, query_pre_process_func) do
     processed_query = query_pre_process_func.(query)
-    stemmed_query = processed_query
-    |> Stemmer.stem()
-    {:ok, query} = Calculator.calculate_content_indexer_documents(stemmed_query, [stemmed_query])
+    {:ok, query} = Calculator.calculate_content_indexer_documents(processed_query, [processed_query])
     query
   end
 
@@ -110,10 +108,9 @@ defmodule ContentIndexer.Services.SearchUtils do
     file_name = Path.join([folder, file])
     file_content = file_name
     |> File.read!
-    stemmed_tokens = file_content
+    processed_tokens = file_content
     |> file_pre_process_func.(file_name)
-    |> Stemmer.stem()
     # return a tuple of the filename and finalised tokens
-    {file, stemmed_tokens}
+    {file, processed_tokens}
   end
 end

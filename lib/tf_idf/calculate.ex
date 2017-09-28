@@ -16,7 +16,7 @@ defmodule ContentIndexer.TfIdf.Calculate do
       See `ContentIndexer.TfIdf.IndexProcessTest` on to run this against a folder of documents
   """
 
-  alias ContentIndexer.TfIdf.{Corpus, DocCounts, DocTerms, TermCounts, WeightsIndexer}
+  alias ContentIndexer.TfIdf.{Corpus, DocCounts, DocTerms, TermCounts, TermCounter, WeightsIndexer}
 
   @doc """
     Retrieves the current set of weights i.e. the state
@@ -56,7 +56,7 @@ defmodule ContentIndexer.TfIdf.Calculate do
 
   defp process_document_terms(document_name, tokens, corpus_count) do
     tokens
-    |> unique_term_count
+    |> TermCounter.unique_term_count
     |> Enum.map(fn(token) ->
       term = elem(token, 0)
       DocTerms.add_doc_term_count(document_name, term, elem(token, 1))
@@ -72,18 +72,6 @@ defmodule ContentIndexer.TfIdf.Calculate do
     term_tf = tf(term, document_name)
     term_idf = idf(term, corpus_count)
     {term, term_tf * term_idf}
-  end
-
-  # given a list of string tokens - this will return a list of tuples
-  # with each tuple containing unique terms & counts in the tokens list
-  defp unique_term_count(tokens) when is_list(tokens) do
-    tokens_stream = tokens
-    |> Enum.sort()
-    |> Stream.chunk_by(fn arg -> arg end)
-    |> Stream.map(fn(x) ->
-      {List.first(x), Enum.count(x)}
-    end)
-    Enum.to_list(tokens_stream)
   end
 
   defp idf(term, corpus_count) do

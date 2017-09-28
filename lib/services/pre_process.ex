@@ -13,7 +13,7 @@ defmodule ContentIndexer.Services.PreProcess do
     Using streams means most of the work will happen in a single step
   """
 
-  @stop_words "a,an,and,are,as,at,be,been,but,by,for,from,i,if,in,into,is,it,has,had,have,no,not,of,on,or,over,such,that,the,their,then,there,therefore,these,those,they,this,to,was,will,with,where,whereas,wherefore,unto"
+  @stop_words "a,all,an,am,and,are,as,at,be,been,but,by,for,from,i,if,in,into,is,it,has,had,have,no,not,of,on,or,over,pm,such,that,the,their,then,there,therefore,these,those,they,this,to,was,will,with,where,whereas,wherefore,unto"
 
   @doc """
     Processes a set of query tokens - removing all non characters, stop words and empty space
@@ -68,7 +68,7 @@ defmodule ContentIndexer.Services.PreProcess do
   end
 
   defp remove_stop_words(tokens) do
-    stop_words = String.split(@stop_words, ",")
+    stop_words = String.splitter(@stop_words, ",") |> Enum.to_list
     tokens
     |> Stream.reject(fn(token) ->
       Enum.find(stop_words, fn(word) -> word == token end)
@@ -77,8 +77,8 @@ defmodule ContentIndexer.Services.PreProcess do
 
   defp remove_non_chars(raw_content) do
     raw_content
-    |> String.replace(~r/\W/, ",")
-    |> String.split(",")
+    |> String.replace(~r/\W|\d/, ",") # remove non chars and numbers
+    |> String.splitter(",") |> Enum.to_list
   end
 
   defp remove_blanks(tokens) do

@@ -29,6 +29,6 @@ defmodule ContentIndexer.Services.SearchUtilsTest do
     |> Enum.map(fn(t) ->
       elem(t, 1)
     end)
-    assert Enum.count(SearchUtils.accum_list(processed_tokens)) == 131
+    assert Enum.count(SearchUtils.accum_list(processed_tokens)) == 130
   end
 end

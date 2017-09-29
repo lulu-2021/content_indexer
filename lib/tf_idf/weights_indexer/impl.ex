@@ -14,7 +14,6 @@ defmodule ContentIndexer.TfIdf.WeightsIndexer.Impl do
   """
   def reset, do: []
 
-
   @doc """
     Retrieves the current set of weights i.e. the state
 

@@ -68,7 +68,9 @@ defmodule ContentIndexer.Services.PreProcess do
   end
 
   defp remove_stop_words(tokens) do
-    stop_words = String.splitter(@stop_words, ",") |> Enum.to_list
+    stop_words = @stop_words
+    |> String.splitter(",")
+    |> Enum.to_list
     tokens
     |> Stream.reject(fn(token) ->
       Enum.find(stop_words, fn(word) -> word == token end)
@@ -78,7 +80,8 @@ defmodule ContentIndexer.Services.PreProcess do
   defp remove_non_chars(raw_content) do
     raw_content
     |> String.replace(~r/\W|\d/, ",") # remove non chars and numbers
-    |> String.splitter(",") |> Enum.to_list
+    |> String.splitter(",")
+    |> Enum.to_list
   end
 
   defp remove_blanks(tokens) do

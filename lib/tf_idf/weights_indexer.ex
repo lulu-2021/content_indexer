@@ -7,24 +7,7 @@ defmodule ContentIndexer.TfIdf.WeightsIndexer do
       list of tuples that in turn contain each term and respective weight
     """
 
-  use GenServer
-
-  def start_link do
-    # the 2nd param is the arg passed to the `init` method
-    GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
-  end
-
-  def init(:ok) do
-    {:ok, init_weights_index()}
-  end
-
-  @doc """
-    Initialises the weights index map with an empty list
-  """
-  def init_weights_index do
-    IO.puts "\nInitialising Weights Index\n"
-    []
-  end
+  alias ContentIndexer.TfIdf.WeightsIndexer.Server
 
   @doc """
     Resets the weights index map with an empty map
@@ -35,7 +18,7 @@ defmodule ContentIndexer.TfIdf.WeightsIndexer do
       {:ok, :reset}
   """
   def reset do
-    GenServer.call(__MODULE__, {:reset})
+    GenServer.call(Server, {:reset})
   end
 
   @doc """
@@ -51,7 +34,7 @@ defmodule ContentIndexer.TfIdf.WeightsIndexer do
       }
   """
   def state do
-    GenServer.call(__MODULE__, {:state})
+    GenServer.call(Server, {:state})
   end
 
   @doc """
@@ -64,30 +47,6 @@ defmodule ContentIndexer.TfIdf.WeightsIndexer do
       {:ok, :added}
   """
   def add(document_name, term_weights) do
-    GenServer.call(__MODULE__, {:add, document_name, term_weights})
-  end
-
-  #-------------------------------------------#
-  # - internal genserver call handler methods #
-  #-------------------------------------------#
-
-  # the reset is simply resetting the Genserver state to an empty list
-  def handle_call({:reset}, _from, _state) do
-    {:reply, {:ok, :reset}, []}
-  end
-
-  # the state is simply returning the Genserver state
-  def handle_call({:state}, _from, state) do
-    {:reply, {:ok, state}, state}
-  end
-
-  # add a new doc_index struct to the Genserver state
-  def handle_call({:add, document_name, term_weights}, _from, state) do
-    new_state = add_doc_weights(document_name, term_weights, state)
-    {:reply, {:ok, :added}, new_state}
-  end
-
-  defp add_doc_weights(document_name, term_weights, documents) do
-    [{document_name, term_weights} | documents]
+    GenServer.call(Server, {:add, document_name, term_weights})
   end
 end

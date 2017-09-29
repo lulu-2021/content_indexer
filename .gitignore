@@ -43,3 +43,6 @@ erl_crash.dump
 # ignore arc uploads during tests
 /uploads
 .deliver/releases/
+
+# the ETS files
+tokens

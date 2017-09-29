@@ -15,10 +15,10 @@ defmodule ContentIndexer do
       worker(ContentIndexer.Services.ListCheckerWorker, []),
       worker(ContentIndexer.Indexer, []),
       # TfIdf related Indexing Servers
-      worker(ContentIndexer.TfIdf.Corpus, []),
-      worker(ContentIndexer.TfIdf.TermCounts, []),
-      worker(ContentIndexer.TfIdf.DocCounts, []),
-      worker(ContentIndexer.TfIdf.DocTerms, []),
+      worker(ContentIndexer.TfIdf.Corpus.Server, []),
+      worker(ContentIndexer.TfIdf.TermCounts.Server, []),
+      worker(ContentIndexer.TfIdf.DocCounts.Server, []),
+      worker(ContentIndexer.TfIdf.DocTerms.Server, []),
       worker(ContentIndexer.TfIdf.WeightsIndexer, []),
     ]
 

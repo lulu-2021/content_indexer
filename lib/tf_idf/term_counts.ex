@@ -7,23 +7,7 @@ defmodule ContentIndexer.TfIdf.TermCounts do
     """
 
   use GenServer
-
-  def start_link do
-    # the 2nd param is the arg passed to the `init` method
-    GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
-  end
-
-  def init(:ok) do
-    {:ok, init_term_counts()}
-  end
-
-  @doc """
-    Initialises the Term Counts with an empty map
-  """
-  def init_term_counts do
-    IO.puts "\nInitialising Term Counts\n"
-    %{}
-  end
+  alias ContentIndexer.TfIdf.TermCounts.Server
 
   @doc """
     Resets the term counts
@@ -34,7 +18,7 @@ defmodule ContentIndexer.TfIdf.TermCounts do
       {:ok, :reset}
   """
   def reset do
-    GenServer.call(__MODULE__, {:reset})
+    GenServer.call(Server, {:reset})
   end
 
   @doc """
@@ -46,7 +30,7 @@ defmodule ContentIndexer.TfIdf.TermCounts do
       {:ok, 0}
   """
   def state do
-    GenServer.call(__MODULE__, {:state})
+    GenServer.call(Server, {:state})
   end
 
   @doc """
@@ -58,50 +42,10 @@ defmodule ContentIndexer.TfIdf.TermCounts do
       {:ok, {"bread", 3}}
   """
   def increment_term(term) do
-    GenServer.call(__MODULE__, {:increment_term, term})
+    GenServer.call(Server, {:increment_term, term})
   end
 
   def term_count(term) do
-    GenServer.call(__MODULE__, {:term_count, term})
-  end
-
-  #-------------------------------------------#
-  # - internal genserver call handler methods #
-  #-------------------------------------------#
-
-  # the reset is simply resetting the Genserver state to an empty list
-  def handle_call({:reset}, _from, _state) do
-    {:reply, {:ok, :reset}, %{}}
-  end
-
-  # the state is simply returning the Genserver state
-  def handle_call({:state}, _from, state) do
-    {:reply, {:ok, state}, state}
-  end
-
-  def handle_call({:term_count, term}, _from, state) do
-    term_count = get_term_count(term, state)
-    {:reply, {:ok, term_count}, state}
-  end
-
-  def handle_call({:increment_term, term}, _from, state) do
-    {term_count, terms} = increment_term_count(term, state)
-    {:reply, {:ok, {term, term_count}}, terms}
-  end
-
-  defp get_term_count(term, terms) do
-    terms[term] || 0
-  end
-
-  defp increment_term_count(term, terms) do
-    case Map.has_key?(terms, term) do
-      true ->
-        term_count = terms[term] + 1
-        terms = %{terms | term => term_count}
-        {term_count, terms}
-        _ ->
-        terms = Map.put(terms, term, 1)
-        {1, terms}
-    end
+    GenServer.call(Server, {:term_count, term})
   end
 end

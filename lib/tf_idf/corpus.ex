@@ -4,25 +4,7 @@ defmodule ContentIndexer.TfIdf.Corpus do
       Corpus is a Genserver that simply holds the total number of docs in the index
   """
 
-  use GenServer
-
-  def start_link do
-    # the 2nd param is the arg passed to the `init` method
-    GenServer.start_link(__MODULE__, :ok, [name: __MODULE__])
-  end
-
-  def init(:ok) do
-    {:ok, init_corpus()}
-  end
-
-  @doc """
-    Initialises the Corpus doc count with zero
-  """
-  def init_corpus do
-    IO.puts "\nInitialising Corpus count\n"
-    0
-  end
-
+  alias ContentIndexer.TfIdf.Corpus.Server
   @doc """
     Resets the corpus document count
 
@@ -32,7 +14,7 @@ defmodule ContentIndexer.TfIdf.Corpus do
       {:ok, 0}
   """
   def reset do
-    GenServer.call(__MODULE__, {:reset})
+    GenServer.call(Server, {:reset})
   end
 
   @doc """
@@ -44,7 +26,7 @@ defmodule ContentIndexer.TfIdf.Corpus do
       {:ok, 23}
   """
   def count do
-    GenServer.call(__MODULE__, {:count})
+    GenServer.call(Server, {:count})
   end
 
   @doc """
@@ -56,7 +38,7 @@ defmodule ContentIndexer.TfIdf.Corpus do
       {:ok, :incremented}
   """
   def increment do
-    GenServer.call(__MODULE__, {:increment})
+    GenServer.call(Server, {:increment})
   end
 
   @doc """
@@ -68,32 +50,6 @@ defmodule ContentIndexer.TfIdf.Corpus do
       {:ok, :decremented}
   """
   def decrement do
-    GenServer.call(__MODULE__, {:decrement})
-  end
-
-  #-------------------------------------------#
-  # - internal genserver call handler methods #
-  #-------------------------------------------#
-
-  # the corpus count is simply the Genserver state!
-  def handle_call({:count}, _from, state) do
-    {:reply, {:ok, state}, state}
-  end
-
-  # the simply the Genserver state + 1
-  def handle_call({:increment}, _from, state) do
-    incremented_state = state + 1
-    {:reply, {:ok, :incremented}, incremented_state}
-  end
-
-  # the simply the Genserver state + 1
-  def handle_call({:decrement}, _from, state) do
-    decremented_state = state - 1
-    {:reply, {:ok, :decremented}, decremented_state}
-  end
-
-  # the corpus count is simply resetting the Genserver state to zero!
-  def handle_call({:reset}, _from, _state) do
-    {:reply, {:ok, :reset}, 0}
+    GenServer.call(Server, {:decrement})
   end
 end

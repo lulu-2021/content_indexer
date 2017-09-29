@@ -4,7 +4,7 @@ fonts/icomoon.eot
 fonts/icomoon.svg
 fonts/icomoon.ttf
 fonts/icomoon.woff
-dist/sidebar_items-71129a92cd.js
+dist/sidebar_items-5ec425f44b.js
 api-reference.html
 search.html
 404.html
@@ -20,8 +20,17 @@ ContentIndexer.Services.SearchUtils.html
 ContentIndexer.Services.Similarity.html
 ContentIndexer.TfIdf.Calculate.html
 ContentIndexer.TfIdf.Corpus.html
+ContentIndexer.TfIdf.Corpus.Impl.html
+ContentIndexer.TfIdf.Corpus.Server.html
 ContentIndexer.TfIdf.DocCounts.html
+ContentIndexer.TfIdf.DocCounts.Impl.html
+ContentIndexer.TfIdf.DocCounts.Server.html
 ContentIndexer.TfIdf.DocTerms.html
+ContentIndexer.TfIdf.DocTerms.Impl.html
+ContentIndexer.TfIdf.DocTerms.Server.html
+ContentIndexer.TfIdf.TermCounter.html
 ContentIndexer.TfIdf.TermCounts.html
+ContentIndexer.TfIdf.TermCounts.Impl.html
+ContentIndexer.TfIdf.TermCounts.Server.html
 ContentIndexer.TfIdf.WeightsIndexer.html
 index.html

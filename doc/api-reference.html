@@ -5,13 +5,13 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>API Reference – content_indexer v0.2.4</title>
+    <title>API Reference – content_indexer v0.2.5</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/content_indexer/api-reference.html" />
     
     
-    <script src="dist/sidebar_items-71129a92cd.js"></script>
+    <script src="dist/sidebar_items-5ec425f44b.js"></script>
     
   </head>
   <body data-type="extras">
@@ -31,7 +31,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.2.4
+        v0.2.5
       </h2>
     </div>
     
@@ -67,7 +67,7 @@
 
 
 <h1>
-  <small class="visible-xs">content_indexer v0.2.4</small>
+  <small class="visible-xs">content_indexer v0.2.5</small>
   API Reference
 </h1>
 
@@ -171,7 +171,11 @@ whether a given word is contained in a list of tokens</code></pre>
 <div class="summary-row">
   <div class="summary-signature"><a href="ContentIndexer.TfIdf.Calculate.html">ContentIndexer.TfIdf.Calculate</a></div>
   
-    <div class="summary-synopsis"><p>Calculate the TF_IDF weights for a given document_name tokens</p>
+    <div class="summary-synopsis"><h2 id="summary" class="section-heading">
+  <a href="#summary" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Summary
+</h2>
+
 </div>
   
 </div>
@@ -184,7 +188,40 @@ whether a given word is contained in a list of tokens</code></pre>
   
 </div>
 <div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.Corpus.Impl.html">ContentIndexer.TfIdf.Corpus.Impl</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  functions used by the <a href="ContentIndexer.TfIdf.Corpus.Server.html"><code class="inline">ContentIndexer.TfIdf.Corpus.Server</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.Corpus.Server.html">ContentIndexer.TfIdf.Corpus.Server</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong></p>
+<pre><code class="elixir">Corpus is a Genserver that simply holds the total number of docs in the index</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
   <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocCounts.html">ContentIndexer.TfIdf.DocCounts</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong></p>
+<pre><code class="elixir">DocCounts is a GenServer that contains a map of documents with their respective
+total number of terms in the document</code></pre>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocCounts.Impl.html">ContentIndexer.TfIdf.DocCounts.Impl</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  functions used by the <a href="ContentIndexer.TfIdf.DocCounts.Server.html"><code class="inline">ContentIndexer.TfIdf.DocCounts.Server</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocCounts.Server.html">ContentIndexer.TfIdf.DocCounts.Server</a></div>
   
     <div class="summary-synopsis"><p><strong> Summary </strong>
   DocCounts is a GenServer that contains a map of documents with their respective
@@ -202,7 +239,50 @@ whether a given word is contained in a list of tokens</code></pre>
   
 </div>
 <div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocTerms.Impl.html">ContentIndexer.TfIdf.DocTerms.Impl</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  functions used by the <a href="ContentIndexer.TfIdf.DocTerms.Server.html"><code class="inline">ContentIndexer.TfIdf.DocTerms.Server</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.DocTerms.Server.html">ContentIndexer.TfIdf.DocTerms.Server</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  DocTerms is a GenServer with a Map of tuples that has the document, and a count of
+  each of the terms in the document</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.TermCounter.html">ContentIndexer.TfIdf.TermCounter</a></div>
+  
+    <div class="summary-synopsis"><p>small module to group and count the number of token occurrences in
+  a list of tokens</p>
+</div>
+  
+</div>
+<div class="summary-row">
   <div class="summary-signature"><a href="ContentIndexer.TfIdf.TermCounts.html">ContentIndexer.TfIdf.TermCounts</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  TermCounts is a GenServer that contains the numbers of documents that have a term ‘t’
+  Basically a map of all unique terms and their respective counts i.e. 1 per for each
+  document that has this term</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.TermCounts.Impl.html">ContentIndexer.TfIdf.TermCounts.Impl</a></div>
+  
+    <div class="summary-synopsis"><p><strong> Summary </strong>
+  functions used by the <a href="ContentIndexer.TfIdf.TermCounts.Server.html"><code class="inline">ContentIndexer.TfIdf.TermCounts.Server</code></a></p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature"><a href="ContentIndexer.TfIdf.TermCounts.Server.html">ContentIndexer.TfIdf.TermCounts.Server</a></div>
   
     <div class="summary-synopsis"><p><strong> Summary </strong>
   TermCounts is a GenServer that contains the numbers of documents that have a term ‘t’

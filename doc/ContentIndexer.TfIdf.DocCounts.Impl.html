@@ -5,10 +5,10 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.TfIdf.DocCounts – content_indexer v0.2.5</title>
+    <title>ContentIndexer.TfIdf.DocCounts.Impl – content_indexer v0.2.5</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.TfIdf.DocCounts.html" />
+      <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.TfIdf.DocCounts.Impl.html" />
     
     
     <script src="dist/sidebar_items-5ec425f44b.js"></script>
@@ -68,15 +68,14 @@
 
       <h1>
         <small class="visible-xs">content_indexer v0.2.5</small>
-        ContentIndexer.TfIdf.DocCounts
+        ContentIndexer.TfIdf.DocCounts.Impl
         
       </h1>
 
       
         <section id="moduledoc">
-          <p>  <strong> Summary </strong></p>
-<pre><code class="elixir">DocCounts is a GenServer that contains a map of documents with their respective
-total number of terms in the document</code></pre>
+          <p>  <strong> Summary </strong>
+  functions used by the <a href="ContentIndexer.TfIdf.DocCounts.Server.html"><code class="inline">ContentIndexer.TfIdf.DocCounts.Server</code></a></p>
 
         </section>
       
@@ -99,7 +98,7 @@ total number of terms in the document</code></pre>
     </h2>
     <div class="summary-row">
   <div class="summary-signature">
-    <a href="#add_document/2">add_document(document_name, term_count)</a>
+    <a href="#add_new_document/3">add_new_document(document_name, term_count, document_map)</a>
   </div>
   
     <div class="summary-synopsis"><p>If the document exists update the count, if it’s a new document
@@ -109,7 +108,7 @@ total number of terms in the document</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#document_term_count/1">document_term_count(document_name)</a>
+    <a href="#find_term_count/2">find_term_count(document_name, document_map)</a>
   </div>
   
     <div class="summary-synopsis"><p>Retrieves the current term_count for this document or nil if not in the map</p>
@@ -127,10 +126,10 @@ total number of terms in the document</code></pre>
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#state/0">state()</a>
+    <a href="#state/1">state(state)</a>
   </div>
   
-    <div class="summary-synopsis"><p>Retrieves the current set of doc_counts i.e. the state</p>
+    <div class="summary-synopsis"><p>Returns the document counts state</p>
 </div>
   
 </div>
@@ -154,15 +153,15 @@ total number of terms in the document</code></pre>
             </a>
             Functions
           </h1>
-          <div class="detail" id="add_document/2">
+          <div class="detail" id="add_new_document/3">
   
   
   <div class="detail-header">
-    <a href="#add_document/2" class="detail-link" title="Link to this function">
+    <a href="#add_new_document/3" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">add_document(document_name, term_count)</span>
+    <span class="signature">add_new_document(document_name, term_count, document_map)</span>
     
     
     
@@ -171,20 +170,20 @@ total number of terms in the document</code></pre>
     <p>  If the document exists update the count, if it’s a new document
   add it and it’s respective term_count</p>
 <p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.add_document(&quot;test_file_1.md&quot;, 23)
-{:ok, {&quot;test_file_1.md&quot;, 23}}</code></pre>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.Impl.add_document(&quot;test_file_1.md&quot;, 23)
+      {&quot;test_file_1.md&quot;, 23}</code></pre>
 
   </section>
 </div>
-<div class="detail" id="document_term_count/1">
+<div class="detail" id="find_term_count/2">
   
   
   <div class="detail-header">
-    <a href="#document_term_count/1" class="detail-link" title="Link to this function">
+    <a href="#find_term_count/2" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">document_term_count(document_name)</span>
+    <span class="signature">find_term_count(document_name, document_map)</span>
     
     
     
@@ -192,8 +191,8 @@ total number of terms in the document</code></pre>
   <section class="docstring">
     <p>  Retrieves the current term_count for this document or nil if not in the map</p>
 <p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.document_term_count(&quot;test_file_1.md&quot;)
-{:ok, {&quot;test_file_1.md&quot;, 23}}</code></pre>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.Impl.document_term_count(&quot;test_file_1.md&quot;)
+    {&quot;test_file_1.md&quot;, 23}</code></pre>
 
   </section>
 </div>
@@ -213,29 +212,29 @@ total number of terms in the document</code></pre>
   <section class="docstring">
     <p>  Resets the document counts</p>
 <p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.reset
-{:ok, 0}</code></pre>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.Impl.reset()
+  %{}</code></pre>
 
   </section>
 </div>
-<div class="detail" id="state/0">
+<div class="detail" id="state/1">
   
   
   <div class="detail-header">
-    <a href="#state/0" class="detail-link" title="Link to this function">
+    <a href="#state/1" class="detail-link" title="Link to this function">
       <span class="icon-link" aria-hidden="true"></span>
       <span class="sr-only">Link to this function</span>
     </a>
-    <span class="signature">state()</span>
+    <span class="signature">state(state)</span>
     
     
     
   </div>
   <section class="docstring">
-    <p>  Retrieves the current set of doc_counts i.e. the state</p>
+    <p>  Returns the document counts state</p>
 <p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.state
-{:ok, %{}}</code></pre>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.Impl.state()
+  %{}</code></pre>
 
   </section>
 </div>

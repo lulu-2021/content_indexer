@@ -5,13 +5,13 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.Services.Calculator – content_indexer v0.2.4</title>
+    <title>ContentIndexer.Services.Calculator – content_indexer v0.2.5</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.Services.Calculator.html" />
     
     
-    <script src="dist/sidebar_items-71129a92cd.js"></script>
+    <script src="dist/sidebar_items-5ec425f44b.js"></script>
     
   </head>
   <body data-type="modules">
@@ -31,7 +31,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.2.4
+        v0.2.5
       </h2>
     </div>
     
@@ -67,7 +67,7 @@
 
 
       <h1>
-        <small class="visible-xs">content_indexer v0.2.4</small>
+        <small class="visible-xs">content_indexer v0.2.5</small>
         ContentIndexer.Services.Calculator
         
       </h1>
@@ -77,28 +77,9 @@
           <p>  <strong> Summary </strong></p>
 <pre><code class="elixir">calculates the content_indexer weights for a document of tokens against a corpus of tokenized documents
 
-https://en.wikipedia.org/wiki/Tf-idf
+DEPRECATED - use the [`ContentIndexer.TfIdf.Calculate`](ContentIndexer.TfIdf.Calculate.html) module.
 
-** What is Tf-Idf **
-
-tf–idf, short for term frequency–inverse document frequency, is a numerical statistic that is
-intended to reflect how important a word is to a document in a collection or corpus. It is often
-used as a weighting factor in information retrieval and text mining.
-
-This library supports calculating large datasets in parallel using the Erlang OTP based server and actors
-
-Currently the supported file types are plain-text, PDF and DOCX (xml)
-
-** Basic Useage **
-
-Pass it a list of tokens and a corpus of tokens as a list of lists and it will return a list of tokens
-with corresponding content_indexer weights based on the corpus of tokens
-
-iex&gt; ContentIndexerService.calculate_content_indexer_documents(
-  [&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;],
-  [[&quot;red&quot;,&quot;brown&quot;,&quot;jam&quot;],[&quot;blue&quot;,&quot;green&quot;,&quot;butter&quot;],[&quot;pink&quot;,&quot;green&quot;,&quot;bread&quot;,&quot;jam&quot;]]
-)
-{:ok, [bread: 0.3662040962227032, butter: 0.3662040962227032,jam: 0.3662040962227032]}</code></pre>
+See also `ContentIndexer.TfIdf.IndexProcessTest`</code></pre>
 
         </section>
       
@@ -163,15 +144,6 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
   
     <div class="summary-synopsis"><p>calculates the word count for each token in the list of tokens representing the document
   and returns a list of the tokens with their respective word counts</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#calculate_tokens_againts_corpus/2">calculate_tokens_againts_corpus(content, corpus)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>calculates the content_indexer</p>
 </div>
   
 </div>
@@ -351,36 +323,6 @@ iex&gt; ContentIndexerService.calculate_content_indexer_documents(
 <p>  ## Example</p>
 <pre><code class="iex elixir">iex&gt; ContentIndexerService.calculate_token_count_document([&quot;bread&quot;,&quot;butter&quot;,&quot;jam&quot;,&quot;jam&quot;,&quot;bread&quot;,&quot;bread&quot;])
       {:ok, [bread: 3, butter: 1, jam: 2]}</code></pre>
-
-  </section>
-</div>
-<div class="detail" id="calculate_tokens_againts_corpus/2">
-  
-  
-  <div class="detail-header">
-    <a href="#calculate_tokens_againts_corpus/2" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">calculate_tokens_againts_corpus(content, corpus)</span>
-    
-    
-    
-  </div>
-  <section class="docstring">
-    <p>  calculates the content_indexer</p>
-<p>  ## Parameters</p>
-<pre><code class="elixir">- content: String of tokens to be indexed
-- corpus: List of String tokens representing the corpus</code></pre>
-<p>  ## Example</p>
-<pre><code class="iex elixir">iex&gt; ContentIndexerValidateService.calculate_tokens_againts_corpus(&quot;bread,butter,jam&quot;, [&quot;red,brown,jam&quot;,&quot;blue,green,butter&quot;,&quot;pink,green,bread,jam&quot;])
-      {:ok,
-        [
-          {&quot;bread&quot;, 0.13515503603605478},
-          {&quot;butter&quot;, 0.13515503603605478},
-          {&quot;jam&quot;, 0.0}
-        ]
-      }</code></pre>
 
   </section>
 </div>

@@ -5,13 +5,13 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc v0.16.4">
-    <title>ContentIndexer.TfIdf.DocTerms – content_indexer v0.2.4</title>
+    <title>ContentIndexer.TfIdf.DocTerms – content_indexer v0.2.5</title>
     <link rel="stylesheet" href="dist/app-5b9e160cec.css" />
     
       <link rel="canonical" href="https://hexdocs.pm/content_indexer/ContentIndexer.TfIdf.DocTerms.html" />
     
     
-    <script src="dist/sidebar_items-71129a92cd.js"></script>
+    <script src="dist/sidebar_items-5ec425f44b.js"></script>
     
   </head>
   <body data-type="modules">
@@ -31,7 +31,7 @@
         content_indexer
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.2.4
+        v0.2.5
       </h2>
     </div>
     
@@ -67,7 +67,7 @@
 
 
       <h1>
-        <small class="visible-xs">content_indexer v0.2.4</small>
+        <small class="visible-xs">content_indexer v0.2.5</small>
         ContentIndexer.TfIdf.DocTerms
         
       </h1>
@@ -113,13 +113,7 @@
     <a href="#get_doc_term_count/2">get_doc_term_count(document_name, term)</a>
   </div>
   
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#init_doc_terms/0">init_doc_terms()</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Initialises the Doc Terms with an empty map</p>
+    <div class="summary-synopsis"><p>retrieves the document term count</p>
 </div>
   
 </div>
@@ -130,12 +124,6 @@
   
     <div class="summary-synopsis"><p>Resets the document counts</p>
 </div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
-    <a href="#start_link/0">start_link()</a>
-  </div>
   
 </div>
 <div class="summary-row">
@@ -185,7 +173,7 @@
   add it and it’s respective term &amp; term_count</p>
 <p>  ## Example</p>
 <pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocTerms.add_doc_term_count(&quot;test_file_1.md&quot;, &quot;bread&quot;, 23)
-{:ok, {&quot;test_file_1.md&quot;, &quot;bread, 23}}</code></pre>
+      {:ok, {&quot;test_file_1.md&quot;, &quot;bread, 23}}</code></pre>
 
   </section>
 </div>
@@ -203,24 +191,10 @@
     
   </div>
   <section class="docstring">
-    
-  </section>
-</div>
-<div class="detail" id="init_doc_terms/0">
-  
-  
-  <div class="detail-header">
-    <a href="#init_doc_terms/0" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">init_doc_terms()</span>
-    
-    
-    
-  </div>
-  <section class="docstring">
-    <p>  Initialises the Doc Terms with an empty map</p>
+    <p>  retrieves the document term count</p>
+<p>  ## Example</p>
+<pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocTerms.get_doc_term_count(&quot;test_file_1.md&quot;, &quot;bread&quot;)
+      {:ok, 23}</code></pre>
 
   </section>
 </div>
@@ -241,25 +215,8 @@
     <p>  Resets the document counts</p>
 <p>  ## Example</p>
 <pre><code class="iex elixir">iex&gt; ContentIndexer.TfIdf.DocCounts.reset
-{:ok, 0}</code></pre>
+      {:ok, %{}}</code></pre>
 
-  </section>
-</div>
-<div class="detail" id="start_link/0">
-  
-  
-  <div class="detail-header">
-    <a href="#start_link/0" class="detail-link" title="Link to this function">
-      <span class="icon-link" aria-hidden="true"></span>
-      <span class="sr-only">Link to this function</span>
-    </a>
-    <span class="signature">start_link()</span>
-    
-    
-    
-  </div>
-  <section class="docstring">
-    
   </section>
 </div>
 <div class="detail" id="state/0">

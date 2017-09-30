@@ -21,7 +21,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Server do
   """
   def init_corpus do
     IO.puts "\nInitialising Corpus count\n"
-    0
+    Impl.init(0)
   end
 
   #-------------------------------------------#
@@ -47,7 +47,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Server do
 
   # the corpus count is simply resetting the Genserver state to zero!
   def handle_call({:reset}, _from, _state) do
-    reset_state = Impl.reset()
+    reset_state = Impl.reset(0)
     {:reply, {:ok, :reset}, reset_state}
   end
 end

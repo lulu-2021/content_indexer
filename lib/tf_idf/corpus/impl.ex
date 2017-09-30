@@ -3,6 +3,9 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
     ** Summary **
     functions used by the `ContentIndexer.TfIdf.Corpus.Server`
   """
+  alias ContentIndexer.Store.InMemoryAdapter
+
+  def init(args), do: InMemoryAdapter.init(args)
 
   @doc """
     Increments the corpus document count
@@ -13,7 +16,9 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
             2
   """
   def increment(corpus_size) do
-    corpus_size + 1
+    new_corpus_size = corpus_size + 1
+    InMemoryAdapter.put(:corpus_size, new_corpus_size)
+    new_corpus_size
   end
 
   @doc """
@@ -25,7 +30,9 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
             1
   """
   def decrement(corpus_size) do
-    corpus_size - 1
+    new_corpus_size = corpus_size - 1
+    InMemoryAdapter.put(:corpus_size, new_corpus_size)
+    new_corpus_size
   end
 
   @doc """
@@ -36,5 +43,5 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
       iex> ContentIndexer.TfIdf.Corpus.Impl.reset
             0
   """
-  def reset, do: 0
+  def reset(args), do: InMemoryAdapter.reset(args)
 end

@@ -7,7 +7,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
   @storage_adapter Application.get_env(:content_indexer, :storage_adapter)
   @dets_table_name Application.get_env(:content_indexer, :corpus_dets_table_name)
 
-  def init() do
+  def init do
     {:ok, init_state} = @storage_adapter.init(@dets_table_name)
     {:ok, corpus_size, _state} = case init_state do
       [] ->  @storage_adapter.put(:corpus_size, 0, @dets_table_name, [])

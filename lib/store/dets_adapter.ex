@@ -10,9 +10,21 @@ defmodule ContentIndexer.Store.DetsAdapter do
   """
   def init(_args) do
     case :dets.open_file(@dets_table_name, [type: :set]) do
-      {:ok, dets_table} -> {:ok, dets_table}
-      _ -> {:error, "failed to open Dets table: #{@dets_table_name}"}
+      {:ok, dets_table} ->
+        init_state = all()
+        {:ok, init_state}
+      _ ->
+        {:error, "failed to open Dets table: #{@dets_table_name}"}
     end
+  end
+
+  def reset(args) do
+    :dets.delete_all_objects(@dets_table_name)
+    {:ok, args}
+  end
+
+  def state do
+    all()
   end
 
   @doc """
@@ -22,7 +34,7 @@ defmodule ContentIndexer.Store.DetsAdapter do
   """
   def put(key, value) do
     case :dets.insert(@dets_table_name, {{@dets_table_name, key}, value}) do
-      :ok -> {:ok, "insert completed!"}
+      :ok -> {:ok, value}
       _ -> {:error, "insert failed!"}
     end
   end

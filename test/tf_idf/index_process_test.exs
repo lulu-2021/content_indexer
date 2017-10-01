@@ -10,6 +10,7 @@ defmodule ContentIndexer.TfIdf.IndexProcessTest do
 
   test "testing the index against a number of words" do
     {:ok, documents} = WeightsIndexer.state()
+
     query_terms = ["music", "account", "trivial"] |> SearchUtils.compile_query(&PreProcess.pre_process_query/1)
     results = Similarity.compare(documents, query_terms)
 

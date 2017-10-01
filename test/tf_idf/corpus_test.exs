@@ -3,12 +3,12 @@ defmodule ContentIndexer.TfIdf.CorpusTest do
   alias ContentIndexer.TfIdf.Corpus
 
   setup do
-    Corpus.reset
+    Corpus.reset(0)
     :ok
   end
 
   test "corpus count is initially zero" do
-    {:ok, corpus_count} = Corpus.count
+    {:ok, corpus_count} = Corpus.count()
     assert corpus_count == 0
   end
 

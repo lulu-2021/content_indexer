@@ -95,6 +95,7 @@ defmodule ContentIndexer.Services.SearchUtils do
     |> Enum.each(fn(t) ->
       document_name = elem(t, 0)
       tokens = elem(t, 1)
+
       Calculate.tf_idf(document_name, tokens)
     end)
   end

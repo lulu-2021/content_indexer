@@ -1,24 +1,24 @@
 defmodule ContentIndexer.Store.DetsAdapter do
   @moduledoc """
-    Erlang DETS storeage adapter for the Corpus Genserver
+    Erlang DETS storeage adapter used by the Genservers:
+    Corpus, DocCounts, DocTerms, TermCounts & WeightsIndexer
   """
 
   @doc """
     initialise the DETS table as a set with unique keys
   """
-  def init(_args, table_name) do
+  def init(table_name) do
     case :dets.open_file(table_name, [type: :set]) do
       {:ok, _dets_table} ->
-        init_state = all(table_name)
-        {:ok, init_state}
+        {:ok, all(table_name)}
       _ ->
         {:error, "failed to open Dets table: #{table_name}"}
     end
   end
 
-  def reset(args, table_name) do
+  def reset(table_name, state) do
     :dets.delete_all_objects(table_name)
-    {:ok, args}
+    {:ok, :reset, state}
   end
 
   def state(table_name) do
@@ -30,17 +30,17 @@ defmodule ContentIndexer.Store.DetsAdapter do
     it allows us later to match easier to retrieve all the records with this
     composite key
   """
-  def put(key, value, table_name) do
+  def put(key, value, table_name, state) do
     case :dets.insert(table_name, {{table_name, key}, value}) do
-      :ok -> {:ok, value}
+      :ok -> {:ok, value, state}
       _ -> {:error, "insert failed!"}
     end
   end
 
-  def get(key, table_name) do
+  def get(key, table_name, state) do
     case :dets.lookup(table_name, {table_name, key}) do
-      [{{^table_name, ^key}, value}] -> {:ok, value}
-      [] -> {:error, "#{key} not found!"}
+      [{{^table_name, ^key}, value}] -> {:ok, value, state}
+      [] -> {:error, "#{key} not found!", state}
     end
   end
 

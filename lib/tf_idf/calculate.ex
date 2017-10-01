@@ -49,6 +49,7 @@ defmodule ContentIndexer.TfIdf.Calculate do
 
     # (3 & 4 & 5) Number of times each term appears in the document
     {:ok, total_docs_in_corpus} = Corpus.count()
+
     weights = process_document_terms(document_name, tokens, total_docs_in_corpus)
     # Finally add the weights to the indexer for comparing & searching
     {:ok, :added} = WeightsIndexer.add(document_name, weights)

@@ -46,3 +46,5 @@ erl_crash.dump
 
 # the ETS files
 tokens
+corpus
+corpus_test

@@ -10,9 +10,12 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
   def init do
     {:ok, init_state} = @storage_adapter.init(@dets_table_name)
     {:ok, corpus_size, _state} = case init_state do
-      [] ->  @storage_adapter.put(:corpus_size, 0, @dets_table_name, [])
-      state -> state
+      [] ->
+        @storage_adapter.put(:corpus_size, 0, @dets_table_name, [])
+      state ->
+        @storage_adapter.get(:corpus_size, @dets_table_name, state)
     end
+    # in this case we want the state to be the current_corpus_size
     corpus_size || 0
 end
 

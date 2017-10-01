@@ -1,6 +1,6 @@
 use Mix.Config
 
-alias ContentIndexer.Store.DetsAdapter
+alias ContentIndexer.Store.{DetsAdapter, InMemoryAdapter}
 
 config :content_indexer,
   corpus_dets_table_name: :corpus,
@@ -9,4 +9,5 @@ config :content_indexer,
   term_counts_dets_table_name: :term_counts,
   weights_indexer_dets_table_name: :weights_indexer,
   storage_adapter: DetsAdapter
+  #storage_adapter: InMemoryAdapter
 

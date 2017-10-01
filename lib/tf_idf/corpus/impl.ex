@@ -9,8 +9,10 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
   #@storage_adapter InMemoryAdapter
   @storage_adapter DetsAdapter
 
+  @dets_table_name Application.get_env(:content_indexer, :corpus_dets_table_name)
+
   def init(args) do
-    {:ok, init_state} = @storage_adapter.init(args)
+    {:ok, init_state} = @storage_adapter.init(args, @dets_table_name)
     init_state
   end
 
@@ -23,7 +25,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
             2
   """
   def increment(corpus_size) do
-    {:ok, new_corpus_size} = @storage_adapter.put(:corpus_size, corpus_size + 1)
+    {:ok, new_corpus_size} = @storage_adapter.put(:corpus_size, corpus_size + 1, @dets_table_name)
     new_corpus_size
   end
 
@@ -36,7 +38,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
             1
   """
   def decrement(corpus_size) do
-    {:ok, new_corpus_size} = @storage_adapter.put(:corpus_size, corpus_size - 1)
+    {:ok, new_corpus_size} = @storage_adapter.put(:corpus_size, corpus_size - 1, @dets_table_name)
     new_corpus_size
   end
 
@@ -49,7 +51,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
             0
   """
   def reset(args) do
-    {:ok, reset_state} = @storage_adapter.reset(args)
+    {:ok, reset_state} = @storage_adapter.reset(args, @dets_table_name)
     reset_state
   end
 end

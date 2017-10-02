@@ -29,8 +29,8 @@ end
   """
   def increment(current_corpus_size) do
     new_corpus_size = current_corpus_size + 1
-    {:ok, new_corpus_size, _state} = @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, current_corpus_size)
-    new_corpus_size
+    {:ok, corpus_size, _state} = @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, current_corpus_size)
+    corpus_size
   end
 
   @doc """
@@ -43,8 +43,8 @@ end
   """
   def decrement(current_corpus_size) do
     new_corpus_size = current_corpus_size - 1
-    {:ok, new_corpus_size, _state} = @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, current_corpus_size)
-    new_corpus_size
+    {:ok, corpus_size, _state} = @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, current_corpus_size)
+    corpus_size
   end
 
   @doc """

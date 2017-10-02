@@ -8,7 +8,7 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
   @dets_table_name Application.get_env(:content_indexer, :corpus_dets_table_name)
 
   def init do
-    {:ok, init_state} = @storage_adapter.init(@dets_table_name)
+    {:ok, init_state} = @storage_adapter.init(@dets_table_name, [])
     {:ok, corpus_size, _state} = case init_state do
       [] ->
         @storage_adapter.put(:corpus_size, 0, @dets_table_name, [])
@@ -55,8 +55,8 @@ end
       iex> ContentIndexer.TfIdf.Corpus.Impl.reset
             0
   """
-  def reset(count) do
-    {:ok, :reset, _state} = @storage_adapter.reset(@dets_table_name, count)
-    0
+  def reset do
+    {:ok, :reset, state} = @storage_adapter.reset(@dets_table_name, 0)
+    state
   end
 end

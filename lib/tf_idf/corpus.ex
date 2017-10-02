@@ -13,8 +13,8 @@ defmodule ContentIndexer.TfIdf.Corpus do
       iex> ContentIndexer.TfIdf.Corpus.reset
       {:ok, 0}
   """
-  def reset(count) do
-    GenServer.call(Server, {:reset, count})
+  def reset do
+    GenServer.call(Server, {:reset})
   end
 
   @doc """

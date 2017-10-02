@@ -5,10 +5,11 @@ defmodule ContentIndexer.Store.InMemoryAdapter do
     from memory as we are mocking out any storage.
   """
 
-  def init(_table_name), do: {:ok, []}
+  def init(_table_name, state), do: {:ok, state}
+
   def reset(_table_name, state), do: {:ok, :reset, state}
-  def state(state), do: all(state)
-  def all(state), do: state
+
+  def state(table_name, state), do: all(table_name, state)
 
   def put(_key, value, _table_name, state) do
     {:ok, value, state}
@@ -17,4 +18,6 @@ defmodule ContentIndexer.Store.InMemoryAdapter do
   def get(key, _table_name, state) do
     {:ok, state[key], state}
   end
+
+  def all(_table_name, state), do: state
 end

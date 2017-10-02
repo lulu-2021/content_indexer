@@ -3,7 +3,7 @@ defmodule ContentIndexer.TfIdf.CorpusTest do
   alias ContentIndexer.TfIdf.Corpus
 
   setup do
-    Corpus.reset(0)
+    Corpus.reset()
     :ok
   end
 

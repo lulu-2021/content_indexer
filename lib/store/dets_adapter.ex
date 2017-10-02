@@ -7,10 +7,10 @@ defmodule ContentIndexer.Store.DetsAdapter do
   @doc """
     initialise the DETS table as a set with unique keys
   """
-  def init(table_name) do
+  def init(table_name, state) do
     case :dets.open_file(table_name, [type: :set]) do
       {:ok, _dets_table} ->
-        {:ok, all(table_name)}
+        {:ok, all(table_name, state)}
       _ ->
         {:error, "failed to open Dets table: #{table_name}"}
     end
@@ -21,8 +21,8 @@ defmodule ContentIndexer.Store.DetsAdapter do
     {:ok, :reset, state}
   end
 
-  def state(table_name) do
-    all(table_name)
+  def state(table_name, state) do
+    all(table_name, state)
   end
 
   @doc """
@@ -44,7 +44,7 @@ defmodule ContentIndexer.Store.DetsAdapter do
     end
   end
 
-  def all(table_name) do
+  def all(table_name, _state) do
     :dets.match_object(table_name, {{table_name, :_}, :_})
   end
 end

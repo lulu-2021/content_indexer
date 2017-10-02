@@ -48,3 +48,4 @@ erl_crash.dump
 tokens
 corpus
 corpus_test
+doc_counts

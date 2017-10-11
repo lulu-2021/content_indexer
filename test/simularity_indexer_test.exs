@@ -13,7 +13,7 @@ defmodule ContentIndexer.Services.SimilarityIndexerTest do
     query_terms = ["butter", "bread"]
     {_, query} = Calculator.calculate_content_indexer_documents(query_terms, [query_terms], 1)
     result = Similarity.get_similarity(documents, query)
-    assert result == %{"file_1" => 1.0, "file_2" => 0.0, "file_3" => 0.0, "file_4" => 1.0, "file_5" => 1.0}
+    assert %{"file_1" => 1.0, "file_2" => 0.0, "file_3" => 0.0, "file_4" => 1.0, "file_5" => 1.0} = result
 
     reset_index()
   end
@@ -23,7 +23,7 @@ defmodule ContentIndexer.Services.SimilarityIndexerTest do
     query_terms = ["triangle", "jam"]
     {_, query} = Calculator.calculate_content_indexer_documents(query_terms, [query_terms], 1)
     result = Similarity.get_similarity(documents, query)
-    assert result == %{"file_2" => 0.0, "file_1" => 0.7071067811865475, "file_3" => 0.7071067811865476, "file_4" => 0.7071067811865475, "file_5" => 0.7071067811865475}
+    assert %{"file_2" => 0.0, "file_1" => 0.7071067811865475, "file_3" => 0.7071067811865476, "file_4" => 0.7071067811865475, "file_5" => 0.7071067811865475} = result
 
     reset_index()
   end

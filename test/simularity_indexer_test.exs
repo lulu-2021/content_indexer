@@ -5,6 +5,7 @@ defmodule ContentIndexer.Services.SimilarityIndexerTest do
 
   setup do
     build_index()
+
     :ok
   end
 

@@ -7,7 +7,7 @@
         excluded: []
       },
       checks: [
-        {Credo.Check.Consistency.TabsOrSpaces},
+        {Credo.Check.Consistency.TabsOrSpaces, false},
 
         # For some checks, like AliasUsage, you can only customize the priority
         # Priority values are: `low, normal, high, higher`

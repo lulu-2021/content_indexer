@@ -11,4 +11,4 @@ before_script:
   - export PATH=`pwd`/elixir/bin:$PATH
 
 script:
-  - "MIX_ENV=test mix do deps.get, compile, credo --strict, test"
+  - "MIX_ENV=test mix do deps.get, compile, test"

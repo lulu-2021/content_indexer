@@ -44,7 +44,7 @@ defmodule ContentIndexer.Mixfile do
 
   # when we add HOUND this will come in handy!!
   #def application_list(:test), do: [:hound | application_list]
-  def application_list(_),     do: application_list()
+  def application_list(_),   do: application_list()
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_),     do: ["lib"]

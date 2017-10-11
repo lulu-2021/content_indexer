@@ -21,28 +21,31 @@ defmodule ContentIndexer.TfIdf.Corpus.Server do
   """
   def init_corpus do
     IO.puts "\nInitialising Corpus count\n"
-    Impl.init()
+    {:ok, corpus_size, _state} = Impl.init()
+    %{corpus_size: corpus_size}
   end
 
   #-------------------------------------------#
   # - internal genserver call handler methods #
   #-------------------------------------------#
 
-  # the corpus count is simply the Genserver state!
+  # the corpus count
   def handle_call({:count}, _from, state) do
-    count = state
+    count = state[:corpus_size] || 0
     {:reply, {:ok, count}, state}
   end
 
   # the simply the Genserver state + 1
   def handle_call({:increment}, _from, state) do
-    incremented_state = Impl.increment(state)
+    corpus_size = state[:corpus_size] || 0
+    {:ok, corpus_size, incremented_state} = Impl.increment(corpus_size)
     {:reply, {:ok, :incremented}, incremented_state}
   end
 
   # the simply the Genserver state + 1
   def handle_call({:decrement}, _from, state) do
-    decremented_state = Impl.decrement(state)
+    corpus_size = state[:corpus_size] || 0
+    {:ok, corpus_size, decremented_state} = Impl.decrement(corpus_size)
     {:reply, {:ok, :decremented}, decremented_state}
   end
 

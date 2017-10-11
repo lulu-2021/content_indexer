@@ -3,6 +3,7 @@ defmodule ContentIndexer.Store.DetsAdapter do
     Erlang DETS storeage adapter used by the Genservers:
     Corpus, DocCounts, DocTerms, TermCounts & WeightsIndexer
   """
+  alias ContentIndexer.Store.Utils
 
   @doc """
     initialise the DETS table as a set with unique keys
@@ -10,7 +11,7 @@ defmodule ContentIndexer.Store.DetsAdapter do
   def init(table_name, state) do
     case :dets.open_file(table_name, [type: :set]) do
       {:ok, _dets_table} ->
-        {:ok, all(table_name, state)}
+        all(table_name, state)
       _ ->
         {:error, "failed to open Dets table: #{table_name}"}
     end
@@ -18,7 +19,7 @@ defmodule ContentIndexer.Store.DetsAdapter do
 
   def reset(table_name, state) do
     :dets.delete_all_objects(table_name)
-    {:ok, :reset, state}
+    {:ok, :reset, %{}}
   end
 
   def state(table_name, state) do
@@ -32,8 +33,11 @@ defmodule ContentIndexer.Store.DetsAdapter do
   """
   def put(key, value, table_name, state) do
     case :dets.insert(table_name, {{table_name, key}, value}) do
-      :ok -> {:ok, value, state}
-      _ -> {:error, "insert failed!"}
+      :ok ->
+        updated_state = Utils.update_state(key, value, state)
+        {:ok, value, updated_state}
+      _ ->
+        {:error, "insert failed!", state}
     end
   end
 
@@ -45,6 +49,9 @@ defmodule ContentIndexer.Store.DetsAdapter do
   end
 
   def all(table_name, _state) do
-    :dets.match_object(table_name, {{table_name, :_}, :_})
+    dets_data = :dets.match_object(table_name, {{table_name, :_}, :_})
+    updated_state = dets_data
+    |> Utils.dets_all_to_map()
+    {:ok, updated_state, updated_state}
   end
 end

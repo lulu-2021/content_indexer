@@ -8,16 +8,14 @@ defmodule ContentIndexer.TfIdf.Corpus.Impl do
   @dets_table_name Application.get_env(:content_indexer, :corpus_dets_table_name)
 
   def init do
-    {:ok, init_state} = @storage_adapter.init(@dets_table_name, [])
-    {:ok, corpus_size, _state} = case init_state do
-      [] ->
-        @storage_adapter.put(:corpus_size, 0, @dets_table_name, [])
-      state ->
-        @storage_adapter.get(:corpus_size, @dets_table_name, state)
+    {:ok, init_state, state} = @storage_adapter.init(@dets_table_name, %{})
+    {:ok, corpus_size, state} = case init_state do
+      %{} ->
+        @storage_adapter.put(:corpus_size, 0, @dets_table_name, %{})
+      corpus_state ->
+        @storage_adapter.get(:corpus_size, @dets_table_name, corpus_state)
     end
-    # in this case we want the state to be the current_corpus_size
-    corpus_size || 0
-end
+  end
 
   @doc """
     Increments the corpus document count
@@ -29,8 +27,8 @@ end
   """
   def increment(current_corpus_size) do
     new_corpus_size = current_corpus_size + 1
-    {:ok, corpus_size, _state} = @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, current_corpus_size)
-    corpus_size
+    {:ok, state, _} = @storage_adapter.state(@dets_table_name, %{})
+    @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, state)
   end
 
   @doc """
@@ -43,8 +41,8 @@ end
   """
   def decrement(current_corpus_size) do
     new_corpus_size = current_corpus_size - 1
-    {:ok, corpus_size, _state} = @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, current_corpus_size)
-    corpus_size
+    {:ok, state, _} = @storage_adapter.state(@dets_table_name, %{})
+    @storage_adapter.put(:corpus_size, new_corpus_size, @dets_table_name, state)
   end
 
   @doc """

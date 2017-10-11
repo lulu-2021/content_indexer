@@ -38,14 +38,14 @@ defmodule ContentIndexer.TfIdf.Corpus.Server do
   # the simply the Genserver state + 1
   def handle_call({:increment}, _from, state) do
     corpus_size = state[:corpus_size] || 0
-    {:ok, corpus_size, incremented_state} = Impl.increment(corpus_size)
+    {:ok, _corpus_size, incremented_state} = Impl.increment(corpus_size)
     {:reply, {:ok, :incremented}, incremented_state}
   end
 
   # the simply the Genserver state + 1
   def handle_call({:decrement}, _from, state) do
     corpus_size = state[:corpus_size] || 0
-    {:ok, corpus_size, decremented_state} = Impl.decrement(corpus_size)
+    {:ok, _corpus_size, decremented_state} = Impl.decrement(corpus_size)
     {:reply, {:ok, :decremented}, decremented_state}
   end
 

@@ -17,7 +17,7 @@ defmodule ContentIndexer.Store.DetsAdapter do
     end
   end
 
-  def reset(table_name, state) do
+  def reset(table_name, _state) do
     :dets.delete_all_objects(table_name)
     {:ok, :reset, %{}}
   end

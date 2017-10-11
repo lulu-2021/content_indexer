@@ -8,7 +8,7 @@ defmodule ContentIndexer.Store.InMemoryAdapter do
 
   def init(table_name, state), do: all(table_name, state)
 
-  def reset(_table_name, state), do: {:ok, :reset, %{}}
+  def reset(_table_name, _state), do: {:ok, :reset, %{}}
 
   def state(table_name, state), do: all(table_name, state)
 

@@ -63,8 +63,8 @@ defmodule ContentIndexer.Mixfile do
       {:stemmer, "~> 1.0"},
       #
       {:ex_doc, ">= 0.0.0", only: [:dev, :test]},
-      {:credo, github: "rrrene/credo", only: [:dev, :test], runtime: false}
-      #{:credo, "~> 0.8", only: [:dev, :test], runtime: false},
+      #{:credo, github: "rrrene/credo", only: [:dev, :test], runtime: false}
+      {:credo, "~> 0.8", only: [:dev, :test], runtime: false},
     ]
   end
 end
